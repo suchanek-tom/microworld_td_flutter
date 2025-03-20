@@ -2,6 +2,7 @@ import 'package:flame/camera.dart';
 import 'package:flame/components.dart';
 import 'package:flutter/material.dart';
 import 'package:flame/game.dart';
+import 'package:microworld_td/game/components/enemy.dart';
 import 'package:microworld_td/game/components/tower.dart';
 
 class MicroworldGame extends FlameGame {
@@ -15,6 +16,8 @@ class MicroworldGame extends FlameGame {
     ));
 
     add(Tower(position: Vector2(200, 300)));
+
+    add(Enemy(position: Vector2(50, 500), targetPosition: Vector2(200, 300)));
     
     debugPrint("Microworld TD Game Loaded!");
   }
