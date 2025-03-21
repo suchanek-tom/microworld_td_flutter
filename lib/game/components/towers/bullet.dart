@@ -5,10 +5,18 @@ import '../enemy/enemy.dart';
 class Bullet extends PositionComponent {
   final Vector2 targetPosition;
   final double speed = 300;
-  final int damage = 5;
+  final int damage;
+  final double slowEffect;
+  final int poisonEffect;
   bool hitTarget = false;
 
-  Bullet({required Vector2 position, required this.targetPosition}) {
+  Bullet({
+    required Vector2 position,
+    required this.targetPosition,
+    required this.damage,
+    this.slowEffect = 0.0,
+    this.poisonEffect = 0,
+  }) {
     this.position = position;
     size = Vector2(8, 8);
   }
@@ -37,6 +45,15 @@ class Bullet extends PositionComponent {
     for (var enemy in enemies!) {
       if (enemy.position.distanceTo(position) < 15) {
         enemy.takeDamage(damage);
+        
+        if (slowEffect > 0) {
+          enemy.speed *= slowEffect;
+        }
+        
+        if (poisonEffect > 0) {
+          enemy.applyPoison(poisonEffect);
+        }
+        
         hitTarget = true;
         break;
       }

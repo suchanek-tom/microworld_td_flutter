@@ -67,4 +67,8 @@ class Enemy extends PositionComponent {
       removeFromParent();
     }
   }
+
+  void applyPoison(int poisonDamage) {
+  health -= poisonDamage;
+  }
 }

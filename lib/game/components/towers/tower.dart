@@ -1,11 +1,16 @@
 import 'package:flame/components.dart';
 import 'package:flutter/painting.dart';
-import 'package:microworld_td/game/components/towers/bullet.dart';
-import 'package:microworld_td/game/components/enemy/enemy.dart';
+import 'bullet.dart';
+import '../enemy/enemy.dart';
 
 class Tower extends PositionComponent {
   double fireRate = 0.5;
   double timeSinceLastShot = 0;
+  double range = 200;
+  int damage = 10;
+  double slowEffect = 0.0; // 0 = žádné zpomalení
+  int poisonEffect = 0; // 0 = žádná otrava
+  Color towerColor = const Color(0xFF8B0000); // Výchozí barva
 
   Tower({required Vector2 position}) {
     this.position = position;
@@ -16,14 +21,13 @@ class Tower extends PositionComponent {
   Future<void> onLoad() async {
     add(RectangleComponent(
       size: size,
-      paint: Paint()..color = const Color(0xFF8B0000),
+      paint: Paint()..color = towerColor,
     ));
   }
 
   @override
-  void update(double dt){
+  void update(double dt) {
     super.update(dt);
-
     timeSinceLastShot += dt;
 
     final enemies = parent?.children.whereType<Enemy>().toList();
@@ -32,9 +36,15 @@ class Tower extends PositionComponent {
     enemies.sort((a, b) => position.distanceTo(a.position).compareTo(position.distanceTo(b.position)));
     Enemy target = enemies.first;
 
-      if (position.distanceTo(target.position) < 200 && timeSinceLastShot >= fireRate) {
-      parent?.add(Bullet(position: position.clone(), targetPosition: target.position.clone()));
-      timeSinceLastShot = 0; 
+    if (position.distanceTo(target.position) < range && timeSinceLastShot >= fireRate) {
+      parent?.add(Bullet(
+        position: position.clone(),
+        targetPosition: target.position.clone(),
+        damage: damage,
+        slowEffect: slowEffect,
+        poisonEffect: poisonEffect,
+      ));
+      timeSinceLastShot = 0;
     }
   }
 }
