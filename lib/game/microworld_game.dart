@@ -4,7 +4,9 @@ import 'package:flame/game.dart';
 import 'package:flutter/material.dart';
 import 'package:microworld_td/game/components/enemy/enemy_spawner.dart';
 import 'package:microworld_td/game/components/pathComponent.dart';
-import 'package:microworld_td/game/components/towers/tower.dart';
+import 'package:microworld_td/game/components/towers/types/sniper_ant_tower.dart';
+import 'package:microworld_td/game/components/towers/types/sticky_web_tower.dart';
+import 'package:microworld_td/game/components/towers/types/venom_sprayer_tower.dart';
 
 class MicroworldGame extends FlameGame {
   @override
@@ -16,7 +18,6 @@ class MicroworldGame extends FlameGame {
       paint: Paint()..color = const Color(0xFF87CEEB),
     ));
 
-    // Definice waypointů pro cestu
     List<Vector2> waypoints = [
       Vector2(50, 500),
       Vector2(150, 500),
@@ -29,13 +30,19 @@ class MicroworldGame extends FlameGame {
     ];
 
     add(PathComponent(waypoints: waypoints));
+    //position x,y
+    add(SniperAntTower(position: Vector2(550, 200)));
 
-    add(Tower(position: Vector2(250, 400)));
+    add(VenomSprayerTower(position: Vector2(250, 400)));
+
+    add(StickyWebTower(position: Vector2(170, 500)));
+
+    
 
     add(EnemySpawner(
       waypoints: waypoints,
-      spawnInterval: 4,  
-      enemiesToSpawn: 5,  
+      spawnInterval: 2,  
+      enemiesToSpawn: 25,  
     ));
 
     debugPrint("Microworld TD Game Loaded!");

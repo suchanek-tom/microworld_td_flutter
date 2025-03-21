@@ -8,7 +8,7 @@ class VenomSprayerTower extends Tower {
     fireRate = 0.8;
     range = 180;
     damage = 15;
-    poisonEffect = 5; // 5 dmg za sekundu po určitou dobu
-    towerColor = const Color(0xFF008080); // Tyrkysová
+    poisonEffect = 5; 
+    towerColor = const Color.fromARGB(255, 132, 104, 3); 
   }
 }

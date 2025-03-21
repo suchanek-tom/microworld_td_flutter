@@ -8,6 +8,6 @@ class SniperAntTower extends Tower {
     fireRate = 2.5;
     range = 300;
     damage = 50;
-    towerColor = const Color(0xFF006400); // Tmavě zelená
+    towerColor = const Color(0xFF006400);
   }
 }

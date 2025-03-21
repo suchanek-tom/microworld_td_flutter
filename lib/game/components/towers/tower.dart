@@ -8,9 +8,9 @@ class Tower extends PositionComponent {
   double timeSinceLastShot = 0;
   double range = 200;
   int damage = 10;
-  double slowEffect = 0.0; // 0 = žádné zpomalení
-  int poisonEffect = 0; // 0 = žádná otrava
-  Color towerColor = const Color(0xFF8B0000); // Výchozí barva
+  double slowEffect = 0.0; 
+  int poisonEffect = 0; 
+  Color towerColor = const Color(0xFF8B0000); 
 
   Tower({required Vector2 position}) {
     this.position = position;
