@@ -2,8 +2,8 @@ import 'package:flame/camera.dart';
 import 'package:flame/components.dart';
 import 'package:flutter/material.dart';
 import 'package:flame/game.dart';
-import 'package:microworld_td/game/components/tower.dart';
-import 'package:microworld_td/game/components/enemy_spawner.dart';
+import 'package:microworld_td/game/components/towers/tower.dart';
+import 'package:microworld_td/game/components/enemy/enemy_spawner.dart';
 
 
 class MicroworldGame extends FlameGame {

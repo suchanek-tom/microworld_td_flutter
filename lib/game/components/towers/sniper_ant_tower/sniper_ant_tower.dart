@@ -1,10 +1,10 @@
 import 'package:flame/components.dart';
 import 'package:flutter/painting.dart';
-import 'package:microworld_td/game/components/bullet.dart';
-import 'package:microworld_td/game/components/enemy.dart';
+import 'package:microworld_td/game/components/towers/bullet.dart';
+import 'package:microworld_td/game/components/enemy/enemy.dart';
 
-class Tower extends PositionComponent {
-  double fireRate = 0.5;
+class SniperAntTower extends PositionComponent {
+  double fireRate = 1;
   double timeSinceLastShot = 0;
 
   Tower({required Vector2 position}) {
@@ -16,7 +16,7 @@ class Tower extends PositionComponent {
   Future<void> onLoad() async {
     add(RectangleComponent(
       size: size,
-      paint: Paint()..color = const Color(0xFF8B0000),
+      paint: Paint()..color = const Color.fromARGB(255, 19, 208, 164),
     ));
   }
 

@@ -1,6 +1,6 @@
 import 'package:flame/components.dart';
 import 'package:flutter/painting.dart';
-import 'enemy.dart';
+import '../enemy/enemy.dart';
 
 class Bullet extends PositionComponent {
   final Vector2 targetPosition;
