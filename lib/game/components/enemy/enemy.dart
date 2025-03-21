@@ -1,18 +1,24 @@
 import 'package:flame/components.dart';
 import 'package:flutter/painting.dart';
 
+//Parent component
 class Enemy extends PositionComponent {
   final List<Vector2> waypoints;
-  final double speed = 10;
+  double speed;
+  int health;
   int currentWaypointIndex = 0;
-  int health = 70;
   bool isHit = false;
   double hitTimer = 0;
+  Color enemyColor = const Color(0xFF00008B);
 
   late RectangleComponent enemyBody;
 
-  Enemy({required this.waypoints}) {
-    position = waypoints.first.clone(); 
+  Enemy({
+    required this.waypoints,
+    this.speed = 10,
+    this.health = 70,
+  }) {
+    position = waypoints.first.clone();
     size = Vector2(30, 30);
   }
 
@@ -20,7 +26,7 @@ class Enemy extends PositionComponent {
   Future<void> onLoad() async {
     enemyBody = RectangleComponent(
       size: size,
-      paint: Paint()..color = const Color(0xFF00008B),
+      paint: Paint()..color = enemyColor,
     );
     add(enemyBody);
   }
@@ -36,16 +42,16 @@ class Enemy extends PositionComponent {
 
       if (position.distanceTo(nextWaypoint) < 5) {
         currentWaypointIndex++;
-        position = nextWaypoint.clone(); 
+        position = nextWaypoint.clone();
       }
     } else {
-      removeFromParent(); 
+      removeFromParent();
     }
 
     if (isHit) {
       hitTimer += dt;
       if (hitTimer > 0.1) {
-        enemyBody.paint.color = const Color(0xFF00008B);
+        enemyBody.paint.color = enemyColor; 
         isHit = false;
         hitTimer = 0;
       }
@@ -54,7 +60,7 @@ class Enemy extends PositionComponent {
 
   void takeDamage(int damage) {
     health -= damage;
-    enemyBody.paint.color = const Color(0xFFFF0000);
+    enemyBody.paint.color = const Color(0xFFFF0000); 
     isHit = true;
 
     if (health <= 0) {
