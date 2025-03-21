@@ -32,7 +32,7 @@ class MicroworldGame extends FlameGame {
     add(Tower(position: Vector2(250, 350)));
     add(Tower(position: Vector2(250, 400)));
 
-    add(EnemySpawner(waypoints: waypoints, spawnInterval: 2.0, enemiesToSpawn: 10));
+    add(EnemySpawner(waypoints: waypoints, spawnInterval: 5.0, enemiesToSpawn: 6));
 
     debugPrint("Microworld TD Game Loaded!");
   }

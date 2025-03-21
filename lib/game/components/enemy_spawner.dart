@@ -9,7 +9,7 @@ class EnemySpawner extends Component with HasGameRef {
 
   EnemySpawner({
     required this.waypoints,
-    this.spawnInterval = 2.0,
+    this.spawnInterval = 5.0,
     this.enemiesToSpawn = 10, 
   });
 
@@ -17,14 +17,14 @@ class EnemySpawner extends Component with HasGameRef {
   void update(double dt) {
     super.update(dt);
 
-    if (enemiesToSpawn <= 0) return; // No more enemies to spawn
+    if (enemiesToSpawn <= 0) return;
 
     timer += dt;
     if (timer >= spawnInterval) {
       timer = 0;
       final enemy = Enemy(waypoints: waypoints);
-      gameRef.add(enemy); // Add the enemy to the game
-      enemiesToSpawn--; // Decrease the number of enemies to spawn
+      gameRef.add(enemy);
+      enemiesToSpawn--; 
     }
   }
 }

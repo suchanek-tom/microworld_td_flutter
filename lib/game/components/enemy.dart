@@ -3,7 +3,7 @@ import 'package:flutter/painting.dart';
 
 class Enemy extends PositionComponent {
   final List<Vector2> waypoints;
-  final double speed = 30;
+  final double speed = 10;
   int currentWaypointIndex = 0;
   int health = 70;
   bool isHit = false;
