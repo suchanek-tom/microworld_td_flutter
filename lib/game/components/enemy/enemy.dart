@@ -1,7 +1,7 @@
 import 'package:flame/components.dart';
 import 'package:flutter/painting.dart';
+import '../game_state.dart';
 
-//Parent component
 class Enemy extends PositionComponent {
   final List<Vector2> waypoints;
   double speed;
@@ -9,17 +9,21 @@ class Enemy extends PositionComponent {
   int currentWaypointIndex = 0;
   bool isHit = false;
   double hitTimer = 0;
-  Color enemyColor = const Color(0xFF00008B);
+  Color enemyColor;
+  int reward;
+  int poisonDamage = 0;
+  double poisonTimer = 0;
 
   late RectangleComponent enemyBody;
 
   Enemy({
     required this.waypoints,
-    this.speed = 10,
-    this.health = 70,
+    required this.reward,
+    required this.speed,
+    required this.health,
+    required this.enemyColor,
   }) {
     position = waypoints.first.clone();
-    size = Vector2(30, 30);
   }
 
   @override
@@ -51,24 +55,41 @@ class Enemy extends PositionComponent {
     if (isHit) {
       hitTimer += dt;
       if (hitTimer > 0.1) {
-        enemyBody.paint.color = enemyColor; 
+        enemyBody.paint.color = enemyColor;
         isHit = false;
         hitTimer = 0;
+      }
+    }
+
+    if (poisonDamage > 0) {
+      poisonTimer += dt;
+      if (poisonTimer >= 1) { 
+        health -= poisonDamage;
+        poisonTimer = 0;
+
+        if (health <= 0) {
+          die();
+        }
       }
     }
   }
 
   void takeDamage(int damage) {
     health -= damage;
-    enemyBody.paint.color = const Color(0xFFFF0000); 
+    enemyBody.paint.color = const Color(0xFFFF0000);
     isHit = true;
 
     if (health <= 0) {
-      removeFromParent();
+      die();
     }
   }
 
   void applyPoison(int poisonDamage) {
-  health -= poisonDamage;
+    this.poisonDamage = poisonDamage;
+  }
+
+  void die() {
+    GameState.addCoins(reward);
+    removeFromParent();
   }
 }
