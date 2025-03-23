@@ -3,7 +3,7 @@ import 'package:flame/components.dart';
 import 'package:flutter/painting.dart';
 
 class StickyWebTower extends Tower {
-  StickyWebTower({required Vector2 position}) : super(position: position) {
+  StickyWebTower({required super.position}) {
     size = Vector2(40, 40);
     fireRate = 1.0;
     range = 100;

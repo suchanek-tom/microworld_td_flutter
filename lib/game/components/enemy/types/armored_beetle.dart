@@ -3,9 +3,8 @@ import 'package:flame/components.dart';
 import 'package:flutter/painting.dart';
 
 class ArmoredBeetle extends Enemy {
-  ArmoredBeetle({required List<Vector2> waypoints})
+  ArmoredBeetle({required super.waypoints})
       : super(
-          waypoints: waypoints,
           reward: 10,
           speed: 4,
           health: 100,
