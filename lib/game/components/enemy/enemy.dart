@@ -72,6 +72,11 @@ class Enemy extends PositionComponent {
         }
       }
     }
+
+      if (currentWaypointIndex >= waypoints.length - 1) {
+      GameState.loseLife();  
+      removeFromParent();
+    }
   }
 
   void takeDamage(int damage) {
