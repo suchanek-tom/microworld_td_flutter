@@ -40,7 +40,7 @@ class MicroworldGame extends FlameGame {
     ));
 
     coinText = TextComponent(
-      text: "Coins: ${GameState.coins}",
+      text: 'Coins: \${GameState.coins}',
       position: Vector2(10, 10),
       textRenderer: TextPaint(
         style: const TextStyle(fontSize: 24, color: Colors.white),
@@ -48,7 +48,7 @@ class MicroworldGame extends FlameGame {
     );
 
     livesText = TextComponent(
-      text: "Lives: ${GameState.lives}",
+      text: 'Lives: \${GameState.lives}',
       position: Vector2(10, 40),
       textRenderer: TextPaint(
         style: const TextStyle(fontSize: 24, color: Colors.white),
@@ -62,20 +62,30 @@ class MicroworldGame extends FlameGame {
   @override
   void update(double dt) {
     super.update(dt);
-    coinText.text = "Coins: ${GameState.coins}";
-    livesText.text = "Lives: ${GameState.lives}";
+    coinText.text = 'Coins: \${GameState.coins}';
+    livesText.text = 'Lives: \${GameState.lives}';
 
-    if (GameState.isGameOver && gameOverText == null) {
-      gameOverText = TextComponent(
-        text: "GAME OVER!",
-        position: Vector2(size.x / 2 - 100, size.y / 2 - 20),
-        textRenderer: TextPaint(
-          style: const TextStyle(fontSize: 40, color: Colors.red),
-        ),
-        priority: 10,
-      );
-      add(gameOverText!);
-      pauseEngine();
+    if (GameState.isGameOver) {
+      if (gameOverText == null) {
+        gameOverText = TextComponent(
+          text: "GAME OVER!",
+          position: size / 2,
+          anchor: Anchor.center,
+          textRenderer: TextPaint(
+            style: const TextStyle(
+              fontSize: 50, 
+              fontWeight: FontWeight.bold, 
+              color: Colors.red,
+            ),
+          ),
+          priority: 100, 
+        );
+        add(gameOverText!);
+
+        Future.delayed(Duration(milliseconds: 100), () {
+          pauseEngine();
+        });
+      }
     }
   }
 }
