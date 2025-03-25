@@ -23,13 +23,13 @@ class Enemy extends PositionComponent {
     required this.health,
     required this.enemyColor,
   }) {
-    position = waypoints.first.clone();
+    position = waypoints.first;
   }
 
   @override
   Future<void> onLoad() async {
     enemyBody = RectangleComponent(
-      size: size,
+      size: Vector2.all(20),
       paint: Paint()..color = enemyColor,
     );
     add(enemyBody);
@@ -40,47 +40,52 @@ class Enemy extends PositionComponent {
     super.update(dt);
 
     if (currentWaypointIndex < waypoints.length - 1) {
-      Vector2 nextWaypoint = waypoints[currentWaypointIndex + 1];
-      Vector2 direction = (nextWaypoint - position).normalized();
-      position += direction * speed * dt;
-
-      if (position.distanceTo(nextWaypoint) < 5) {
-        currentWaypointIndex++;
-        position = nextWaypoint.clone();
-      }
+      moveToNextWaypoint(dt);
     } else {
+      GameState.loseLife();
       removeFromParent();
     }
 
-    if (isHit) {
-      hitTimer += dt;
-      if (hitTimer > 0.1) {
-        enemyBody.paint.color = enemyColor;
-        isHit = false;
-        hitTimer = 0;
-      }
+    if (isHit) handleHitEffect(dt);
+    if (poisonDamage > 0) handlePoisonEffect(dt);
+  }
+
+  void moveToNextWaypoint(double dt) {
+    Vector2 nextWaypoint = waypoints[currentWaypointIndex + 1];
+    Vector2 direction = (nextWaypoint - position).normalized();
+    position += direction * speed * dt;
+
+    if (position.distanceTo(nextWaypoint) < 5) {
+      currentWaypointIndex++;
     }
+  }
 
-    if (poisonDamage > 0) {
-      poisonTimer += dt;
-      if (poisonTimer >= 1) { 
-        health -= poisonDamage;
-        poisonTimer = 0;
+  void handleHitEffect(double dt) {
+    hitTimer += dt;
+    if (hitTimer > 0.1) {
+      enemyBody.paint.color = enemyColor;
+      isHit = false;
+      hitTimer = 0;
+    }
+  }
 
-        if (health <= 0) {
-          die();
-        }
-      }
+  void handlePoisonEffect(double dt) {
+    poisonTimer += dt;
+    if (poisonTimer >= 1) {
+      health -= poisonDamage;
+      poisonTimer = 0;
+
+      if (health <= 0) die();
     }
   }
 
   void takeDamage(int damage) {
     health -= damage;
-    enemyBody.paint.color = const Color(0xFFFF0000);
-    isHit = true;
-
     if (health <= 0) {
       die();
+    } else {
+      enemyBody.paint.color = const Color(0xFFFF0000);
+      isHit = true;
     }
   }
 

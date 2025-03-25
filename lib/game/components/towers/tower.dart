@@ -8,9 +8,9 @@ class Tower extends PositionComponent {
   double timeSinceLastShot = 0;
   double range = 200;
   int damage = 10;
-  double slowEffect = 0.0; 
-  int poisonEffect = 0; 
-  Color towerColor = const Color(0xFF8B0000); 
+  double slowEffect = 0.0;
+  int poisonEffect = 0;
+  Color towerColor = const Color(0xFF8B0000);
 
   Tower({required Vector2 position}) {
     this.position = position;
@@ -30,21 +30,24 @@ class Tower extends PositionComponent {
     super.update(dt);
     timeSinceLastShot += dt;
 
-    final enemies = parent?.children.whereType<Enemy>().toList();
+    if (timeSinceLastShot < fireRate) return;
+
+    final enemies = parent?.children.whereType<Enemy>().where((enemy) {
+      return position.distanceTo(enemy.position) < range;
+    });
+
     if (enemies == null || enemies.isEmpty) return;
 
-    enemies.sort((a, b) => position.distanceTo(a.position).compareTo(position.distanceTo(b.position)));
     Enemy target = enemies.first;
 
-    if (position.distanceTo(target.position) < range && timeSinceLastShot >= fireRate) {
-      parent?.add(Bullet(
-        position: position.clone(),
-        targetPosition: target.position.clone(),
-        damage: damage,
-        slowEffect: slowEffect,
-        poisonEffect: poisonEffect,
-      ));
-      timeSinceLastShot = 0;
-    }
+    parent?.add(Bullet(
+      position: position.clone(),
+      target: target,
+      damage: damage,
+      slowEffect: slowEffect,
+      poisonEffect: poisonEffect,
+    ));
+
+    timeSinceLastShot = 0;
   }
 }

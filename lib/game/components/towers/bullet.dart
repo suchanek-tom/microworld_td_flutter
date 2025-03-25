@@ -3,16 +3,15 @@ import 'package:flutter/painting.dart';
 import '../enemy/enemy.dart';
 
 class Bullet extends PositionComponent {
-  final Vector2 targetPosition;
   final double speed = 300;
   final int damage;
   final double slowEffect;
   final int poisonEffect;
-  bool hitTarget = false;
+  Enemy? target;
 
   Bullet({
     required Vector2 position,
-    required this.targetPosition,
+    required this.target,
     required this.damage,
     this.slowEffect = 0.0,
     this.poisonEffect = 0,
@@ -33,30 +32,26 @@ class Bullet extends PositionComponent {
   void update(double dt) {
     super.update(dt);
 
-    if (hitTarget) {
+    if (target == null || target!.isRemoved) {
       removeFromParent();
       return;
     }
 
-    Vector2 direction = (targetPosition - position).normalized();
+    Vector2 direction = (target!.position - position).normalized();
     position += direction * speed * dt;
 
-    final enemies = parent?.children.whereType<Enemy>().toList();
-    for (var enemy in enemies!) {
-      if (enemy.position.distanceTo(position) < 15) {
-        enemy.takeDamage(damage);
-        
-        if (slowEffect > 0) {
-          enemy.speed *= slowEffect;
-        }
-        
-        if (poisonEffect > 0) {
-          enemy.applyPoison(poisonEffect);
-        }
-        
-        hitTarget = true;
-        break;
+    if (position.distanceTo(target!.position) < 8) {
+      target!.takeDamage(damage);
+      
+      if (slowEffect > 0) {
+        target!.speed *= slowEffect;
       }
+
+      if (poisonEffect > 0) {
+        target!.applyPoison(poisonEffect);
+      }
+
+      removeFromParent();
     }
   }
 }
