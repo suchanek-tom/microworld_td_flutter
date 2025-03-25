@@ -5,7 +5,7 @@ class GameState {
 
   static void addCoins(int amount) {
     coins += amount;
-    print("💰 Coins: $coins");
+    // print("💰 Coins: $coins");
   }
 
   static void loseLife(){
@@ -17,6 +17,6 @@ class GameState {
 
   static void gameOver() {
     isGameOver = true;
-    print("Game Over!");
+    // print("Game Over!");
   }
 }

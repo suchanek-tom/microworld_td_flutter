@@ -1,19 +1,15 @@
 import 'package:flame/camera.dart';
 import 'package:flame/components.dart';
 import 'package:flame/game.dart';
-import 'package:flame/src/text/renderers/text_renderer.dart';
 import 'package:flutter/material.dart';
 import 'package:microworld_td/game/components/enemy/enemy_spawner.dart';
 import 'package:microworld_td/game/components/game_state.dart';
 import 'package:microworld_td/game/components/pathComponent.dart';
-import 'package:microworld_td/game/components/towers/types/sniper_ant_tower.dart';
-import 'package:microworld_td/game/components/towers/types/sticky_web_tower.dart';
-import 'package:microworld_td/game/components/towers/types/venom_sprayer_tower.dart';
 
 class MicroworldGame extends FlameGame {
   late TextComponent livesText;
   late TextComponent coinText;
-  late TextComponent gameOverText;
+  TextComponent? gameOverText;
 
   @override
   Future<void> onLoad() async {
@@ -37,40 +33,30 @@ class MicroworldGame extends FlameGame {
 
     add(PathComponent(waypoints: waypoints));
 
-    // add(SniperAntTower(position: Vector2(550, 200)));
-    // add(VenomSprayerTower(position: Vector2(250, 400)));
-    // add(StickyWebTower(position: Vector2(170, 500)));
-
     add(EnemySpawner(
       waypoints: waypoints,
       spawnInterval: 2,
       enemiesToSpawn: 25,
     ));
 
-      coinText = TextComponent(
+    coinText = TextComponent(
       text: "Coins: ${GameState.coins}",
       position: Vector2(10, 10),
-      textRenderer: TextPaint(style: const TextStyle(fontSize: 24, color: Colors.white)),
+      textRenderer: TextPaint(
+        style: const TextStyle(fontSize: 24, color: Colors.white),
+      ),
     );
 
     livesText = TextComponent(
       text: "Lives: ${GameState.lives}",
       position: Vector2(10, 40),
-      textRenderer: TextPaint(style: const TextStyle(fontSize: 24, color: Colors.white)),
-    );
-
-     gameOverText = TextComponent(
-      text: "GAME OVER!",
-      position: Vector2(size.x / 2 - 100, size.y / 2 - 20),
-      textRenderer: TextPaint(style: const TextStyle(fontSize: 40, color: Colors.red)),
-      priority: 10,
+      textRenderer: TextPaint(
+        style: const TextStyle(fontSize: 24, color: Colors.white),
+      ),
     );
 
     add(coinText);
     add(livesText);
-    // add(gameOverText);
-
-    debugPrint("Microworld TD Game Loaded!");
   }
 
   @override
@@ -79,9 +65,17 @@ class MicroworldGame extends FlameGame {
     coinText.text = "Coins: ${GameState.coins}";
     livesText.text = "Lives: ${GameState.lives}";
 
-    if (GameState.isGameOver) {
+    if (GameState.isGameOver && gameOverText == null) {
+      gameOverText = TextComponent(
+        text: "GAME OVER!",
+        position: Vector2(size.x / 2 - 100, size.y / 2 - 20),
+        textRenderer: TextPaint(
+          style: const TextStyle(fontSize: 40, color: Colors.red),
+        ),
+        priority: 10,
+      );
+      add(gameOverText!);
       pauseEngine();
     }
   }
 }
-
