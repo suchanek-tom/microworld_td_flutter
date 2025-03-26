@@ -10,7 +10,9 @@ import 'package:microworld_td/game/components/towers/types/sticky_web_tower.dart
 import 'package:microworld_td/game/components/towers/types/venom_sprayer_tower.dart';
 
 class MicroworldGame extends FlameGame {
+  late TextComponent livesText;
   late TextComponent coinText;
+  TextComponent? gameOverText;
 
   @override
   Future<void> onLoad() async {
@@ -34,36 +36,62 @@ class MicroworldGame extends FlameGame {
 
     add(PathComponent(waypoints: waypoints));
 
-    add(SniperAntTower(position: Vector2(550, 200)));
-    add(VenomSprayerTower(position: Vector2(250, 400)));
-    add(StickyWebTower(position: Vector2(170, 500)));
-
     add(EnemySpawner(
       waypoints: waypoints,
       spawnInterval: 2,
       enemiesToSpawn: 25,
     ));
 
+    add(SniperAntTower(position: Vector2(300, 250)));
+    add(StickyWebTower(position: Vector2(250, 350)));
+    add(VenomSprayerTower(position: Vector2(200, 200)));
+
     coinText = TextComponent(
       text: "Coins: ${GameState.coins}",
-      position: Vector2(650, 20),
-      anchor: Anchor.topRight,
+      position: Vector2(10, 10),
       textRenderer: TextPaint(
-        style: const TextStyle(
-          fontSize: 24,
-          color: Colors.white,
-          fontWeight: FontWeight.bold,
-        ),
+        style: const TextStyle(fontSize: 24, color: Colors.white),
       ),
     );
-    add(coinText);
 
-    debugPrint("Microworld TD Game Loaded!");
+    livesText = TextComponent(
+      text: "Lives: ${GameState.lives}",
+      position: Vector2(10, 40),
+      textRenderer: TextPaint(
+        style: const TextStyle(fontSize: 24, color: Colors.white),
+      ),
+    );
+
+    add(coinText);
+    add(livesText);
   }
 
   @override
   void update(double dt) {
-    super.update(dt);
-    coinText.text = "Coins: ${GameState.coins}";
+  super.update(dt);
+  coinText.text = "Coins: ${GameState.coins}";
+  livesText.text = "Lives: ${GameState.lives}";
+
+  if (GameState.isGameOver) {
+    if (gameOverText == null) {
+      gameOverText = TextComponent(
+        text: "GAME OVER!",
+        position: Vector2(size.x / 2, 50),
+        anchor: Anchor.topCenter,
+        textRenderer: TextPaint(
+          style: const TextStyle(
+            fontSize: 50, 
+            fontWeight: FontWeight.w900, 
+            color: Colors.red,
+          ),
+        ),
+        priority: 100, 
+      );
+      add(gameOverText!);
+    }
+    Future.delayed(Duration(milliseconds: 100), () {
+          pauseEngine();
+    });
   }
+}
 }

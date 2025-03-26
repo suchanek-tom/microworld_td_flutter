@@ -1,14 +1,21 @@
-import 'package:microworld_td/game/components/towers/tower.dart';
 import 'package:flame/components.dart';
 import 'package:flutter/painting.dart';
+import 'package:microworld_td/game/components/bullet/standartBullet.dart';
+import 'package:microworld_td/game/components/enemy/baseEnemy.dart';
+import 'package:microworld_td/game/components/towers/baseTower.dart';
 
-class StickyWebTower extends Tower {
-  StickyWebTower({required Vector2 position}) : super(position: position) {
-    size = Vector2(40, 40);
-    fireRate = 1.0;
-    range = 100;
-    damage = 5;
-    slowEffect = 0.5; 
-    towerColor = const Color(0xFF800080); 
+class StickyWebTower extends BaseTower {
+  StickyWebTower({required Vector2 position})
+   :  super(
+      position: position,
+      fireRate: 0.5,
+      range: 150,
+      damage: 10,
+      towerColor: const Color(0xFF800080),
+      // todo: slow effect + size
+   );
+
+  void attackTarget(BaseEnemy target) {
+    parent?.add(StandardBullet(position: position.clone(), target: target, damage: damage));
   }
 }

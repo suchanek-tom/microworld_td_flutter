@@ -1,8 +1,8 @@
-import '../enemy.dart';
+import 'package:microworld_td/game/components/enemy/baseEnemy.dart';
 import 'package:flame/components.dart';
 import 'package:flutter/painting.dart';
 
-class WorkerAnt extends Enemy {
+class WorkerAnt extends BaseEnemy {
   WorkerAnt({required List<Vector2> waypoints})
       : super(
           waypoints: waypoints,
