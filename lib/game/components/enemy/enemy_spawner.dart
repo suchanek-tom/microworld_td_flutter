@@ -1,6 +1,6 @@
-import 'package:flame/components.dart';
-import 'package:microworld_td/game/components/enemy/enemy.dart';
 import 'dart:math';
+import 'package:flame/components.dart';
+import 'package:microworld_td/game/components/enemy/baseEnemy.dart';
 import 'types/worker_ant.dart';
 import 'types/armored_beetle.dart';
 import 'types/fast_bug.dart';
@@ -35,7 +35,7 @@ class EnemySpawner extends Component with HasGameRef {
 
   void spawnRandomEnemy() {
     final int enemyType = random.nextInt(4);
-    late Enemy enemy;
+    late BaseEnemy enemy;
 
     switch (enemyType) {
       case 0:
@@ -55,3 +55,4 @@ class EnemySpawner extends Component with HasGameRef {
     gameRef.add(enemy);
   }
 }
+
