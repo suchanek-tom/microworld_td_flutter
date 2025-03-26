@@ -5,6 +5,9 @@ import 'package:flutter/material.dart';
 import 'package:microworld_td/game/components/enemy/enemy_spawner.dart';
 import 'package:microworld_td/game/components/game_state.dart';
 import 'package:microworld_td/game/components/pathComponent.dart';
+import 'package:microworld_td/game/components/towers/types/sniper_ant_tower.dart';
+import 'package:microworld_td/game/components/towers/types/sticky_web_tower.dart';
+import 'package:microworld_td/game/components/towers/types/venom_sprayer_tower.dart';
 
 class MicroworldGame extends FlameGame {
   late TextComponent livesText;
@@ -38,6 +41,10 @@ class MicroworldGame extends FlameGame {
       spawnInterval: 2,
       enemiesToSpawn: 25,
     ));
+
+    add(SniperAntTower(position: Vector2(300, 250)));
+    add(StickyWebTower(position: Vector2(250, 350)));
+    add(VenomSprayerTower(position: Vector2(200, 200)));
 
     coinText = TextComponent(
       text: "Coins: ${GameState.coins}",

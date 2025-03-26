@@ -1,18 +1,21 @@
 import 'package:flame/components.dart';
 import 'package:flutter/painting.dart';
-import 'bullet.dart';
-import '../enemy/enemy.dart';
+import 'package:microworld_td/game/components/enemy/baseEnemy.dart';
 
-class Tower extends PositionComponent {
-  double fireRate = 0.5;
+abstract class BaseTower extends PositionComponent {
+  double fireRate;
+  double range;
+  int damage;
+  Color towerColor;
   double timeSinceLastShot = 0;
-  double range = 200;
-  int damage = 10;
-  double slowEffect = 0.0;
-  int poisonEffect = 0;
-  Color towerColor = const Color(0xFF8B0000);
 
-  Tower({required Vector2 position}) {
+  BaseTower({
+    required Vector2 position,
+    required this.fireRate,
+    required this.range,
+    required this.damage,
+    required this.towerColor,
+  }) {
     this.position = position;
     size = Vector2(40, 40);
   }
@@ -32,22 +35,15 @@ class Tower extends PositionComponent {
 
     if (timeSinceLastShot < fireRate) return;
 
-    final enemies = parent?.children.whereType<Enemy>().where((enemy) {
+    final enemies = parent?.children.whereType<BaseEnemy>().where((enemy) {
       return position.distanceTo(enemy.position) < range;
-    });
+    }).toList();
 
     if (enemies == null || enemies.isEmpty) return;
 
-    Enemy target = enemies.first;
-
-    parent?.add(Bullet(
-      position: position.clone(),
-      target: target,
-      damage: damage,
-      slowEffect: slowEffect,
-      poisonEffect: poisonEffect,
-    ));
-
+    attackTarget(enemies.first);
     timeSinceLastShot = 0;
   }
+
+  void attackTarget(BaseEnemy target);
 }
