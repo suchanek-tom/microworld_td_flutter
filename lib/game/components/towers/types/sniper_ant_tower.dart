@@ -1,6 +1,6 @@
 import 'package:flame/components.dart';
 import 'package:flutter/painting.dart';
-import 'package:microworld_td/game/components/bullet/standartBullet.dart';
+import 'package:microworld_td/game/components/bullet/types/standartBullet.dart';
 import 'package:microworld_td/game/components/enemy/baseEnemy.dart';
 import 'package:microworld_td/game/components/towers/baseTower.dart';
 
