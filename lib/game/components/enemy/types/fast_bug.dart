@@ -1,10 +1,11 @@
-import '../enemy.dart';
+import 'package:microworld_td/game/components/enemy/baseEnemy.dart';
 import 'package:flame/components.dart';
 import 'package:flutter/painting.dart';
 
-class FastBug extends Enemy {
-  FastBug({required super.waypoints})
+class FastBug extends BaseEnemy {
+  FastBug({required List<Vector2> waypoints})
       : super(
+          waypoints: waypoints,
           reward: 3,
           speed: 30,
           health: 30,

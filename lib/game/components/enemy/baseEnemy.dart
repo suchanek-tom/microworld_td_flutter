@@ -1,8 +1,8 @@
 import 'package:flame/components.dart';
 import 'package:flutter/painting.dart';
-import '../game_state.dart';
+import 'package:microworld_td/game/components/game_state.dart';
 
-class Enemy extends PositionComponent {
+abstract class BaseEnemy extends PositionComponent {
   final List<Vector2> waypoints;
   double speed;
   int health;
@@ -16,7 +16,7 @@ class Enemy extends PositionComponent {
 
   late RectangleComponent enemyBody;
 
-  Enemy({
+  BaseEnemy({
     required this.waypoints,
     required this.reward,
     required this.speed,

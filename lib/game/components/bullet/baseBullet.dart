@@ -1,20 +1,17 @@
+import 'dart:ui';
 import 'package:flame/components.dart';
-import 'package:flutter/painting.dart';
-import '../enemy/enemy.dart';
+import 'package:microworld_td/game/components/enemy/baseEnemy.dart';
 
-class Bullet extends PositionComponent {
-  final double speed = 300;
+abstract class BaseBullet extends PositionComponent {
+  final double speed;
   final int damage;
-  final double slowEffect;
-  final int poisonEffect;
-  Enemy? target;
+  BaseEnemy? target;
 
-  Bullet({
+  BaseBullet({
     required Vector2 position,
     required this.target,
     required this.damage,
-    this.slowEffect = 0.0,
-    this.poisonEffect = 0,
+    required this.speed,
   }) {
     this.position = position;
     size = Vector2(8, 8);
@@ -41,17 +38,9 @@ class Bullet extends PositionComponent {
     position += direction * speed * dt;
 
     if (position.distanceTo(target!.position) < 8) {
-      target!.takeDamage(damage);
-      
-      if (slowEffect > 0) {
-        target!.speed *= slowEffect;
-      }
-
-      if (poisonEffect > 0) {
-        target!.applyPoison(poisonEffect);
-      }
-
-      removeFromParent();
+      hitTarget();
     }
   }
+
+  void hitTarget();
 }
