@@ -1,10 +1,11 @@
 import 'dart:ui';
-import 'package:microworld_td/game/components/bullet/standartBullet.dart';
+import 'package:microworld_td/game/components/bullet/types/standartBullet.dart';
 import 'package:microworld_td/game/components/enemy/baseEnemy.dart';
 import 'package:microworld_td/game/components/towers/baseTower.dart';
 import 'package:flame/components.dart';
 
-class VenomSprayerTower extends BaseTower {
+class VenomSprayerTower extends BaseTower 
+{
   VenomSprayerTower({required Vector2 position})
     : super (
       position: position,
@@ -16,7 +17,8 @@ class VenomSprayerTower extends BaseTower {
       // todo: poisonEffect = 5
     );
 
-  void attackTarget(BaseEnemy target) {
+  void attackTarget(BaseEnemy target) 
+  {
     parent?.add(StandardBullet(position: position.clone(), target: target, damage: damage));
   }
 }
