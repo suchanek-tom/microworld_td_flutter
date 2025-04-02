@@ -12,7 +12,9 @@ import 'package:microworld_td/game/components/towers/types/venom_sprayer_tower.d
 class MicroworldGame extends FlameGame {
   late TextComponent livesText;
   late TextComponent coinText;
+  late TextComponent waveText;
   TextComponent? gameOverText;
+  TextComponent? winText;
 
   @override
   Future<void> onLoad() async {
@@ -39,7 +41,7 @@ class MicroworldGame extends FlameGame {
     add(EnemySpawner(
       waypoints: waypoints,
       spawnInterval: 2,
-      enemiesToSpawn: 25,
+      enemiesToSpawn: 5,
     ));
 
     add(SniperAntTower(position: Vector2(300, 250)));
@@ -62,18 +64,28 @@ class MicroworldGame extends FlameGame {
       ),
     );
 
+    waveText = TextComponent(
+      text: "Wave: ${GameState.waveNumber}",
+      position: Vector2(size.x / 2, 10),
+      anchor: Anchor.topCenter,
+      textRenderer: TextPaint(
+        style: const TextStyle(fontSize: 24, color: Colors.white),
+      ),
+    );
+
     add(coinText);
     add(livesText);
+    add(waveText);
   }
 
   @override
   void update(double dt) {
-  super.update(dt);
-  coinText.text = "Coins: ${GameState.coins}";
-  livesText.text = "Lives: ${GameState.lives}";
+    super.update(dt);
+    coinText.text = "Coins: ${GameState.coins}";
+    livesText.text = "Lives: ${GameState.lives}";
+    waveText.text = "Wave: ${GameState.waveNumber}";
 
-  if (GameState.isGameOver) {
-    if (gameOverText == null) {
+    if (GameState.isGameOver && gameOverText == null) {
       gameOverText = TextComponent(
         text: "GAME OVER!",
         position: Vector2(size.x / 2, 50),
@@ -88,10 +100,25 @@ class MicroworldGame extends FlameGame {
         priority: 100, 
       );
       add(gameOverText!);
+      pauseEngine();
     }
-    Future.delayed(Duration(milliseconds: 100), () {
-          pauseEngine();
-    });
+
+    if (GameState.isGameWon && winText == null) {
+      winText = TextComponent(
+        text: "YOU WIN!",
+        position: Vector2(size.x / 2, 50),
+        anchor: Anchor.topCenter,
+        textRenderer: TextPaint(
+          style: const TextStyle(
+            fontSize: 50, 
+            fontWeight: FontWeight.w900, 
+            color: Colors.black,
+          ),
+        ),
+        priority: 100,
+      );
+      add(winText!);
+      pauseEngine();
+    }
   }
-}
 }

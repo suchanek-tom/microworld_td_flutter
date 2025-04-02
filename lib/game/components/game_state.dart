@@ -2,6 +2,8 @@ class GameState {
   static int coins = 0;
   static int lives = 5;
   static bool isGameOver = false;
+  static int waveNumber = 1;
+  static bool isGameWon = false;
 
   static void addCoins(int amount) {
     coins += amount;
@@ -16,5 +18,13 @@ class GameState {
 
   static void gameOver() {
     isGameOver = true;
+  }
+
+   static void nextWave() {
+    waveNumber++;
+  }
+
+  static void winGame() {
+    isGameWon = true;
   }
 }
