@@ -16,6 +16,8 @@ class MicroworldGame extends FlameGame {
   TextComponent? gameOverText;
   TextComponent? winText;
 
+  late EnemySpawner enemySpawner;
+
   @override
   Future<void> onLoad() async {
     camera.viewport = FixedResolutionViewport(resolution: Vector2(800, 600));
@@ -38,11 +40,11 @@ class MicroworldGame extends FlameGame {
 
     add(PathComponent(waypoints: waypoints));
 
-    add(EnemySpawner(
+    enemySpawner = EnemySpawner(
       waypoints: waypoints,
       spawnInterval: 2,
-      enemiesToSpawn: 5,
-    ));
+    );
+    add(enemySpawner);
 
     add(SniperAntTower(position: Vector2(300, 250)));
     add(StickyWebTower(position: Vector2(250, 350)));

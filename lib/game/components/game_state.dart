@@ -2,7 +2,7 @@ class GameState {
   static int coins = 0;
   static int lives = 5;
   static bool isGameOver = false;
-  static int waveNumber = 1;
+  static int waveNumber = 0;
   static bool isGameWon = false;
 
   static void addCoins(int amount) {
