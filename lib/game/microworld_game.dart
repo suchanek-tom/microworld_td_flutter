@@ -102,10 +102,10 @@ class MicroworldGame extends FlameGame {
         priority: 100, 
       );
       add(gameOverText!);
-      pauseEngine();
-    }
-
-    if (GameState.isGameWon && winText == null) {
+      Future.delayed(const Duration(seconds: 1), () {
+        pauseEngine();
+      });
+    } else if (GameState.isGameWon && winText == null) {
       winText = TextComponent(
         text: "YOU WIN!",
         position: Vector2(size.x / 2, 50),
@@ -120,7 +120,9 @@ class MicroworldGame extends FlameGame {
         priority: 100,
       );
       add(winText!);
-      pauseEngine();
+      Future.delayed(const Duration(seconds: 1), () {
+        pauseEngine();
+      });
     }
   }
 }
