@@ -20,7 +20,6 @@ class EnemySpawner extends Component with HasGameRef {
 
   EnemySpawner({required this.waypoints, this.spawnInterval = 2.0});
 
-  // Definujeme konfiguraci nepřátel pro jednotlivé vlny
   final Map<int, List<Map<String, dynamic>>> waveConfig = {
     1: [{'type': WorkerAnt, 'count': 5}],
     2: [{'type': WorkerAnt, 'count': 7}, {'type': FastBug, 'count': 2}], 
