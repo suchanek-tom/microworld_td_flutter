@@ -21,22 +21,25 @@ class EnemySpawner extends Component with HasGameRef {
   EnemySpawner({required this.waypoints, this.spawnInterval = 2.0});
 
   final Map<int, List<Map<String, dynamic>>> waveConfig = {
-    1: [{'type': WorkerAnt, 'count': 5}],
-    2: [{'type': WorkerAnt, 'count': 7}, {'type': FastBug, 'count': 2}], 
-    3: [{'type': WorkerAnt, 'count': 6}, {'type': FastBug, 'count': 4}],
-    5: [{'type': ArmoredBeetle, 'count': 3}], 
-    7: [{'type': WorkerAnt, 'count': 5}, {'type': ArmoredBeetle, 'count': 5}],
-    10: [{'type': QueensGuard, 'count': 2}],
-    15: [{'type': WorkerAnt, 'count': 5}, {'type': FastBug, 'count': 5}, {'type': ArmoredBeetle, 'count': 3}],
-    20: [{'type': QueensGuard, 'count': 5}], 
-  };
+  1: [{'type': WorkerAnt, 'count': 5}],
+  2: [{'type': WorkerAnt, 'count': 8}],
+  3: [{'type': WorkerAnt, 'count': 6}, {'type': FastBug, 'count': 2}],
+  4: [{'type': FastBug, 'count': 5}],
+  5: [{'type': WorkerAnt, 'count': 5}, {'type': ArmoredBeetle, 'count': 2}],
+  6: [{'type': FastBug, 'count': 6}, {'type': ArmoredBeetle, 'count': 2}],
+  7: [{'type': WorkerAnt, 'count': 4}, {'type': FastBug, 'count': 4}, {'type': ArmoredBeetle, 'count': 3}],
+  8: [{'type': ArmoredBeetle, 'count': 5}],
+  9: [{'type': WorkerAnt, 'count': 6}, {'type': FastBug, 'count': 6}],
+  10: [{'type': QueensGuard, 'count': 1}, {'type': ArmoredBeetle, 'count': 3}],
+};
+
 
   @override
   void update(double dt) {
     super.update(dt);
 
     if (enemiesToSpawn <= 0 && enemiesRemaining == 0) {
-      if (GameState.waveNumber >= 3) {
+      if (GameState.waveNumber >= 10) {
         GameState.winGame();
         return;
       }
