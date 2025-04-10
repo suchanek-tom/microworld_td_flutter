@@ -65,4 +65,5 @@ class DefaultFirebaseOptions {
     authDomain: 'nanostreamtd-d2c1a.firebaseapp.com',
     storageBucket: 'nanostreamtd-d2c1a.firebasestorage.app',
   );
+
 }
