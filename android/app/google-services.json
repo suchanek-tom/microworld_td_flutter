@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "601812983",
+    "project_id": "nanostreamtd-d2c1a",
+    "storage_bucket": "nanostreamtd-d2c1a.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:601812983:android:e9e8e8d4c9f53730f4c8f2",
+        "android_client_info": {
+          "package_name": "com.example.microworld_td"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBNn2RTa2tJCYB2Ma8KQE80onOF7eyRdTI"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

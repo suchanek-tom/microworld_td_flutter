@@ -1,20 +1,35 @@
 import 'package:flutter/material.dart';
-import 'package:flame/game.dart';
-import 'game/microworld_game.dart';
-
-void main() {
+import 'package:microworld_td/menu/login_registration/login.dart';
+import 'package:microworld_td/menu/login_registration/registration.dart';
+import 'package:microworld_td/menu/main_menu/home.dart';
+import 'package:firebase_core/firebase_core.dart';
+void main() async 
+{
+  WidgetsFlutterBinding.ensureInitialized();
+  await Firebase.initializeApp(
+    options: FirebaseOptions(
+      apiKey: 'AIzaSyBNn2RTa2tJCYB2Ma8KQE80onOF7eyRdTI', 
+      appId: '1:601812983:android:e9e8e8d4c9f53730f4c8f2', 
+      messagingSenderId: '601812983', 
+      projectId:'nanostreamtd-d2c1a')
+  ); 
   runApp(const MyApp());
 }
 
-class MyApp extends StatelessWidget {
+class MyApp extends StatelessWidget 
+{
   const MyApp({super.key});
 
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context) 
+  {
     return MaterialApp(
-      debugShowCheckedModeBanner: false,
-      title: "tiny world TD",
-      home: GameWidget(game: MicroworldGame()),
+      initialRoute: '/home',
+      routes: {
+      '/home': (context) => HomePage(),
+      '/login': (context) => LoginPage(),
+      '/registration': (context) => Registration(),
+    },
     );
   }
 }
