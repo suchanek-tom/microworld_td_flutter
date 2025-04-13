@@ -8,20 +8,27 @@ class HomePage extends StatelessWidget
   Widget build(BuildContext context) 
   {
    return MaterialApp(
-    home: Scaffold(
-      //debugShowCheckedModeBanner: false,
+    home: Scaffold
+    (
       appBar: AppBar(
         title: Text("NanoStreamTD"),
+        actions: [
+          ElevatedButton(onPressed:(){Navigator.pushNamed(context, '/login');} , 
+          child: const Text("login")),
+          Text("oppure registrati"),
+        ],
         backgroundColor: Color.fromARGB(255, 195, 176, 145),
-        centerTitle: true,
       ),
-      body: Center(
-        child: ElevatedButton(onPressed:(){
-          Navigator.pushNamed(context, '/login'); 
-        },
-         child: const Text("login")),
+      body: Column
+      (
+        children: 
+        [
+           ElevatedButton(onPressed:() {Navigator.pushNamed(context, '/game');}, 
+           child: const Text("Start the Attack")),  
+           Image.asset("assets/img/formica.jpg")
+        ],
       ),
-    ),
-   );
+      ),
+   );  
   }
 }

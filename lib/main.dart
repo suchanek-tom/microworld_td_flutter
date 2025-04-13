@@ -1,4 +1,6 @@
+import 'package:flame/game.dart';
 import 'package:flutter/material.dart';
+import 'package:microworld_td/game/microworld_game.dart';
 import 'package:microworld_td/menu/login_registration/login.dart';
 import 'package:microworld_td/menu/login_registration/registration.dart';
 import 'package:microworld_td/menu/main_menu/home.dart';
@@ -29,6 +31,7 @@ class MyApp extends StatelessWidget
       '/home': (context) => HomePage(),
       '/login': (context) => LoginPage(),
       '/registration': (context) => Registration(),
+      '/game':(context)=> GameWidget(game: MicroworldGame()),
     },
     );
   }
