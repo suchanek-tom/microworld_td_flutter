@@ -1,4 +1,3 @@
-import 'package:flame/components.dart';
 import 'package:microworld_td/game/components/bullet/baseBullet.dart';
 import 'package:microworld_td/game/components/enemy/baseEnemy.dart';
 
