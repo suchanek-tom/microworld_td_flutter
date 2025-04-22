@@ -3,9 +3,8 @@ import 'package:flame/components.dart';
 import 'package:flutter/painting.dart';
 
 class FastBug extends BaseEnemy {
-  FastBug({required List<Vector2> waypoints})
+  FastBug({required super.waypoints})
       : super(
-          waypoints: waypoints,
           reward: 3,
           speed: 30,
           health: 30,

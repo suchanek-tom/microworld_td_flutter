@@ -5,9 +5,8 @@ import 'package:microworld_td/game/components/towers/baseTower.dart';
 import 'package:flame/components.dart';
 
 class VenomSprayerTower extends BaseTower {
-  VenomSprayerTower({required Vector2 position})
+  VenomSprayerTower({required super.position})
     : super (
-      position: position,
       fireRate: 0.8,
       range: 180,
       damage: 15,
@@ -16,6 +15,7 @@ class VenomSprayerTower extends BaseTower {
       // todo: poisonEffect = 5
     );
 
+  @override
   void attackTarget(BaseEnemy target) {
     parent?.add(StandardBullet(position: position.clone(), target: target, damage: damage));
   }

@@ -5,9 +5,8 @@ import 'package:microworld_td/game/components/enemy/baseEnemy.dart';
 import 'package:microworld_td/game/components/towers/baseTower.dart';
 
 class StickyWebTower extends BaseTower {
-  StickyWebTower({required Vector2 position})
+  StickyWebTower({required super.position})
    :  super(
-      position: position,
       fireRate: 0.5,
       range: 150,
       damage: 10,
@@ -15,6 +14,7 @@ class StickyWebTower extends BaseTower {
       // todo: slow effect + size
    );
 
+  @override
   void attackTarget(BaseEnemy target) {
     parent?.add(StandardBullet(position: position.clone(), target: target, damage: damage));
   }
