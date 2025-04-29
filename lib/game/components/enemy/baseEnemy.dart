@@ -13,8 +13,8 @@ abstract class BaseEnemy extends PositionComponent {
   int reward;
   int poisonDamage = 0;
   double poisonTimer = 0;
-
   late RectangleComponent enemyBody;
+  VoidCallback? onDeath;
 
   BaseEnemy({
     required this.waypoints,
@@ -83,6 +83,7 @@ abstract class BaseEnemy extends PositionComponent {
     health -= damage;
     if (health <= 0) {
       die();
+      onDeath?.call();
     } else {
       enemyBody.paint.color = const Color(0xFFFF0000);
       isHit = true;

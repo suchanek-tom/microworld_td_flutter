@@ -3,9 +3,8 @@ import 'package:flame/components.dart';
 import 'package:flutter/painting.dart';
 
 class WorkerAnt extends BaseEnemy {
-  WorkerAnt({required List<Vector2> waypoints})
+  WorkerAnt({required super.waypoints})
       : super(
-          waypoints: waypoints,
           reward: 5,
           speed: 20,
           health: 40,

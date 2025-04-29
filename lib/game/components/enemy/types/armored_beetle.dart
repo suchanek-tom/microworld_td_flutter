@@ -3,9 +3,8 @@ import 'package:flutter/painting.dart';
 import 'package:microworld_td/game/components/enemy/baseEnemy.dart';
 
 class ArmoredBeetle extends BaseEnemy {
-  ArmoredBeetle({required List<Vector2> waypoints})
+  ArmoredBeetle({required super.waypoints})
       : super(
-          waypoints: waypoints,
           reward: 10,
           speed: 2,
           health: 100,
