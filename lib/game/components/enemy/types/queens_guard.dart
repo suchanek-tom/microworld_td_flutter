@@ -2,7 +2,7 @@ import 'package:microworld_td/game/components/enemy/baseEnemy.dart';
 import 'package:flame/components.dart';
 import 'package:flutter/painting.dart';
 
-class QueensGuard extends BaseEnemy {
+class QueensGuard extends BaseEnemy { //This class can be managed by a larger class, called queen ant
   QueensGuard({required super.waypoints})
       : super(
           reward: 20,

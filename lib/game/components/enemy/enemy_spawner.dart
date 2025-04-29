@@ -4,8 +4,8 @@ import 'dart:math';
 
 import 'package:flame/components.dart';
 import 'package:microworld_td/game/components/enemy/baseEnemy.dart';
-import 'package:microworld_td/game/components/enemy/types/armored_beetle.dart';
-import 'package:microworld_td/game/components/enemy/types/fast_bug.dart';
+import 'package:microworld_td/game/components/enemy/types/armored_ant.dart';
+import 'package:microworld_td/game/components/enemy/types/turbo_ant.dart';
 import 'package:microworld_td/game/components/enemy/types/queens_guard.dart';
 import 'package:microworld_td/game/components/enemy/types/worker_ant.dart';
 import 'package:microworld_td/game/components/game_state.dart';
@@ -23,14 +23,14 @@ class EnemySpawner extends Component with HasGameRef {
   final Map<int, List<Map<String, dynamic>>> waveConfig = {
   1: [{'type': WorkerAnt, 'count': 5}],
   2: [{'type': WorkerAnt, 'count': 8}],
-  3: [{'type': WorkerAnt, 'count': 6}, {'type': FastBug, 'count': 2}],
-  4: [{'type': FastBug, 'count': 5}],
-  5: [{'type': WorkerAnt, 'count': 5}, {'type': ArmoredBeetle, 'count': 2}],
-  6: [{'type': FastBug, 'count': 6}, {'type': ArmoredBeetle, 'count': 2}],
-  7: [{'type': WorkerAnt, 'count': 4}, {'type': FastBug, 'count': 4}, {'type': ArmoredBeetle, 'count': 3}],
-  8: [{'type': ArmoredBeetle, 'count': 5}],
-  9: [{'type': WorkerAnt, 'count': 6}, {'type': FastBug, 'count': 6}],
-  10: [{'type': QueensGuard, 'count': 1}, {'type': ArmoredBeetle, 'count': 3}],
+  3: [{'type': WorkerAnt, 'count': 6}, {'type': TurboAnt, 'count': 2}],
+  4: [{'type': TurboAnt, 'count': 5}],
+  5: [{'type': WorkerAnt, 'count': 5}, {'type': ArmoredAnt, 'count': 2}],
+  6: [{'type': TurboAnt, 'count': 6}, {'type': ArmoredAnt, 'count': 2}],
+  7: [{'type': WorkerAnt, 'count': 4}, {'type': TurboAnt, 'count': 4}, {'type': ArmoredAnt, 'count': 3}],
+  8: [{'type': ArmoredAnt, 'count': 5}],
+  9: [{'type': WorkerAnt, 'count': 6}, {'type': TurboAnt, 'count': 6}],
+  10: [{'type': QueensGuard, 'count': 1}, {'type': ArmoredAnt, 'count': 3}],
 };
 
 
@@ -88,10 +88,10 @@ class EnemySpawner extends Component with HasGameRef {
 
     if (enemyType == WorkerAnt) {
       enemy = WorkerAnt(waypoints: waypoints);
-    } else if (enemyType == ArmoredBeetle) {
-      enemy = ArmoredBeetle(waypoints: waypoints);
-    } else if (enemyType == FastBug) {
-      enemy = FastBug(waypoints: waypoints);
+    } else if (enemyType == ArmoredAnt) {
+      enemy = ArmoredAnt(waypoints: waypoints);
+    } else if (enemyType == TurboAnt) {
+      enemy = TurboAnt(waypoints: waypoints);
     } else if (enemyType == QueensGuard) {
       enemy = QueensGuard(waypoints: waypoints);
     }

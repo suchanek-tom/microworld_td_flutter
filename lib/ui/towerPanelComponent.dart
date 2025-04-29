@@ -5,9 +5,10 @@ class TowerPanelComponent extends PositionComponent {
   TowerPanelComponent();
 
   @override
-  Future<void> onLoad() async {
-    size = Vector2(120, 200); // Panel size
-    position = Vector2(800 - 130, 100); // Right side positioning
+  Future<void> onLoad() async 
+  {
+    size = Vector2(180, 600); // Panel size
+    position = Vector2(800 - 180, 0); // Right side positioning
 
     // Background panel
     add(
@@ -19,13 +20,14 @@ class TowerPanelComponent extends PositionComponent {
     );
 
     // Tower buttons
-    const towerNames = ['Sniper', 'Sticky', 'Venom'];
+    const towerNames = ['black widow', 'bee', 'cricket','kite'];
     for (int i = 0; i < towerNames.length; i++) {
       add(_buildTowerButton(towerNames[i], i));
     }
   }
 
-  PositionComponent _buildTowerButton(String label, int index) {
+  PositionComponent _buildTowerButton(String label, int index) 
+  {
     final position = Vector2(10, index * 60 + 10);
     final size = Vector2(100, 50);
 
@@ -34,7 +36,8 @@ class TowerPanelComponent extends PositionComponent {
       paint: flutter.Paint()..color = flutter.Colors.green[700]!,
     );
 
-    final text = TextComponent(
+    final text = TextComponent
+    (
       text: label,
       position: size / 2,
       anchor: Anchor.center,

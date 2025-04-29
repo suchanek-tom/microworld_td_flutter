@@ -2,8 +2,8 @@ import 'package:flame/components.dart';
 import 'package:flutter/painting.dart';
 import 'package:microworld_td/game/components/enemy/baseEnemy.dart';
 
-class ArmoredBeetle extends BaseEnemy {
-  ArmoredBeetle({required super.waypoints})
+class ArmoredAnt extends BaseEnemy {
+  ArmoredAnt({required super.waypoints})
       : super(
           reward: 10,
           speed: 2,

@@ -25,7 +25,7 @@ class HomePage extends StatelessWidget
         [
            ElevatedButton(onPressed:() {Navigator.pushNamed(context, '/game');}, 
            child: const Text("Start the Attack")),  
-           Image.asset("assets/img/formica.jpg")
+           Expanded(child: Image.asset("assets/img/formica.jpg",fit: BoxFit.fitWidth))
         ],
       ),
       ),

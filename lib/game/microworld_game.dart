@@ -13,7 +13,8 @@ import 'package:microworld_td/ui/towerPanelComponent.dart';
 import 'package:flame/extensions.dart';
 
 
-class MicroworldGame extends FlameGame with TapDetector {
+class MicroworldGame extends FlameGame with TapDetector 
+{
   late TextComponent livesText;
   late TextComponent coinText;
   late TextComponent waveText;
