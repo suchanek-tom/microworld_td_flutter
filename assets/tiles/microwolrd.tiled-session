@@ -1,0 +1,41 @@
+{
+    "Map/SizeTest": {
+        "height": 4300,
+        "width": 2
+    },
+    "activeFile": "",
+    "expandedProjectPaths": [
+    ],
+    "fileStates": {
+        "level1.tmx": {
+            "scale": 0.512109375,
+            "selectedLayer": 0,
+            "viewCenter": {
+                "x": 640.4881769641496,
+                "y": 384.6834477498094
+            }
+        },
+        "tilemap1.tsx": {
+            "scaleInDock": 1,
+            "scaleInEditor": 1
+        }
+    },
+    "last.imagePath": "C:/Users/simadeda/Desktop/università/PROGETTO_MOBILE/microworld_td_flutter/assets/img/sprites",
+    "map.height": 12,
+    "map.lastUsedFormat": "tmx",
+    "map.tileHeight": 64,
+    "map.tileWidth": 64,
+    "map.width": 20,
+    "openFiles": [
+    ],
+    "project": "microwolrd.tiled-project",
+    "recentFiles": [
+        "tilemap1.tsx",
+        "level1.tmx"
+    ],
+    "tileset.lastUsedFormat": "tsx",
+    "tileset.tileSize": {
+        "height": 64,
+        "width": 64
+    }
+}

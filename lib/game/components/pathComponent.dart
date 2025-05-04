@@ -7,7 +7,8 @@ class PathComponent extends PositionComponent {
   PathComponent({required this.waypoints});
 
   @override
-  void render(Canvas canvas) {
+  void render(Canvas canvas)
+  {
     super.render(canvas);
 
     final paint = Paint()

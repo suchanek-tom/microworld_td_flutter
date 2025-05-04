@@ -15,6 +15,7 @@ dependencies:
   hive: ^2.2.3
   hive_flutter: ^1.1.0
   firebase_auth: ^5.5.2
+  flame_tiled: ^3.0.2
   
 
 dev_dependencies:
@@ -27,3 +28,5 @@ flutter:
   uses-material-design: true
   assets: 
     - assets/img/formica.jpg
+    - assets/tiles/
+    - assets/img/sprites/tileset1.png

@@ -9,6 +9,7 @@ import 'package:microworld_td/game/components/pathComponent.dart';
 import 'package:microworld_td/game/components/towers/types/sniper_ant_tower.dart';
 import 'package:microworld_td/game/components/towers/types/sticky_web_tower.dart';
 import 'package:microworld_td/game/components/towers/types/venom_sprayer_tower.dart';
+import 'package:microworld_td/levels/level.dart';
 import 'package:microworld_td/ui/towerPanelComponent.dart';
 import 'package:flame/extensions.dart';
 
@@ -18,6 +19,10 @@ class MicroworldGame extends FlameGame with TapDetector
   late TextComponent livesText;
   late TextComponent coinText;
   late TextComponent waveText;
+  late final CameraComponent cam;
+
+  late var level = Level();
+
   TextComponent? gameOverText;
   TextComponent? winText;
   String? selectedTowerType;
@@ -26,19 +31,24 @@ class MicroworldGame extends FlameGame with TapDetector
   late EnemySpawner enemySpawner;
 
   @override
-  Future<void> onLoad() async {
-    camera.viewport = FixedResolutionViewport(resolution: Vector2(800, 600));
-    
+  Future<void> onLoad() async 
+  {
+    cam = CameraComponent.withFixedResolution(world: level, width: 1280, height: 768);
+    cam.viewfinder.anchor = Anchor.topLeft;
+
+    add(cam);
+    add(level);
+  
     // Pozadí
-    add(RectangleComponent(
-      size: Vector2(800, 600),
+    /* add(RectangleComponent(
+      size: Vector2(1280, 768),
       paint: Paint()..color = const Color(0xFFC8E6C9),
       priority: -10,
-    ));
+    )); */
 
     // Panel pro výběr věží
     add(TowerPanelComponent());
-
+   
     // Waypointy a cesta
     List<Vector2> waypoints = [
       Vector2(50, 500),

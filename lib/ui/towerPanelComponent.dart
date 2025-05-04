@@ -1,7 +1,8 @@
 import 'package:flame/components.dart';
 import 'package:flutter/material.dart' as flutter;
 
-class TowerPanelComponent extends PositionComponent {
+class TowerPanelComponent extends PositionComponent 
+{
   TowerPanelComponent();
 
   @override
@@ -9,7 +10,7 @@ class TowerPanelComponent extends PositionComponent {
   {
     size = Vector2(180, 600); // Panel size
     position = Vector2(800 - 180, 0); // Right side positioning
-
+    
     // Background panel
     add(
       RectangleComponent(
@@ -28,11 +29,12 @@ class TowerPanelComponent extends PositionComponent {
 
   PositionComponent _buildTowerButton(String label, int index) 
   {
-    final position = Vector2(10, index * 60 + 10);
-    final size = Vector2(100, 50);
+    final position = Vector2(10, index * 60);
+    final size = Vector2(50, 50);
 
     final background = RectangleComponent(
       size: size,
+      
       paint: flutter.Paint()..color = flutter.Colors.green[700]!,
     );
 

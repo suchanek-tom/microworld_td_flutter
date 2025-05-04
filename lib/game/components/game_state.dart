@@ -1,4 +1,5 @@
-class GameState {
+class GameState 
+{
   static int coins = 0;
   static int lives = 5;
   static bool isGameOver = false;
