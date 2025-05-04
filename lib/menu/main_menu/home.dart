@@ -7,7 +7,7 @@ class HomePage extends StatelessWidget {
   Widget build(BuildContext context) {
     return MaterialApp(
       home: Scaffold(
-        backgroundColor: const Color(0xFFEFEFEF), // světle šedé pozadí
+        backgroundColor: const Color(0xFFEFEFEF), 
         body: Center(
           child: Padding(
             padding: const EdgeInsets.symmetric(horizontal: 24.0),

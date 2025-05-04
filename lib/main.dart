@@ -33,6 +33,7 @@ class MyApp extends StatelessWidget
     MicroworldGame microworld = MicroworldGame(); 
     
     return MaterialApp(
+      debugShowCheckedModeBanner: false,
       initialRoute: '/home',
       routes: {
       '/home': (context) => HomePage(),
