@@ -7,6 +7,7 @@ import 'package:microworld_td/menu/login_registration/login.dart';
 import 'package:microworld_td/menu/login_registration/registration.dart';
 import 'package:microworld_td/menu/main_menu/home.dart';
 import 'package:firebase_core/firebase_core.dart';
+import 'package:microworld_td/menu/select_menu/select_levels_page.dart';
 void main() async 
 {
   WidgetsFlutterBinding.ensureInitialized();
@@ -35,6 +36,7 @@ class MyApp extends StatelessWidget
       initialRoute: '/home',
       routes: {
       '/home': (context) => HomePage(),
+      '/select_level': (context) => const SelectLevelPage(),
       '/login': (context) => LoginPage(),
       '/registration': (context) => Registration(),
       '/game':(context)=> GameWidget(game: kDebugMode ? MicroworldGame() : microworld),
