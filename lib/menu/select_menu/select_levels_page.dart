@@ -10,20 +10,21 @@ class SelectLevelPage extends StatelessWidget {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            Padding(
-              padding: const EdgeInsets.only(left: 16.0, top: 12.0),
-              child: TextButton(
-                onPressed: () => Navigator.pop(context),
-                child: const Text(
-                  "<- Back",
-                  style: TextStyle(
-                    fontSize: 22,
-                    color: Colors.black,
-                    fontWeight: FontWeight.w700,
-                  ),
-                ),
+         Padding(
+          padding: const EdgeInsets.only(left: 16.0, top: 12.0),
+          child: TextButton.icon(
+          onPressed: () => Navigator.pop(context),
+          icon: const Icon(Icons.arrow_back, color: Colors.black),
+            label: const Text(
+              'back',
+              style: TextStyle(
+                fontSize: 18,
+                color: Colors.black,
+                fontWeight: FontWeight.w500,
               ),
-            ),
+              ),
+          ),
+        ),
 
             const SizedBox(height: 20),
 

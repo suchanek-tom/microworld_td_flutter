@@ -41,6 +41,7 @@ class HomePage extends StatelessWidget {
                   context,
                   label: 'Quit game',
                   color: Colors.red,
+                  //? add exit(0)
                   onPressed: () => Navigator.pop(context),
                 ),
               ],
@@ -50,7 +51,7 @@ class HomePage extends StatelessWidget {
       ),
     );
   }
-
+  
   Widget _buildMenuButton(BuildContext context,
       {required String label,
       required Color color,
