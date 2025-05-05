@@ -10,7 +10,7 @@ class SniperAntTower extends BaseTower {
           fireRate: 0.5,
           range: 300,
           damage: 10,
-          spritePath: 'assets/img/sprites/bee.png',
+          spritePath: 'assets/img/bee.png',
           spriteSize: Vector2(40, 40),
         );
 

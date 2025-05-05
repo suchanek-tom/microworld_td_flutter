@@ -3,12 +3,13 @@ import 'package:flutter/painting.dart';
 import 'package:microworld_td/game/components/enemy/baseEnemy.dart';
 
 abstract class BaseTower extends PositionComponent {
-  double fireRate;
-  double range;
-  int damage;
-  String spritePath;
+  final double fireRate;
+  final double range;
+  final int damage;
+  final String spritePath;
+  final Vector2 spriteSize;
+
   double timeSinceLastShot = 0;
-  Vector2 spriteSize;
 
   BaseTower({
     required Vector2 position,
@@ -24,8 +25,12 @@ abstract class BaseTower extends PositionComponent {
 
   @override
   Future<void> onLoad() async {
-    final sprite = await Sprite.load(spritePath);
-    add(SpriteComponent(sprite: sprite, size: size));
+    try {
+      final sprite = await Sprite.load(spritePath);
+      add(SpriteComponent(sprite: sprite, size: size));
+    } catch (e) {
+      print('❌ Failed to load sprite at "$spritePath". Error: $e');
+    }
   }
 
   @override
@@ -35,9 +40,10 @@ abstract class BaseTower extends PositionComponent {
 
     if (timeSinceLastShot < fireRate) return;
 
-    final enemies = parent?.children.whereType<BaseEnemy>().where((enemy) {
-      return position.distanceTo(enemy.position) < range;
-    }).toList();
+    final enemies = parent?.children
+        .whereType<BaseEnemy>()
+        .where((enemy) => position.distanceTo(enemy.position) < range)
+        .toList();
 
     if (enemies == null || enemies.isEmpty) return;
 
