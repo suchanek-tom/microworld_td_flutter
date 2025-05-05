@@ -32,14 +32,14 @@ class HomePage extends StatelessWidget {
                 const SizedBox(height: 20),
                 _buildMenuButton(
                   context,
-                  label: 'Login...',
+                  label: 'Login',
                   color: Colors.blue,
                   onPressed: () => Navigator.pushNamed(context, '/login'),
                 ),
                 const SizedBox(height: 20),
                 _buildMenuButton(
                   context,
-                  label: 'Quit game...',
+                  label: 'Quit game',
                   color: Colors.red,
                   onPressed: () => Navigator.pop(context),
                 ),

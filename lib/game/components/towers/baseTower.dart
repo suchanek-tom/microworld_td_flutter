@@ -6,26 +6,26 @@ abstract class BaseTower extends PositionComponent {
   double fireRate;
   double range;
   int damage;
-  Color towerColor;
+  String spritePath;
   double timeSinceLastShot = 0;
+  Vector2 spriteSize;
 
   BaseTower({
     required Vector2 position,
     required this.fireRate,
     required this.range,
     required this.damage,
-    required this.towerColor,
+    required this.spritePath,
+    required this.spriteSize,
   }) {
     this.position = position;
-    size = Vector2(40, 40);
+    size = spriteSize;
   }
 
   @override
   Future<void> onLoad() async {
-    add(RectangleComponent(
-      size: size,
-      paint: Paint()..color = towerColor,
-    ));
+    final sprite = await Sprite.load(spritePath);
+    add(SpriteComponent(sprite: sprite, size: size));
   }
 
   @override
