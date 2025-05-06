@@ -2,7 +2,6 @@ import 'package:flame/flame.dart';
 import 'package:flutter/material.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:microworld_td/routes.dart';
-import 'package:microworld_td/menu/select_menu/select_levels_page.dart';
 void main() async 
 {
   WidgetsFlutterBinding.ensureInitialized();
@@ -28,15 +27,6 @@ class MyApp extends StatelessWidget
     return MaterialApp(
       initialRoute: RoutesManager.home,
       onGenerateRoute: RoutesManager.generateRoute,
-      debugShowCheckedModeBanner: false,
-      initialRoute: '/home',
-      routes: {
-      '/home': (context) => HomePage(),
-      '/select_level': (context) => const SelectLevelPage(),
-      '/login': (context) => LoginPage(),
-      '/registration': (context) => Registration(),
-      '/game':(context)=> GameWidget(game: kDebugMode ? MicroworldGame() : microworld),
-    },
     );
   }
 }

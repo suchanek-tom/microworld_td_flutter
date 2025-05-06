@@ -31,8 +31,8 @@ class MicroworldGame extends FlameGame with TapDetector
   @override
   Future<void> onLoad() async 
   {
-    // cam = CameraComponent.withFixedResolution(world: level, width: 1280, height: 768);
-    // cam.viewfinder.anchor = Anchor.topLeft;
+    cam = CameraComponent.withFixedResolution(world: level, width: 1280, height: 768);
+    cam.viewfinder.anchor = Anchor.topLeft;
 
     add(cam);
     overlays.add("gameOverlay");
@@ -151,6 +151,8 @@ class MicroworldGame extends FlameGame with TapDetector
         pauseEngine();
       });
     }
+    */
   }
+  
 
 }

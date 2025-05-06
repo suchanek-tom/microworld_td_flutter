@@ -28,14 +28,14 @@ class HomePage extends StatelessWidget {
                   context,
                   label: 'Start game',
                   color: Colors.orange,
-                  onPressed: () => Navigator.pushNamed(context, '/select_level'),
+                  onPressed: () => Navigator.of(context).pushNamed(RoutesManager.levelpage),
                 ),
                 const SizedBox(height: 20),
                 _buildMenuButton(
                   context,
                   label: 'Login',
                   color: Colors.blue,
-                  onPressed: () => Navigator.pushNamed(context, '/login'),
+                  onPressed: () => Navigator.of(context).pushNamed(RoutesManager.login),
                 ),
                 const SizedBox(height: 20),
                 _buildMenuButton(
