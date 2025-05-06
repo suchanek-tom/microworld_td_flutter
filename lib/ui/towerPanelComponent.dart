@@ -1,4 +1,5 @@
-import 'package:flutter/material.dart';
+import 'package:flame/image_composition.dart';
+import 'package:flutter/material.dart' as flutter;
 import 'package:flutter/widgets.dart';
 
 class TowerPanelComponent extends StatelessWidget 
@@ -8,11 +9,13 @@ class TowerPanelComponent extends StatelessWidget
   @override
   Widget build(BuildContext context) 
   {
-     return Container(
-        color: Colors.black.withAlpha(100),
+    return  Transform.translate(
+      offset: Offset(750, 0), 
+      child: Container(
+        color: const Color.fromARGB(255, 209, 10, 10).withAlpha(100),
         width: 180,
         height: 600,
-      );    
+        ));        
   }
 }
 

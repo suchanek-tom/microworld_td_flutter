@@ -10,8 +10,11 @@ import 'towerPanelComponent.dart';
   Widget build(BuildContext context) 
   {
     //calling the towerpannel
-    return Scaffold(
-      body: TowerPanelComponent(),
+    return Opacity(
+      opacity: 0.0,
+      child: Scaffold(
+        body: TowerPanelComponent(),
+      ),
     );
   }
 }

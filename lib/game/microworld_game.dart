@@ -36,9 +36,11 @@ class MicroworldGame extends FlameGame with TapDetector
     cam.viewfinder.anchor = Anchor.topLeft;
 
     add(cam);
+    overlays.add("gameOverlay");
     add(level);
     
-    // Pozadí
+    
+    // Pozadís
     /* add(RectangleComponent(
       size: Vector2(1280, 768),
       paint: Paint()..color = const Color(0xFFC8E6C9),
