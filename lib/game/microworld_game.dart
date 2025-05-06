@@ -6,9 +6,8 @@ import 'package:flutter/material.dart';
 import 'package:microworld_td/game/components/enemy/enemy_spawner.dart';
 import 'package:microworld_td/game/components/game_state.dart';
 import 'package:microworld_td/game/components/pathComponent.dart';
+import 'package:microworld_td/game/components/towers/types/bee.dart';
 import 'package:microworld_td/game/components/towers/types/sniper_ant_tower.dart';
-import 'package:microworld_td/game/components/towers/types/sticky_web_tower.dart';
-import 'package:microworld_td/game/components/towers/types/venom_sprayer_tower.dart';
 import 'package:microworld_td/levels/level.dart';
 import 'package:flame/extensions.dart';
 
@@ -32,8 +31,8 @@ class MicroworldGame extends FlameGame with TapDetector
   @override
   Future<void> onLoad() async 
   {
-    cam = CameraComponent.withFixedResolution(world: level, width: 1280, height: 768);
-    cam.viewfinder.anchor = Anchor.topLeft;
+    // cam = CameraComponent.withFixedResolution(world: level, width: 1280, height: 768);
+    // cam.viewfinder.anchor = Anchor.topLeft;
 
     add(cam);
     overlays.add("gameOverlay");
@@ -45,7 +44,7 @@ class MicroworldGame extends FlameGame with TapDetector
       size: Vector2(1280, 768),
       paint: Paint()..color = const Color(0xFFC8E6C9),
       priority: -10,
-    )); */
+    ));
 
     // Panel pro výběr věží
     //add(TowerPanelComponent());
@@ -72,8 +71,9 @@ class MicroworldGame extends FlameGame with TapDetector
 
     // Ukázkové věže
     add(SniperAntTower(position: Vector2(300, 250)));
-    add(StickyWebTower(position: Vector2(250, 350)));
-    add(VenomSprayerTower(position: Vector2(200, 200)));
+    add(BeeTower(position: Vector2(250, 350)));
+    // add(StickyWebTower(position: Vector2(250, 350)));
+    // add(VenomSprayerTower(position: Vector2(200, 200)));
 
     // UI komponenty
     coinText = TextComponent(
