@@ -1,9 +1,10 @@
 import 'package:flutter/material.dart';
+import 'package:microworld_td/routes.dart';
 
 class HomePage extends StatelessWidget
 {
   const HomePage({super.key});
-
+  
   @override
   Widget build(BuildContext context) 
   {
@@ -13,7 +14,7 @@ class HomePage extends StatelessWidget
       appBar: AppBar(
         title: Text("NanoStreamTD"),
         actions: [
-          ElevatedButton(onPressed:(){Navigator.pushNamed(context, '/login');} , 
+          ElevatedButton(onPressed:(){Navigator.of(context).pushNamed(RoutesManager.login);} , 
           child: const Text("login")),
           Text("oppure registrati"),
         ],
@@ -23,7 +24,7 @@ class HomePage extends StatelessWidget
       (
         children: 
         [
-           ElevatedButton(onPressed:() {Navigator.pushNamed(context, '/game');}, 
+           ElevatedButton(onPressed:() {Navigator.of(context).pushNamed(RoutesManager.game);}, 
            child: const Text("Start the Attack")),  
            Expanded(child: Image.asset("assets/img/formica.jpg",fit: BoxFit.fitWidth))
         ],

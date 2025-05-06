@@ -10,7 +10,6 @@ import 'package:microworld_td/game/components/towers/types/sniper_ant_tower.dart
 import 'package:microworld_td/game/components/towers/types/sticky_web_tower.dart';
 import 'package:microworld_td/game/components/towers/types/venom_sprayer_tower.dart';
 import 'package:microworld_td/levels/level.dart';
-import 'package:microworld_td/ui/towerPanelComponent.dart';
 import 'package:flame/extensions.dart';
 
 
@@ -38,7 +37,7 @@ class MicroworldGame extends FlameGame with TapDetector
 
     add(cam);
     add(level);
-  
+    
     // Pozadí
     /* add(RectangleComponent(
       size: Vector2(1280, 768),
@@ -47,7 +46,7 @@ class MicroworldGame extends FlameGame with TapDetector
     )); */
 
     // Panel pro výběr věží
-    add(TowerPanelComponent());
+    //add(TowerPanelComponent());
    
     // Waypointy a cesta
     List<Vector2> waypoints = [

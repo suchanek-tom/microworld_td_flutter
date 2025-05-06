@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:firebase_auth/firebase_auth.dart';
-import 'package:microworld_td/menu/main_menu/home.dart';
-import 'package:microworld_td/menu/login_registration/registration.dart';
+import 'package:microworld_td/routes.dart';
 
 class LoginPage extends StatefulWidget
 {
@@ -25,8 +24,7 @@ class _LoginPageState extends State<LoginPage>
         password: _passwordController.text,
       );
       if (userCredential.user != null) {
-        Navigator.pushReplacement(
-            context, MaterialPageRoute(builder: (context) => HomePage()));
+        Navigator.of(context).pushNamed(RoutesManager.home);
       } else {
         setState(() {
           errorMessage = "Login failed. Please try again.";
@@ -92,8 +90,7 @@ class _LoginPageState extends State<LoginPage>
             ),
             TextButton(
               onPressed: () {
-                Navigator.push(
-                    context, MaterialPageRoute(builder: (context) => Registration()));
+                Navigator.of(context).pushNamed(RoutesManager.registration);
               },
               child: Text("Don't have an account? Register"),
             ),

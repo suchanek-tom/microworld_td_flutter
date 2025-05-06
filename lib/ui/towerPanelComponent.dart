@@ -1,11 +1,23 @@
-import 'package:flame/components.dart';
-import 'package:flutter/material.dart' as flutter;
+import 'package:flutter/material.dart';
+import 'package:flutter/widgets.dart';
 
-class TowerPanelComponent extends PositionComponent 
+class TowerPanelComponent extends StatelessWidget 
 {
-  TowerPanelComponent();
+  const TowerPanelComponent({super.key});
 
   @override
+  Widget build(BuildContext context) 
+  {
+     return Container(
+        color: Colors.black.withAlpha(100),
+        width: 180,
+        height: 600,
+      );    
+  }
+}
+
+
+  /* @override
   Future<void> onLoad() async 
   {
     size = Vector2(180, 600); // Panel size
@@ -61,5 +73,6 @@ class TowerPanelComponent extends PositionComponent
     button.add(text);
 
     return button;
-  }
-}
+  } */
+  
+
