@@ -10,6 +10,7 @@ import 'towerPanelComponent.dart';
   Widget build(BuildContext context) 
   {
     //calling the towerpannel
-    return TowerPanelComponent();
+    return  TowerPanelComponent();
   }
+  
 }
