@@ -8,7 +8,8 @@ class QueensGuard extends BaseEnemy { //This class can be managed by a larger cl
           reward: 20,
           speed: 10,
           health: 300,
-          enemyColor: const Color(0xFF00008B),
+          spritePath: 'formica.png',
+          spriteSize: Vector2(35, 35),
         ) {
     size = Vector2(40, 40);
   }
