@@ -8,7 +8,8 @@ class TurboAnt extends BaseEnemy {
           reward: 3,
           speed: 30,
           health: 30,
-          enemyColor: const Color(0xFFFF0000),
+          spritePath: 'formica.png',
+          spriteSize: Vector2(20, 20),
         ) {
     size = Vector2(10, 10);
   }

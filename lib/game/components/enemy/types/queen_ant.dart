@@ -10,7 +10,8 @@ class QueenAnt extends BaseEnemy
       health: 1000,
       speed: 5,
       reward: 150,
-      enemyColor: const Color(0x4B006E)
+      spritePath: 'formica.png',
+          spriteSize: Vector2(30, 30),
   )  
   {
     size = Vector2(5, 15);

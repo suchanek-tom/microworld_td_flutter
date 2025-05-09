@@ -10,7 +10,7 @@ class BeeTower extends BaseTower {
           fireRate: 0.3,
           range: 200,
           damage: 5,
-          spritePath: 'assets/img/bee.png',
+          spritePath: 'bee.png',
           spriteSize: Vector2(36, 36),
         );
 
