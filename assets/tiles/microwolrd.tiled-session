@@ -3,16 +3,17 @@
         "height": 4300,
         "width": 2
     },
-    "activeFile": "",
+    "activeFile": "level1.tmx",
     "expandedProjectPaths": [
+        "."
     ],
     "fileStates": {
         "level1.tmx": {
-            "scale": 0.512109375,
+            "scale": 0.5,
             "selectedLayer": 0,
             "viewCenter": {
-                "x": 640.4881769641496,
-                "y": 384.6834477498094
+                "x": 552,
+                "y": 628
             }
         },
         "tilemap1.tsx": {
@@ -27,11 +28,12 @@
     "map.tileWidth": 64,
     "map.width": 20,
     "openFiles": [
+        "level1.tmx"
     ],
     "project": "microwolrd.tiled-project",
     "recentFiles": [
-        "tilemap1.tsx",
-        "level1.tmx"
+        "level1.tmx",
+        "tilemap1.tsx"
     ],
     "tileset.lastUsedFormat": "tsx",
     "tileset.tileSize": {

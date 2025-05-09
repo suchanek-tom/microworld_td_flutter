@@ -45,7 +45,7 @@ class MicroworldGame extends FlameGame with TapDetector
       paint: Paint()..color = const Color(0xFFC8E6C9),
       priority: -10,
     ));
-
+    */
     // Panel pro výběr věží
     //add(TowerPanelComponent());
    
@@ -151,7 +151,7 @@ class MicroworldGame extends FlameGame with TapDetector
         pauseEngine();
       });
     }
-    */
+   
   }
   
 
