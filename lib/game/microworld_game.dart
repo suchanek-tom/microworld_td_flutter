@@ -38,17 +38,14 @@ class MicroworldGame extends FlameGame with TapDetector
     // add(cam);
     // add(level);
   
-    // Pozadí
      add(RectangleComponent(
       size: Vector2(1280, 768),
       paint: Paint()..color = const Color(0xFFC8E6C9),
       priority: -10,
     ));
 
-    // Panel pro výběr věží
     add(TowerPanelComponent());
    
-    // Waypointy a cesta
     List<Vector2> waypoints = [
       Vector2(50, 500),
       Vector2(150, 500),
@@ -61,20 +58,16 @@ class MicroworldGame extends FlameGame with TapDetector
     ];
     add(PathComponent(waypoints: waypoints));
 
-    // Nepřátelé
     enemySpawner = EnemySpawner(
       waypoints: waypoints,
       spawnInterval: 2,
     );
     add(enemySpawner);
 
-    // Ukázkové věže
-    add(SniperAntTower(position: Vector2(300, 250)));
-    add(BeeTower(position: Vector2(250, 350)));
-    // add(StickyWebTower(position: Vector2(250, 350)));
-    // add(VenomSprayerTower(position: Vector2(200, 200)));
+    add(BeeTower(position: Vector2(300, 250)));
+    add(BeeTower(position: Vector2(300, 350)));
 
-    // UI komponenty
+    // UI components
     coinText = TextComponent(
       text: "Coins: ${GameState.coins}",
       position: Vector2(10, 10),

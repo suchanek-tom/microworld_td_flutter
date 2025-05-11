@@ -1,5 +1,6 @@
 import 'package:flame/components.dart';
 import 'package:flutter/painting.dart';
+import 'package:flame/extensions.dart';
 import 'package:microworld_td/game/components/enemy/baseEnemy.dart';
 
 abstract class BaseTower extends PositionComponent {
@@ -10,6 +11,8 @@ abstract class BaseTower extends PositionComponent {
   final Vector2 spriteSize;
 
   double timeSinceLastShot = 0;
+
+  SpriteComponent? _spriteComponent;
 
   BaseTower({
     required Vector2 position,
@@ -27,7 +30,12 @@ abstract class BaseTower extends PositionComponent {
   Future<void> onLoad() async {
     try {
       final sprite = await Sprite.load(spritePath);
-      add(SpriteComponent(sprite: sprite, size: size));
+      _spriteComponent = SpriteComponent(
+        sprite: sprite,
+        size: size,
+        anchor: Anchor.center,
+      );
+      add(_spriteComponent!);
     } catch (e) {
       print('❌ Failed to load sprite at "$spritePath". Error: $e');
     }
@@ -38,8 +46,6 @@ abstract class BaseTower extends PositionComponent {
     super.update(dt);
     timeSinceLastShot += dt;
 
-    if (timeSinceLastShot < fireRate) return;
-
     final enemies = parent?.children
         .whereType<BaseEnemy>()
         .where((enemy) => position.distanceTo(enemy.position) < range)
@@ -47,8 +53,17 @@ abstract class BaseTower extends PositionComponent {
 
     if (enemies == null || enemies.isEmpty) return;
 
-    attackTarget(enemies.first);
-    timeSinceLastShot = 0;
+    final target = enemies.first;
+
+    if (_spriteComponent != null) {
+      final direction = (target.position - position).normalized();
+      _spriteComponent!.angle = direction.screenAngle();
+    }
+
+    if (timeSinceLastShot >= fireRate) {
+      attackTarget(target);
+      timeSinceLastShot = 0;
+    }
   }
 
   void attackTarget(BaseEnemy target);
