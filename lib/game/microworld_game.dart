@@ -1,15 +1,10 @@
-import 'package:flame/camera.dart';
 import 'package:flame/components.dart';
 import 'package:flame/events.dart';
 import 'package:flame/game.dart';
 import 'package:flutter/material.dart';
-import 'package:microworld_td/game/components/enemy/enemy_spawner.dart';
 import 'package:microworld_td/game/components/game_state.dart';
-import 'package:microworld_td/game/components/pathComponent.dart';
-import 'package:microworld_td/game/components/towers/types/bee.dart';
-import 'package:microworld_td/game/components/towers/types/sniper_ant_tower.dart';
-import 'package:microworld_td/levels/level.dart';
 import 'package:flame/extensions.dart';
+import 'package:microworld_td/game/gameplay.dart';
 
 
 class MicroworldGame extends FlameGame with TapDetector 
@@ -17,65 +12,20 @@ class MicroworldGame extends FlameGame with TapDetector
   late TextComponent livesText;
   late TextComponent coinText;
   late TextComponent waveText;
-  late final CameraComponent cam;
-
-  late var level = Level();
 
   TextComponent? gameOverText;
   TextComponent? winText;
   String? selectedTowerType;
   bool removeMode = false;
 
-  late EnemySpawner enemySpawner;
-
   @override
   Future<void> onLoad() async 
   {
-    cam = CameraComponent.withFixedResolution(world: level, width: 1280, height: 768);
-    cam.viewfinder.anchor = Anchor.topLeft;
-
-    add(cam);
-    overlays.add("gameOverlay");
-    add(level);
-    
-    
-    // Pozadís
-    /* add(RectangleComponent(
-      size: Vector2(1280, 768),
-      paint: Paint()..color = const Color(0xFFC8E6C9),
-      priority: -10,
-    ));
-    */
-    // Panel pro výběr věží
-    //add(TowerPanelComponent());
+    //WE NEED TO DO THE GAMELOOP
+    add(GamePlay());
+    overlays.add("gameOverlay"); 
    
-    // Waypointy a cesta
-    List<Vector2> waypoints = [
-      Vector2(50, 500),
-      Vector2(150, 500),
-      Vector2(150, 400),
-      Vector2(250, 400),
-      Vector2(250, 300),
-      Vector2(400, 300),
-      Vector2(550, 350),
-      Vector2(700, 300),
-    ];
-    add(PathComponent(waypoints: waypoints));
-
-    // Nepřátelé
-    enemySpawner = EnemySpawner(
-      waypoints: waypoints,
-      spawnInterval: 2,
-    );
-    add(enemySpawner);
-
-    // Ukázkové věže
-    add(SniperAntTower(position: Vector2(300, 250)));
-    add(BeeTower(position: Vector2(250, 350)));
-    // add(StickyWebTower(position: Vector2(250, 350)));
-    // add(VenomSprayerTower(position: Vector2(200, 200)));
-
-    // UI komponenty
+    // UI text components that needs to move 
     coinText = TextComponent(
       text: "Coins: ${GameState.coins}",
       position: Vector2(10, 10),
@@ -153,6 +103,5 @@ class MicroworldGame extends FlameGame with TapDetector
     }
    
   }
-  
 
 }

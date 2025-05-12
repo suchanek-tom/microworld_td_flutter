@@ -24,15 +24,17 @@ class _GameAppState extends State<GameApp>
   @override
   Widget build(BuildContext context)
    {
-    return MaterialApp(
-      home: Scaffold(
-        body: GameWidget(
-          game: game,overlayBuilderMap: {
-            "gameOverlay": (BuildContext context, MicroworldGame game){
-        return Gameoverlayui();
-      }
-    },)
-    ),
+    return ClipRect(
+      child: MaterialApp(
+        home: Scaffold(
+          body: GameWidget(
+            game: game,overlayBuilderMap: {
+              "gameOverlay": (BuildContext context, MicroworldGame game){
+          return Gameoverlayui();
+        }
+      },)
+      ),
+      ),
     );
   }
 }

@@ -9,7 +9,7 @@ class TowerPanelComponent extends StatelessWidget
   Widget build(BuildContext context) 
   {
     return Transform.translate(
-      offset: Offset(750, 165), 
+      offset: Offset(850, 60), 
       child: Container(
         width: 120,
         decoration: const BoxDecoration(

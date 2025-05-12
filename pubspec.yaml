@@ -27,7 +27,7 @@ dev_dependencies:
 flutter:
   uses-material-design: true
   assets: 
+    - assets/img/
     - assets/img/sprites/    
-    - assets/img/formica.jpg
     - assets/tiles/
     - assets/img/sprites/tileset1.png
