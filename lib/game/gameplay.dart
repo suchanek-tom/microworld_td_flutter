@@ -16,9 +16,10 @@ class GamePlay extends Component {
   FutureOr<void> onLoad() async
   {
     level = await TiledComponent.load("level1.tmx", Vector2.all(64));
-    final world = World(children: [level]);
+    final world = World();
     
     await add(world);
+    await add(level);
     cam = CameraComponent.withFixedResolution(world: world, width: 1280, height: 768);
     cam.viewfinder.anchor = Anchor.topLeft;
 
