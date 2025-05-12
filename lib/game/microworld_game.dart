@@ -23,26 +23,26 @@ class MicroworldGame extends FlameGame with TapDetector {
 
   late EnemySpawner enemySpawner;
 
-  /// ✳️ Vybraný tower factory (funkce pro vytvoření věže)
   BaseTower Function(Vector2 position)? towerFactory;
+
+  late TowerPanelComponent towerPanel;
 
   @override
   Future<void> onLoad() async {
-    // Pozadí
     add(RectangleComponent(
       size: Vector2(1280, 768),
       paint: Paint()..color = const Color(0xFFC8E6C9),
       priority: -10,
     ));
 
-    // Panel s věžemi (TowerPanelComponent)
-    add(TowerPanelComponent(
+    towerPanel = TowerPanelComponent(
       onTowerSelected: (factory) {
         towerFactory = factory;
       },
-    ));
+      onTowerPlaced: () {},
+    );
+    add(towerPanel);
 
-    // Cesta pro nepřátele
     List<Vector2> waypoints = [
       Vector2(50, 500),
       Vector2(150, 500),
@@ -141,12 +141,16 @@ class MicroworldGame extends FlameGame with TapDetector {
 
   @override
   void onTapDown(TapDownInfo info) {
-    final position = info.eventPosition;
+    final tapPosition = info.eventPosition.global;
 
     if (towerFactory != null) {
-      final tower = towerFactory!(position);
-      add(tower);
-      towerFactory = null;
+      if (!towerPanel.toRect().contains(tapPosition.toOffset())) {
+        final newTower = towerFactory!(tapPosition);
+        add(newTower);
+
+        towerFactory = null;
+        towerPanel.resetSelection(); 
+      }
     }
   }
 }

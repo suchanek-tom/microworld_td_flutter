@@ -3,57 +3,46 @@ import 'package:flame/input.dart';
 import 'package:flutter/material.dart' as flutter;
 import 'package:microworld_td/game/components/towers/baseTower.dart';
 import 'package:microworld_td/game/components/towers/types/bee.dart';
+import 'package:microworld_td/game/microworld_game.dart';
 
-class TowerPanelComponent extends PositionComponent with HasGameRef {
+class TowerPanelComponent extends PositionComponent
+    with HasGameRef<MicroworldGame> {
   final void Function(BaseTower Function(Vector2 position)) onTowerSelected;
+  final flutter.VoidCallback onTowerPlaced;
 
-  TowerPanelComponent({required this.onTowerSelected});
+  bool beeSelected = false;
+  late RectangleComponent beeButtonBackground;
+
+  TowerPanelComponent({
+    required this.onTowerSelected,
+    required this.onTowerPlaced,
+  });
 
   @override
   Future<void> onLoad() async {
     size = Vector2(180, 600);
-    position = Vector2(800 - 180, 0);
+    position = Vector2(800 - 200, 0);
 
     add(
       RectangleComponent(
         size: size,
-        paint: flutter.Paint()..color = flutter.Colors.black.withOpacity(0.5),
+        paint: flutter.Paint()
+          ..color = flutter.Colors.grey.shade900.withOpacity(0.6),
         priority: -1,
       ),
     );
 
-    final towers = <String, BaseTower Function(Vector2)>{
-      'Bee': (Vector2 pos) => BeeTower(position: pos),
-    };
-
-    int index = 0;
-    for (final entry in towers.entries) {
-      final button = await _buildTowerButton(entry.key, entry.value, index);
-      add(button);
-      index++;
-    }
-  }
-
-  Future<ButtonComponent> _buildTowerButton(
-    String label,
-    BaseTower Function(Vector2) factory,
-    int index,
-  ) async {
     final buttonSize = Vector2(160, 50);
-    final position = Vector2(10, 20 + index * 70);
+    final buttonPosition = Vector2(10, 20);
 
-    final defaultComponent = RectangleComponent(
+    beeButtonBackground = RectangleComponent(
       size: buttonSize,
-      paint: flutter.Paint()..color = flutter.Colors.green[700]!,
-    );
-
-    final pressedComponent = RectangleComponent(
-      size: buttonSize,
-      paint: flutter.Paint()..color = flutter.Colors.green[900]!,
+      paint: flutter.Paint()
+        ..color = flutter.Colors.grey.shade700.withOpacity(0.8),
     );
 
     final text = TextComponent(
-      text: label,
+      text: 'Bee Tower',
       position: buttonSize / 2,
       anchor: Anchor.center,
       textRenderer: TextPaint(
@@ -65,15 +54,36 @@ class TowerPanelComponent extends PositionComponent with HasGameRef {
       ),
     );
 
-    final button = ButtonComponent(
-      position: position,
+    final beeButton = ButtonComponent(
+      position: buttonPosition,
       size: buttonSize,
-      button: defaultComponent,
-      buttonDown: pressedComponent,
+      button: beeButtonBackground,
+      buttonDown: RectangleComponent(
+        size: buttonSize,
+        paint: flutter.Paint()
+          ..color = flutter.Colors.grey.shade800.withOpacity(0.9),
+      ),
       children: [text],
-      onPressed: () => onTowerSelected(factory),
+      onPressed: () {
+        if (!beeSelected) {
+          beeSelected = true;
+          _updateBeeButtonColor();
+          onTowerSelected((pos) => BeeTower(position: pos));
+        }
+      },
     );
 
-    return button;
+    add(beeButton);
+  }
+
+  void resetSelection() {
+    beeSelected = false;
+    _updateBeeButtonColor();
+  }
+
+  void _updateBeeButtonColor() {
+    beeButtonBackground.paint.color = beeSelected
+        ? flutter.Colors.grey.shade500.withOpacity(0.9)
+        : flutter.Colors.grey.shade700.withOpacity(0.8);
   }
 }
