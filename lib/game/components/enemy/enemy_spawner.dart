@@ -1,7 +1,5 @@
-
-
 import 'dart:math';
-
+import 'dart:ui';
 import 'package:flame/components.dart';
 import 'package:microworld_td/game/components/enemy/baseEnemy.dart';
 import 'package:microworld_td/game/components/enemy/types/armored_ant.dart';
@@ -84,22 +82,31 @@ class EnemySpawner extends Component with HasGameRef {
   }
 
   void spawnEnemy(Type enemyType) {
-    late BaseEnemy enemy;
+  BaseEnemy? enemy;
 
-    if (enemyType == WorkerAnt) {
+  switch (enemyType) {
+    case WorkerAnt:
       enemy = WorkerAnt(waypoints: waypoints);
-    } else if (enemyType == ArmoredAnt) {
+      break;
+    case ArmoredAnt:
       enemy = ArmoredAnt(waypoints: waypoints);
-    } else if (enemyType == TurboAnt) {
+      break;
+    case TurboAnt:
       enemy = TurboAnt(waypoints: waypoints);
-    } else if (enemyType == QueensGuard) {
+      break;
+    case QueensGuard:
       enemy = QueensGuard(waypoints: waypoints);
-    }
-
-    enemy.onDeath = () {
-      enemiesRemaining--;
-    };
-
-    gameRef.add(enemy);
+      break;
+    default:
+      print('Unknown enemy type: $enemyType');
+      return;
   }
+
+  enemy.onDeath = () {
+    enemiesRemaining--;
+  };
+
+  gameRef.add(enemy);
+}
+
 }
