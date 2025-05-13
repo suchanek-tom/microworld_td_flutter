@@ -42,16 +42,13 @@ class GamePlay extends Component {
     add(PathComponent(waypoints: waypoints));
 
     // Nepřátelé
-    enemySpawner = EnemySpawner(
-      waypoints: waypoints,
-      spawnInterval: 2,
-    );
-    add(enemySpawner);
+    
+    add(EnemySpawner(waypoints: waypoints,spawnInterval: 2,));
     
 
     // Ukázkové věže
-    //add(SniperAntTower(position: Vector2(300, 250)));
-    //add(BeeTower(position: Vector2(250, 350)));
+    add(SniperAntTower(position: Vector2(300, 250)));
+    add(BeeTower(position: Vector2(250, 350)));
 
     return super.onLoad();
   }
