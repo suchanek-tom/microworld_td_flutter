@@ -1,5 +1,6 @@
 import 'dart:math';
 import 'dart:ui';
+
 import 'package:flame/components.dart';
 import 'package:microworld_td/game/components/enemy/baseEnemy.dart';
 import 'package:microworld_td/game/components/enemy/types/armored_ant.dart';
@@ -7,15 +8,17 @@ import 'package:microworld_td/game/components/enemy/types/turbo_ant.dart';
 import 'package:microworld_td/game/components/enemy/types/queens_guard.dart';
 import 'package:microworld_td/game/components/enemy/types/worker_ant.dart';
 import 'package:microworld_td/game/components/game_state.dart';
+import 'package:microworld_td/game/gameplay.dart';
 
-class EnemySpawner extends Component with HasGameRef {
+class EnemySpawner extends Component with HasGameReference
+{
   final List<Vector2> waypoints;
   final double spawnInterval;
   double timer = 0;
   int enemiesToSpawn = 0;
   int enemiesRemaining = 0;
-  final Random random = Random();
-
+  GamePlay gamePlay = GamePlay();
+ 
   EnemySpawner({required this.waypoints, this.spawnInterval = 2.0});
 
   final Map<int, List<Map<String, dynamic>>> waveConfig = {
@@ -29,11 +32,12 @@ class EnemySpawner extends Component with HasGameRef {
   8: [{'type': ArmoredAnt, 'count': 5}],
   9: [{'type': WorkerAnt, 'count': 6}, {'type': TurboAnt, 'count': 6}],
   10: [{'type': QueensGuard, 'count': 1}, {'type': ArmoredAnt, 'count': 3}],
-};
+  };
 
 
   @override
-  void update(double dt) {
+  void update(double dt) 
+  {
     super.update(dt);
 
     if (enemiesToSpawn <= 0 && enemiesRemaining == 0) {
@@ -96,17 +100,11 @@ class EnemySpawner extends Component with HasGameRef {
       break;
     case QueensGuard:
       enemy = QueensGuard(waypoints: waypoints);
-      break;
-    default:
-      print('Unknown enemy type: $enemyType');
-      return;
+    }
+
+    enemy.onDeath = () {
+      enemiesRemaining--;
+    };
+    game.add(enemy);
   }
-
-  enemy.onDeath = () {
-    enemiesRemaining--;
-  };
-
-  gameRef.add(enemy);
-}
-
 }

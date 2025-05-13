@@ -4,9 +4,8 @@ import 'package:microworld_td/game/components/enemy/baseEnemy.dart';
 import 'package:microworld_td/game/components/towers/baseTower.dart';
 
 class BeeTower extends BaseTower {
-  BeeTower({required Vector2 position})
+  BeeTower({required super.position})
       : super(
-          position: position,
           fireRate: 0.3,
           range: 200,
           damage: 5,

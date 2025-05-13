@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:firebase_auth/firebase_auth.dart';
-import 'package:microworld_td/menu/main_menu/home.dart';
-import 'package:microworld_td/menu/login_registration/registration.dart';
+import 'package:microworld_td/systems/routes.dart';
 
 class LoginPage extends StatefulWidget
 {
@@ -25,8 +24,7 @@ class _LoginPageState extends State<LoginPage>
         password: _passwordController.text,
       );
       if (userCredential.user != null) {
-        Navigator.pushReplacement(
-            context, MaterialPageRoute(builder: (context) => HomePage()));
+        Navigator.of(context).pushNamed(RoutesManager.home);
       } else {
         setState(() {
           errorMessage = "Login failed. Please try again.";
@@ -78,12 +76,7 @@ Widget build(BuildContext context) {
           left: 16,
           child: IconButton(
             icon: const Icon(Icons.arrow_back, color: Colors.black, size: 30),
-            onPressed: () {
-              Navigator.pushReplacement(
-                context,
-                MaterialPageRoute(builder: (context) => const HomePage()),
-              );
-            },
+            onPressed: () {Navigator.of(context).pushNamed(RoutesManager.home);},
           ),
         ),
 
@@ -173,12 +166,7 @@ Widget build(BuildContext context) {
                       ),
                     ),
                     TextButton(
-                      onPressed: () {
-                        Navigator.push(
-                          context,
-                          MaterialPageRoute(builder: (context) => const Registration()),
-                        );
-                      },
+                      onPressed: () {Navigator.of(context).pushNamed(RoutesManager.registration);},
                       child: const Text(
                         'Sign up',
                         style: TextStyle(color: Colors.lightBlue),
