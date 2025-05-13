@@ -14,7 +14,7 @@ abstract class BaseBullet extends PositionComponent {
     required this.speed,
   }) {
     this.position = position;
-    size = Vector2(8, 8);
+    size = Vector2(4, 4);
   }
 
   @override
