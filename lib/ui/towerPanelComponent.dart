@@ -14,7 +14,7 @@ class TowerPanelComponent extends StatelessWidget
         width: 120,
         decoration: const BoxDecoration(
           image: DecorationImage(
-            image: AssetImage('assets/img/sprites/wood_background.jpg'),
+            image: AssetImage('assets/images/sprites/wood_background.jpg'),
             fit: BoxFit.cover,
           ),
         ),
