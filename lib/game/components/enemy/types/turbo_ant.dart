@@ -1,6 +1,5 @@
 import 'package:microworld_td/game/components/enemy/baseEnemy.dart';
 import 'package:flame/components.dart';
-import 'package:flutter/painting.dart';
 
 class TurboAnt extends BaseEnemy {
   TurboAnt({required super.waypoints})
@@ -8,7 +7,8 @@ class TurboAnt extends BaseEnemy {
           reward: 3,
           speed: 30,
           health: 30,
-          enemyColor: const Color(0xFFFF0000),
+          spritePath: "sprites/formica.png",
+          spriteSize: Vector2(70, 70)
         ) {
     size = Vector2(10, 10);
   }

@@ -1,4 +1,3 @@
-import 'package:flame/game.dart';
 import 'package:flutter/material.dart' as flutter;
 import 'package:microworld_td/game/app.dart';
 import 'package:microworld_td/game/microworld_game.dart';
