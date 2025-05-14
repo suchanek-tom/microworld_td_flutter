@@ -42,7 +42,6 @@ class GamePlay extends Component {
     add(PathComponent(waypoints: waypoints));
 
     // Nepřátelé
-    
     add(EnemySpawner(waypoints: waypoints,spawnInterval: 2,));
     
 

@@ -10,7 +10,7 @@ class BeeTower extends BaseTower {
           range: 200,
           damage: 5,
           spritePath: 'bee.png',
-          spriteSize: Vector2(50, 50),
+          spriteSize: Vector2(90, 90),
         );
 
   @override

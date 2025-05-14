@@ -1,6 +1,3 @@
-import 'dart:math';
-import 'dart:ui';
-
 import 'package:flame/components.dart';
 import 'package:microworld_td/game/components/enemy/baseEnemy.dart';
 import 'package:microworld_td/game/components/enemy/types/armored_ant.dart';
@@ -102,9 +99,9 @@ class EnemySpawner extends Component with HasGameReference
       enemy = QueensGuard(waypoints: waypoints);
     }
 
-    enemy.onDeath = () {
+    enemy?.onDeath = () {
       enemiesRemaining--;
     };
-    game.add(enemy);
+    game.add(enemy as Component);
   }
 }

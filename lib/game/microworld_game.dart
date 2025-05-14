@@ -24,19 +24,19 @@ class MicroworldGame extends FlameGame with TapDetector {
   @override
   Future<void> onLoad() async 
   {
-    add(RectangleComponent(
+    /*add(RectangleComponent(
       size: Vector2(1280, 768),
       paint: Paint()..color = const Color(0xFFC8E6C9),
       priority: -10,
-    ));
+    )); */
 
-    towerPanel = TowerPanelComponent(
+    /* towerPanel = TowerPanelComponent(
       onTowerSelected: (factory) {
         towerFactory = factory;
       },
       onTowerPlaced: () {},
     );
-    add(towerPanel);
+    add(towerPanel); */
 
     //WE NEED TO DO THE GAMELOOP
     add(GamePlay());
@@ -121,7 +121,7 @@ class MicroworldGame extends FlameGame with TapDetector {
    
   }
 
-  @override
+  /* @override
   void onTapDown(TapDownInfo info) {
     final tapPosition = info.eventPosition.global;
 
@@ -134,5 +134,5 @@ class MicroworldGame extends FlameGame with TapDetector {
         towerPanel.resetSelection(); 
       }
     }
-  }
+  } */
 }
