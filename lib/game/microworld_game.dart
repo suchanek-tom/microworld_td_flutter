@@ -30,11 +30,7 @@ class MicroworldGame extends FlameGame with TapDetector {
       priority: -10,
     )); */
 
-    /* towerPanel = TowerPanelComponent(
-      onTowerSelected: (factory) {
-        towerFactory = factory;
-      },
-      onTowerPlaced: () {},
+    /* towerPanel = TowerPanelComponent(onTowerSelected: (factory) {towerFactory = factory;}, onTowerPlaced: () {},
     );
     add(towerPanel); */
 

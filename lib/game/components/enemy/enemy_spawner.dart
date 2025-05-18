@@ -7,16 +7,17 @@ import 'package:microworld_td/game/components/enemy/types/worker_ant.dart';
 import 'package:microworld_td/game/components/game_state.dart';
 import 'package:microworld_td/game/gameplay.dart';
 
-class EnemySpawner extends Component with HasGameReference
+
+class EnemySpawner extends Component 
 {
   final List<Vector2> waypoints;
   final double spawnInterval;
   double timer = 0;
   int enemiesToSpawn = 0;
   int enemiesRemaining = 0;
-  GamePlay gamePlay = GamePlay();
+  final GamePlay game;
  
-  EnemySpawner({required this.waypoints, this.spawnInterval = 2.0});
+  EnemySpawner({required this.waypoints, this.spawnInterval = 2.0,required this.game});
 
   final Map<int, List<Map<String, dynamic>>> waveConfig = {
   1: [{'type': WorkerAnt, 'count': 5}],

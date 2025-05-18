@@ -10,6 +10,6 @@ class WorkerAnt extends BaseEnemy {
           spritePath: "sprites/formica.png",
           spriteSize: Vector2(70, 70)
         ) {
-    size = Vector2(20, 20);
+    size = Vector2(50, 50);
   }
 }
