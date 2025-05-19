@@ -3,7 +3,6 @@ import 'package:flame/events.dart';
 import 'package:flame/game.dart';
 import 'package:flutter/material.dart';
 import 'package:microworld_td/game/components/game_state.dart';
-import 'package:microworld_td/ui/towerPanelComponent.dart';
 import 'package:flame/extensions.dart';
 import 'package:microworld_td/game/components/towers/baseTower.dart';
 import 'package:microworld_td/game/gameplay.dart';
@@ -16,24 +15,12 @@ class MicroworldGame extends FlameGame with TapDetector {
   TextComponent? gameOverText;
   TextComponent? winText;
 
-
   BaseTower Function(Vector2 position)? towerFactory;
-
-  late TowerPanelComponent towerPanel;
 
   @override
   Future<void> onLoad() async 
   {
-    /*add(RectangleComponent(
-      size: Vector2(1280, 768),
-      paint: Paint()..color = const Color(0xFFC8E6C9),
-      priority: -10,
-    )); */
-
-    /* towerPanel = TowerPanelComponent(onTowerSelected: (factory) {towerFactory = factory;}, onTowerPlaced: () {},
-    );
-    add(towerPanel); */
-
+    
     //WE NEED TO DO THE GAMELOOP
     add(GamePlay());
     overlays.add("gameOverlay"); 
@@ -116,19 +103,4 @@ class MicroworldGame extends FlameGame with TapDetector {
     }
    
   }
-
-  /* @override
-  void onTapDown(TapDownInfo info) {
-    final tapPosition = info.eventPosition.global;
-
-    if (towerFactory != null) {
-      if (!towerPanel.toRect().contains(tapPosition.toOffset())) {
-        final newTower = towerFactory!(tapPosition);
-        add(newTower);
-
-        towerFactory = null;
-        towerPanel.resetSelection(); 
-      }
-    }
-  } */
 }

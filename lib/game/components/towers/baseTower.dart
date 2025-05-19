@@ -13,14 +13,14 @@ abstract class BaseTower extends PositionComponent {
   SpriteComponent? _spriteComponent;
 
   BaseTower({
-    required Vector2 position,
+    //required Vector2 position,
     required this.fireRate,
     required this.range,
     required this.damage,
     required this.spritePath,
     required this.spriteSize,
   }) {
-    this.position = position;
+    //this.position = position;
     size = spriteSize;
   }
 

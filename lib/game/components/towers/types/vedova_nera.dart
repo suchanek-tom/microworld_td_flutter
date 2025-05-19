@@ -3,8 +3,8 @@ import 'package:microworld_td/game/components/bullet/types/standartBullet.dart';
 import 'package:microworld_td/game/components/enemy/baseEnemy.dart';
 import 'package:microworld_td/game/components/towers/baseTower.dart';
 
-class SniperAntTower extends BaseTower {
-  SniperAntTower({required super.position})
+class VedovaNeraTower extends BaseTower {
+  VedovaNeraTower()
       : super(
           fireRate: 0.5,
           range: 300,
