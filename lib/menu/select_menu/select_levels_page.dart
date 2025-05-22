@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:microworld_td/systems/routes.dart';
 
 class SelectLevelPage extends StatelessWidget {
   const SelectLevelPage({super.key});
@@ -62,7 +63,8 @@ class _HoverLevelBoxState extends State<HoverLevelBox> {
   bool _hovering = false;
 
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context) 
+  {
     final Color baseColor = Colors.orange;
     final Color hoverColor = Colors.orangeAccent;
 
@@ -72,7 +74,7 @@ class _HoverLevelBoxState extends State<HoverLevelBox> {
       onExit: (_) => setState(() => _hovering = false),
       child: GestureDetector(
         onTap: () {
-          Navigator.pushNamed(context, '/game');
+          Navigator.of(context).pushNamed(RoutesManager.game);
         },
         child: AnimatedContainer(
           duration: const Duration(milliseconds: 200),

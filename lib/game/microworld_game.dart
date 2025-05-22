@@ -2,7 +2,6 @@ import 'package:flame/components.dart';
 import 'package:flame/events.dart';
 import 'package:flame/game.dart';
 import 'package:flutter/material.dart';
-import 'package:microworld_td/game/components/enemy/enemy_spawner.dart';
 import 'package:microworld_td/game/components/game_state.dart';
 import 'package:microworld_td/game/components/pathComponent.dart';
 import 'package:microworld_td/levels/level.dart';
@@ -137,6 +136,7 @@ class MicroworldGame extends FlameGame with TapDetector {
         pauseEngine();
       });
     }
+   
   }
 
   @override
