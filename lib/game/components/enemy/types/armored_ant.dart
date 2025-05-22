@@ -1,5 +1,4 @@
 import 'package:flame/components.dart';
-import 'package:flutter/painting.dart';
 import 'package:microworld_td/game/components/enemy/baseEnemy.dart';
 
 class ArmoredAnt extends BaseEnemy {
@@ -8,7 +7,9 @@ class ArmoredAnt extends BaseEnemy {
           reward: 10,
           speed: 2,
           health: 100,
-          enemyColor: const Color(0xFF555555),
+          spritePath: "sprites/formica.png",
+          spriteSize: Vector2(70, 70)
+          
         ) {
     size = Vector2(30, 30);
   }

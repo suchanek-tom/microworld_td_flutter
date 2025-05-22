@@ -1,19 +1,25 @@
+import 'dart:ui';
 import 'package:flame/components.dart';
-import 'package:flutter/painting.dart';
 import 'package:microworld_td/game/components/game_state.dart';
 
 abstract class BaseEnemy extends PositionComponent {
   final List<Vector2> waypoints;
-  double speed;
+  final double speed;
+  final int reward;
+  final String spritePath;
+  final Vector2 spriteSize;
+
   int health;
   int currentWaypointIndex = 0;
+
   bool isHit = false;
   double hitTimer = 0;
-  Color enemyColor;
-  int reward;
   int poisonDamage = 0;
   double poisonTimer = 0;
-  late RectangleComponent enemyBody;
+
+  double originalOpacity = 1.0;
+
+  SpriteComponent? spriteComponent;
   VoidCallback? onDeath;
 
   BaseEnemy({
@@ -21,18 +27,22 @@ abstract class BaseEnemy extends PositionComponent {
     required this.reward,
     required this.speed,
     required this.health,
-    required this.enemyColor,
+    required this.spritePath,
+    required this.spriteSize,
   }) {
     position = waypoints.first;
+    size = spriteSize;
   }
 
   @override
   Future<void> onLoad() async {
-    enemyBody = RectangleComponent(
-      size: Vector2.all(20),
-      paint: Paint()..color = enemyColor,
-    );
-    add(enemyBody);
+    try {
+      final sprite = await Sprite.load(spritePath);
+      spriteComponent = SpriteComponent(sprite: sprite, size: size);
+      add(spriteComponent!);
+    } catch (e) {
+      print('❌ Failed to load enemy sprite at "$spritePath". Error: $e');
+    }
   }
 
   @override
@@ -51,8 +61,8 @@ abstract class BaseEnemy extends PositionComponent {
   }
 
   void moveToNextWaypoint(double dt) {
-    Vector2 nextWaypoint = waypoints[currentWaypointIndex + 1];
-    Vector2 direction = (nextWaypoint - position).normalized();
+    final nextWaypoint = waypoints[currentWaypointIndex + 1];
+    final direction = (nextWaypoint - position).normalized();
     position += direction * speed * dt;
 
     if (position.distanceTo(nextWaypoint) < 5) {
@@ -63,7 +73,7 @@ abstract class BaseEnemy extends PositionComponent {
   void handleHitEffect(double dt) {
     hitTimer += dt;
     if (hitTimer > 0.1) {
-      enemyBody.paint.color = enemyColor;
+      spriteComponent?.opacity = originalOpacity;
       isHit = false;
       hitTimer = 0;
     }
@@ -85,7 +95,7 @@ abstract class BaseEnemy extends PositionComponent {
       die();
       onDeath?.call();
     } else {
-      enemyBody.paint.color = const Color(0xFFFF0000);
+      spriteComponent?.opacity = 0.6; // hit efekt
       isHit = true;
     }
   }

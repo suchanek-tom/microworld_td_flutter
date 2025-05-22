@@ -1,7 +1,4 @@
 import 'package:flame/components.dart';
-import 'package:flutter/painting.dart';
-import 'package:flame/extensions.dart';
-import 'package:flutter/src/material/colors.dart';
 import 'package:microworld_td/game/components/enemy/baseEnemy.dart';
 
 abstract class BaseTower extends PositionComponent {
@@ -16,14 +13,14 @@ abstract class BaseTower extends PositionComponent {
   SpriteComponent? _spriteComponent;
 
   BaseTower({
-    required Vector2 position,
+    //required Vector2 position,
     required this.fireRate,
     required this.range,
     required this.damage,
     required this.spritePath,
     required this.spriteSize,
   }) {
-    this.position = position;
+    //this.position = position;
     size = spriteSize;
   }
 

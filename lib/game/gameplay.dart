@@ -4,7 +4,7 @@ import 'package:microworld_td/game/components/pathComponent.dart';
 import 'package:flame/components.dart';
 import 'package:flame_tiled/flame_tiled.dart';
 import 'package:microworld_td/game/components/towers/types/bee.dart';
-import 'package:microworld_td/game/components/towers/types/sniper_ant_tower.dart';
+import 'package:microworld_td/game/components/towers/types/vedova_nera.dart';
 
 class GamePlay extends Component {
 
@@ -20,6 +20,7 @@ class GamePlay extends Component {
     
     await add(world);
     await add(level);
+
     cam = CameraComponent.withFixedResolution(world: world, width: 1280, height: 768);
     cam.viewfinder.anchor = Anchor.topLeft;
 
@@ -42,13 +43,11 @@ class GamePlay extends Component {
     add(PathComponent(waypoints: waypoints));
 
     // Nepřátelé
-    
-    add(EnemySpawner(waypoints: waypoints,spawnInterval: 2,));
-    
-
+    add(EnemySpawner(waypoints: waypoints,spawnInterval: 2,game: this,));
+  
     // Ukázkové věže
-    add(SniperAntTower(position: Vector2(300, 250)));
-    add(BeeTower(position: Vector2(250, 350)));
+    //add(VedovaNeraTower(position: Vector2(300, 250)));
+    //add(BeeTower(position: Vector2(250, 350)));
 
     return super.onLoad();
   }
