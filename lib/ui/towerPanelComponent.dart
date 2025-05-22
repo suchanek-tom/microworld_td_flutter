@@ -1,8 +1,39 @@
-import 'package:flutter/material.dart' as flutter;
-import 'package:flutter/widgets.dart';
+import 'dart:async';
+import 'package:flutter/material.dart';
+import 'package:microworld_td/game/components/game_state.dart';
 
-class TowerPanelComponent extends StatelessWidget {
+class TowerPanelComponent extends StatefulWidget {
   const TowerPanelComponent({super.key});
+
+  @override
+  State<TowerPanelComponent> createState() => _TowerPanelComponentState();
+}
+
+class _TowerPanelComponentState extends State<TowerPanelComponent> {
+  late Timer _timer;
+  int coins = GameState.coins;
+  int lives = GameState.lives;
+  int wave = GameState.waveNumber;
+
+  @override
+  void initState() {
+    super.initState();
+    _timer = Timer.periodic(const Duration(milliseconds: 200), (timer) {
+      if (mounted) {
+        setState(() {
+          coins = GameState.coins;
+          lives = GameState.lives;
+          wave = GameState.waveNumber;
+        });
+      }
+    });
+  }
+
+  @override
+  void dispose() {
+    _timer.cancel();
+    super.dispose();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -11,72 +42,71 @@ class TowerPanelComponent extends StatelessWidget {
       child: Container(
         width: 120,
         decoration: const BoxDecoration(
-          image: flutter.DecorationImage(
-            image: flutter.AssetImage('assets/images/sprites/wood_background.jpg'),
-            fit: flutter.BoxFit.cover,
+          image: DecorationImage(
+            image: AssetImage('assets/images/sprites/wood_background.jpg'),
+            fit: BoxFit.cover,
           ),
         ),
         child: Column(
           children: [
             const SizedBox(height: 20),
-            const flutter.Text(
+            const Text(
               'DIFFICULTY',
-              style: flutter.TextStyle(
-                color: flutter.Colors.white,
-                fontWeight: flutter.FontWeight.bold,
+              style: TextStyle(
+                color: Colors.white,
+                fontWeight: FontWeight.bold,
               ),
             ),
-            flutter.Row(
-              mainAxisAlignment: flutter.MainAxisAlignment.center,
+            Row(
+              mainAxisAlignment: MainAxisAlignment.center,
               children: const [
-                flutter.Icon(flutter.Icons.health_and_safety, color: flutter.Colors.white),
-                flutter.SizedBox(width: 10),
-                flutter.Icon(flutter.Icons.attach_money, color: flutter.Colors.white),
+                Icon(Icons.health_and_safety, color: Colors.white),
+                SizedBox(width: 10),
+                Icon(Icons.attach_money, color: Colors.white),
               ],
             ),
-            const flutter.SizedBox(height: 20),
+            const SizedBox(height: 20),
 
             // GridView with ElevatedButtons
-            flutter.GridView.builder(
+            GridView.builder(
               shrinkWrap: true,
-              padding: const flutter.EdgeInsets.all(10),
+              padding: const EdgeInsets.all(10),
               itemCount: 6,
-              gridDelegate: const flutter.SliverGridDelegateWithFixedCrossAxisCount(
+              gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
                 crossAxisCount: 2,
                 mainAxisSpacing: 8,
                 crossAxisSpacing: 8,
               ),
               itemBuilder: (context, index) {
-                return flutter.ElevatedButton(
-                  style: flutter.ElevatedButton.styleFrom(
-                    backgroundColor: flutter.Colors.green.withOpacity(0.3),
-                    padding: flutter.EdgeInsets.zero,
-                    shape: flutter.RoundedRectangleBorder(
-                      borderRadius: flutter.BorderRadius.circular(8),
+                return ElevatedButton(
+                  style: ElevatedButton.styleFrom(
+                    backgroundColor: Colors.green.withOpacity(0.3),
+                    padding: EdgeInsets.zero,
+                    shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(8),
                     ),
                   ),
                   onPressed: () {
                     print('Torre #$index selezionata!');
-                    // Qui puoi collegare la tua logica di selezione torre
                   },
-                  child: const flutter.Icon(
-                    flutter.Icons.bug_report,
-                    color: flutter.Colors.black,
+                  child: const Icon(
+                    Icons.bug_report,
+                    color: Colors.black,
                   ),
                 );
               },
             ),
 
-            const flutter.SizedBox(height: 10),
-            const flutter.Text(
-              'BATTLE: 9\nWAVES: 25',
-              textAlign: flutter.TextAlign.center,
-              style: flutter.TextStyle(color: flutter.Colors.white),
+            const SizedBox(height: 10),
+            Text(
+              'WAVE: $wave\nLIVES: $lives\nCOINS: $coins',
+              textAlign: TextAlign.center,
+              style: const TextStyle(color: Colors.white),
             ),
-            const flutter.Spacer(),
-            const flutter.Icon(flutter.Icons.fast_forward, color: flutter.Colors.red, size: 40),
-            const flutter.Icon(flutter.Icons.stop, color: flutter.Colors.red, size: 40),
-            const flutter.SizedBox(height: 20),
+            const Spacer(),
+            const Icon(Icons.fast_forward, color: Colors.red, size: 40),
+            const Icon(Icons.stop, color: Colors.red, size: 40),
+            const SizedBox(height: 20),
           ],
         ),
       ),
