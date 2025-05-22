@@ -25,44 +25,11 @@ class MicroworldGame extends FlameGame with TapDetector {
     add(GamePlay());
     overlays.add("gameOverlay"); 
    
-    // UI text components that needs to move 
-    // coinText = TextComponent(
-    //   text: "Coins: ${GameState.coins}",
-    //   position: Vector2(10, 10),
-    //   textRenderer: TextPaint(
-    //     style: const TextStyle(fontSize: 24, color: Colors.white),
-    //   ),
-    // );
-
-    // livesText = TextComponent(
-    //   text: "Lives: ${GameState.lives}",
-    //   position: Vector2(10, 40),
-    //   textRenderer: TextPaint(
-    //     style: const TextStyle(fontSize: 24, color: Colors.white),
-    //   ),
-    // );
-
-    // waveText = TextComponent(
-    //   text: "Wave: ${GameState.waveNumber}",
-    //   position: Vector2(size.x / 2, 10),
-    //   anchor: Anchor.topCenter,
-    //   textRenderer: TextPaint(
-    //     style: const TextStyle(fontSize: 24, color: Colors.white),
-    //   ),
-    // );
-
-    // add(coinText);
-    // add(livesText);
-    // add(waveText);
   }
 
   @override
   void update(double dt) {
     super.update(dt);
-
-    // coinText.text = "Coins: ${GameState.coins}";
-    // livesText.text = "Lives: ${GameState.lives}";
-    // waveText.text = "Wave: ${GameState.waveNumber}";
 
     if (GameState.isGameOver && gameOverText == null) {
       gameOverText = TextComponent(
