@@ -1,9 +1,16 @@
 import 'dart:async';
+import 'package:flame/image_composition.dart';
 import 'package:flutter/material.dart';
 import 'package:microworld_td/game/components/game_state.dart';
+import 'package:microworld_td/game/components/towers/baseTower.dart';
+import 'package:microworld_td/game/gameplay.dart';
+import 'package:microworld_td/game/player.dart';
 
 class TowerPanelComponent extends StatefulWidget {
-  const TowerPanelComponent({super.key});
+
+  final GamePlay game;
+
+  const TowerPanelComponent({super.key, required this.game});
 
   @override
   State<TowerPanelComponent> createState() => _TowerPanelComponentState();
@@ -15,6 +22,8 @@ class _TowerPanelComponentState extends State<TowerPanelComponent> {
   int lives = GameState.lives;
   int wave = GameState.waveNumber;
 
+  late Player player;
+   
   @override
   void initState() {
     super.initState();
@@ -36,7 +45,11 @@ class _TowerPanelComponentState extends State<TowerPanelComponent> {
   }
 
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context)
+  {
+    player = Player();
+    List<BaseTower> towerList = player.getTowers;
+
     return Transform.translate(
       offset: const Offset(1280, 0),
       child: Container(
@@ -86,7 +99,11 @@ class _TowerPanelComponentState extends State<TowerPanelComponent> {
                       borderRadius: BorderRadius.circular(8),
                     ),
                   ),
-                  onPressed: () {
+                  onPressed: () 
+                  {
+                    BaseTower tower = towerList.first;
+                    tower.setPos = Vector2(100, 200);
+                    widget.game.add(tower);
                     print('Torre #$index selezionata!');
                   },
                   child: const Icon(

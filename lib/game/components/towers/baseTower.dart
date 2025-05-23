@@ -6,21 +6,19 @@ abstract class BaseTower extends PositionComponent {
   final double range;
   final int damage;
   final String spritePath;
-  final Vector2 spriteSize;
+  final Vector2 spriteSize; 
 
   double timeSinceLastShot = 0;
 
   SpriteComponent? _spriteComponent;
 
   BaseTower({
-    //required Vector2 position,
     required this.fireRate,
     required this.range,
     required this.damage,
     required this.spritePath,
     required this.spriteSize,
   }) {
-    //this.position = position;
     size = spriteSize;
   }
 
@@ -62,6 +60,11 @@ abstract class BaseTower extends PositionComponent {
       attackTarget(target);
       timeSinceLastShot = 0;
     }
+  }
+
+  set setPos(Vector2 position)
+  {
+    this.position = position;
   }
 
   void attackTarget(BaseEnemy target);

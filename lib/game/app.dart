@@ -30,7 +30,7 @@ class _GameAppState extends State<GameApp>
           body: GameWidget(
             game: game,overlayBuilderMap: {
               "gameOverlay": (BuildContext context, MicroworldGame game){
-          return Gameoverlayui();
+          return Gameoverlayui(game: game,);
         }
       },)
       ),

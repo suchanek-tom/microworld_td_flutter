@@ -45,8 +45,11 @@ class GamePlay extends Component {
     // Enemy spawner
     add(EnemySpawner(waypoints: waypoints,spawnInterval: 2,game: this,));
   
-    // add(BeeTower());
-
     return super.onLoad();
   }
+
+ GamePlay get getGame
+ {
+  return this;
+ } 
 }

@@ -15,6 +15,8 @@ class MicroworldGame extends FlameGame with TapDetector {
   TextComponent? gameOverText;
   TextComponent? winText;
 
+  final GamePlay gamePlay = GamePlay();
+
   BaseTower Function(Vector2 position)? towerFactory;
 
   @override
@@ -22,7 +24,7 @@ class MicroworldGame extends FlameGame with TapDetector {
   {
     
     //WE NEED TO DO THE GAMELOOP
-    add(GamePlay());
+    add(gamePlay);
     overlays.add("gameOverlay"); 
    
   }
