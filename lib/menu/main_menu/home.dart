@@ -58,12 +58,12 @@ class HomePage extends StatelessWidget {
       required Color color,
       required VoidCallback onPressed}) {
     return SizedBox(
-      width: double.infinity,
+      width: 600,
       child: ElevatedButton(
         onPressed: onPressed,
         style: ElevatedButton.styleFrom(
           backgroundColor: color,
-          padding: const EdgeInsets.symmetric(vertical: 16),
+          padding: const EdgeInsets.symmetric(vertical: 24),
           shape: RoundedRectangleBorder(
             borderRadius: BorderRadius.circular(30),
           ),
@@ -73,6 +73,7 @@ class HomePage extends StatelessWidget {
           style: const TextStyle(
             color: Colors.white,
             fontWeight: FontWeight.bold,
+            fontSize: 24,
           ),
         ),
       ),
