@@ -7,7 +7,6 @@ import 'package:microworld_td/game/gameplay.dart';
 import 'package:microworld_td/game/player.dart';
 
 class TowerPanelComponent extends StatefulWidget {
-
   final GamePlay game;
 
   const TowerPanelComponent({super.key, required this.game});
@@ -23,7 +22,7 @@ class _TowerPanelComponentState extends State<TowerPanelComponent> {
   int wave = GameState.waveNumber;
 
   late Player player;
-   
+
   @override
   void initState() {
     super.initState();
@@ -45,8 +44,7 @@ class _TowerPanelComponentState extends State<TowerPanelComponent> {
   }
 
   @override
-  Widget build(BuildContext context)
-  {
+  Widget build(BuildContext context) {
     player = Player();
     List<BaseTower> towerList = player.getTowers;
 
@@ -63,24 +61,33 @@ class _TowerPanelComponentState extends State<TowerPanelComponent> {
         child: Column(
           children: [
             const SizedBox(height: 20),
-            const Text(
-              'DIFFICULTY',
-              style: TextStyle(
+            Text(
+              'WAVE: $wave',
+              style: const TextStyle(
                 color: Colors.white,
                 fontWeight: FontWeight.bold,
+                fontSize: 16,
               ),
             ),
             Row(
               mainAxisAlignment: MainAxisAlignment.center,
-              children: const [
-                Icon(Icons.health_and_safety, color: Colors.white),
-                SizedBox(width: 10),
-                Icon(Icons.attach_money, color: Colors.white),
+              children: [
+                const Icon(Icons.health_and_safety, color: Colors.white),
+                const SizedBox(width: 4),
+                Text(
+                  '$lives',
+                  style: const TextStyle(color: Colors.white, fontWeight: FontWeight.bold),
+                ),
+                const SizedBox(width: 16),
+                const Icon(Icons.attach_money, color: Colors.white),
+                const SizedBox(width: 4),
+                Text(
+                  '$coins',
+                  style: const TextStyle(color: Colors.white, fontWeight: FontWeight.bold),
+                ),
               ],
             ),
             const SizedBox(height: 20),
-
-            // GridView with ElevatedButtons
             GridView.builder(
               shrinkWrap: true,
               padding: const EdgeInsets.all(10),
@@ -99,8 +106,7 @@ class _TowerPanelComponentState extends State<TowerPanelComponent> {
                       borderRadius: BorderRadius.circular(8),
                     ),
                   ),
-                  onPressed: () 
-                  {
+                  onPressed: () {
                     BaseTower tower = towerList.first;
                     tower.setPos = Vector2(100, 200);
                     widget.game.add(tower);
@@ -112,13 +118,6 @@ class _TowerPanelComponentState extends State<TowerPanelComponent> {
                   ),
                 );
               },
-            ),
-
-            const SizedBox(height: 10),
-            Text(
-              'WAVE: $wave\nLIVES: $lives\nCOINS: $coins',
-              textAlign: TextAlign.center,
-              style: const TextStyle(color: Colors.white),
             ),
             const Spacer(),
             const Icon(Icons.fast_forward, color: Colors.red, size: 40),
