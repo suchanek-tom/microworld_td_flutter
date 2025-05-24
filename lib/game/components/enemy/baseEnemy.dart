@@ -1,3 +1,4 @@
+import 'dart:math' as math;
 import 'dart:ui';
 import 'package:flame/components.dart';
 import 'package:microworld_td/game/components/game_state.dart';
@@ -38,7 +39,12 @@ abstract class BaseEnemy extends PositionComponent {
   Future<void> onLoad() async {
     try {
       final sprite = await Sprite.load(spritePath);
-      spriteComponent = SpriteComponent(sprite: sprite, size: size);
+      spriteComponent = SpriteComponent(
+        sprite: sprite,
+        size: size,
+        anchor: Anchor.center, 
+      );
+      anchor = Anchor.center;
       add(spriteComponent!);
     } catch (e) {
       print('❌ Failed to load enemy sprite at "$spritePath". Error: $e');
@@ -62,8 +68,13 @@ abstract class BaseEnemy extends PositionComponent {
 
   void moveToNextWaypoint(double dt) {
     final nextWaypoint = waypoints[currentWaypointIndex + 1];
-    final direction = (nextWaypoint - position).normalized();
-    position += direction * speed * dt;
+    final direction = nextWaypoint - position;
+    final normalized = direction.normalized();
+
+    position += normalized * speed * dt;
+
+    final angle = math.atan2(normalized.y, normalized.x);
+    spriteComponent?.angle = angle + math.pi / 2; 
 
     if (position.distanceTo(nextWaypoint) < 5) {
       currentWaypointIndex++;
@@ -95,7 +106,7 @@ abstract class BaseEnemy extends PositionComponent {
       die();
       onDeath?.call();
     } else {
-      spriteComponent?.opacity = 0.6; // hit efekt
+      spriteComponent?.opacity = 0.6;
       isHit = true;
     }
   }

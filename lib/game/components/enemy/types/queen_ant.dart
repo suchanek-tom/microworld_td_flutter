@@ -10,8 +10,5 @@ class QueenAnt extends BaseEnemy
       reward: 150,
       spritePath: "sprites/formica.png",
       spriteSize: Vector2(70, 70)
-  )  
-  {
-    size = Vector2(5, 15);
-  }
+  );
 }

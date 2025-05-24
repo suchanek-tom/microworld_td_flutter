@@ -3,8 +3,6 @@ import 'package:microworld_td/game/components/enemy/enemy_spawner.dart';
 import 'package:microworld_td/game/components/pathComponent.dart';
 import 'package:flame/components.dart';
 import 'package:flame_tiled/flame_tiled.dart';
-import 'package:microworld_td/game/components/towers/types/bee.dart';
-import 'package:microworld_td/game/components/towers/types/vedova_nera.dart';
 
 class GamePlay extends Component {
 
@@ -27,11 +25,11 @@ class GamePlay extends Component {
     //wayponts for the level 1 that neads to be moved
     List<Vector2> waypoints = [
       Vector2(130, 0), 
-      Vector2(130, 190),
+      Vector2(134, 190),
       Vector2(510, 190),
       Vector2(510, 320),
-      Vector2(130, 320),
-      Vector2(130, 580),
+      Vector2(132, 320),
+      Vector2(132, 580),
       Vector2(510, 580),
       Vector2(510, 700),
       Vector2(830, 700),
