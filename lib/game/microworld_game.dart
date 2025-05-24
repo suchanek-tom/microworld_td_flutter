@@ -1,13 +1,12 @@
 import 'package:flame/components.dart';
-import 'package:flame/events.dart';
 import 'package:flame/game.dart';
+import 'package:flame/events.dart' as flame;
 import 'package:flutter/material.dart';
 import 'package:microworld_td/game/components/game_state.dart';
-import 'package:flame/extensions.dart';
-import 'package:microworld_td/game/components/towers/baseTower.dart';
 import 'package:microworld_td/game/gameplay.dart';
 
-class MicroworldGame extends FlameGame with TapDetector {
+class MicroworldGame extends FlameGame with flame.TapCallbacks,flame.PointerMoveCallbacks
+{
   late TextComponent livesText;
   late TextComponent coinText;
   late TextComponent waveText;
@@ -16,8 +15,6 @@ class MicroworldGame extends FlameGame with TapDetector {
   TextComponent? winText;
 
   final GamePlay gamePlay = GamePlay();
-
-  BaseTower Function(Vector2 position)? towerFactory;
 
   @override
   Future<void> onLoad() async 
@@ -70,6 +67,31 @@ class MicroworldGame extends FlameGame with TapDetector {
         pauseEngine();
       });
     }
-   
+  }    
+
+  @override
+  void onPointerMove(flame.PointerMoveEvent event) 
+  {
+    if (gamePlay.isPlacingTower && gamePlay.towerBeingPlaced != null) 
+    {
+      print("entri????");
+      final mousePosition = event.localPosition;
+      gamePlay.towerBeingPlaced!.position = mousePosition;
+    }
+    super.onPointerMove(event);
+  }
+
+  @override
+  void onTapDown(flame.TapDownEvent event) 
+  {
+    print("lezzo");
+    if (gamePlay.isPlacingTower) 
+    {
+       gamePlay.isPlacingTower = false;
+       gamePlay.towerBeingPlaced = null;
+       gamePlay.towerBeingPlaced?.setPos = event.localPosition;
+       add(gamePlay.towerBeingPlaced!);
+    }
+    super.onTapDown(event);
   }
 }

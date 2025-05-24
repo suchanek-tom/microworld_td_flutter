@@ -15,7 +15,8 @@ class TowerPanelComponent extends StatefulWidget {
   State<TowerPanelComponent> createState() => _TowerPanelComponentState();
 }
 
-class _TowerPanelComponentState extends State<TowerPanelComponent> {
+class _TowerPanelComponentState extends State<TowerPanelComponent> 
+{
   late Timer _timer;
   int coins = GameState.coins;
   int lives = GameState.lives;
@@ -107,8 +108,8 @@ class _TowerPanelComponentState extends State<TowerPanelComponent> {
                     ),
                   ),
                   onPressed: () {
-                    BaseTower tower = towerList.first;
-                    tower.setPos = Vector2(100, 200);
+                    BaseTower tower = towerList.elementAt(index);
+                    widget.game.placingTower(tower);
                     widget.game.add(tower);
                     print('Torre #$index selezionata!');
                   },

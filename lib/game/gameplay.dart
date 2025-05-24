@@ -3,14 +3,17 @@ import 'package:microworld_td/game/components/enemy/enemy_spawner.dart';
 import 'package:microworld_td/game/components/pathComponent.dart';
 import 'package:flame/components.dart';
 import 'package:flame_tiled/flame_tiled.dart';
-import 'package:microworld_td/game/components/towers/types/bee.dart';
-import 'package:microworld_td/game/components/towers/types/vedova_nera.dart';
+import 'package:microworld_td/game/components/towers/baseTower.dart';
+import 'package:microworld_td/game/microworld_game.dart';
 
-class GamePlay extends Component {
 
+class GamePlay extends PositionComponent with HasGameReference<MicroworldGame> {
   late TiledComponent level;
   late EnemySpawner enemySpawner;
   late final CameraComponent cam;
+
+  BaseTower? towerBeingPlaced;
+  bool isPlacingTower = false;
 
   @override
   FutureOr<void> onLoad() async
@@ -48,8 +51,11 @@ class GamePlay extends Component {
     return super.onLoad();
   }
 
- GamePlay get getGame
- {
-  return this;
- } 
+    void placingTower(BaseTower tower)
+  {
+    towerBeingPlaced = tower;
+    isPlacingTower = true;
+    
+  }
+
 }
