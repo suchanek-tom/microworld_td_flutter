@@ -7,28 +7,27 @@ class SelectLevelPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      backgroundColor: const Color(0xFFEFEFEF),
       body: SafeArea(
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-         Padding(
-          padding: const EdgeInsets.only(left: 16.0, top: 12.0),
-          child: TextButton.icon(
-          onPressed: () => Navigator.pop(context),
-          icon: const Icon(Icons.arrow_back, color: Colors.black),
-            label: const Text(
-              'back',
-              style: TextStyle(
-                fontSize: 18,
-                color: Colors.black,
-                fontWeight: FontWeight.w500,
+            Padding(
+              padding: const EdgeInsets.only(left: 16.0, top: 12.0),
+              child: TextButton.icon(
+                onPressed: () => Navigator.pop(context),
+                icon: const Icon(Icons.arrow_back, color: Colors.black),
+                label: const Text(
+                  'back',
+                  style: TextStyle(
+                    fontSize: 18,
+                    color: Colors.black,
+                    fontWeight: FontWeight.w500,
+                  ),
+                ),
               ),
-              ),
-          ),
-        ),
-
+            ),
             const SizedBox(height: 20),
-
             Expanded(
               child: Center(
                 child: Padding(
@@ -36,8 +35,10 @@ class SelectLevelPage extends StatelessWidget {
                   child: Wrap(
                     spacing: 20,
                     runSpacing: 20,
-                    children: [
-                      HoverLevelBox(level: 1),
+                    children: const [
+                      HoverLevelBox(level: 1, enabled: true),
+                      HoverLevelBox(level: 2, enabled: false),
+                      HoverLevelBox(level: 3, enabled: false),
                     ],
                   ),
                 ),
@@ -52,8 +53,13 @@ class SelectLevelPage extends StatelessWidget {
 
 class HoverLevelBox extends StatefulWidget {
   final int level;
+  final bool enabled;
 
-  const HoverLevelBox({super.key, required this.level});
+  const HoverLevelBox({
+    super.key,
+    required this.level,
+    this.enabled = true,
+  });
 
   @override
   State<HoverLevelBox> createState() => _HoverLevelBoxState();
@@ -63,18 +69,23 @@ class _HoverLevelBoxState extends State<HoverLevelBox> {
   bool _hovering = false;
 
   @override
-  Widget build(BuildContext context) 
-  {
-    final Color baseColor = Colors.orange;
-    final Color hoverColor = Colors.orangeAccent;
+  Widget build(BuildContext context) {
+    final Color baseColor = widget.enabled ? Colors.orange : Colors.grey;
+    final Color hoverColor = widget.enabled ? Colors.orangeAccent : Colors.grey;
 
     return MouseRegion(
-      cursor: SystemMouseCursors.click,
-      onEnter: (_) => setState(() => _hovering = true),
-      onExit: (_) => setState(() => _hovering = false),
+      cursor: widget.enabled ? SystemMouseCursors.click : SystemMouseCursors.basic,
+      onEnter: (_) {
+        if (widget.enabled) setState(() => _hovering = true);
+      },
+      onExit: (_) {
+        if (widget.enabled) setState(() => _hovering = false);
+      },
       child: GestureDetector(
         onTap: () {
-          Navigator.of(context).pushNamed(RoutesManager.game);
+          if (widget.enabled) {
+            Navigator.of(context).pushNamed(RoutesManager.game);
+          }
         },
         child: AnimatedContainer(
           duration: const Duration(milliseconds: 200),
@@ -94,10 +105,10 @@ class _HoverLevelBoxState extends State<HoverLevelBox> {
           child: Center(
             child: Text(
               '${widget.level}',
-              style: const TextStyle(
+              style: TextStyle(
                 fontSize: 32,
                 fontWeight: FontWeight.bold,
-                color: Colors.white,
+                color: widget.enabled ? Colors.white : Colors.black38,
               ),
             ),
           ),
