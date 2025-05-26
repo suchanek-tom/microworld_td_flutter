@@ -70,11 +70,10 @@ class MicroworldGame extends FlameGame with flame.TapCallbacks,flame.PointerMove
   }    
 
   @override
-  void onPointerMove(flame.PointerMoveEvent event) 
+  void onPointerMove(flame.PointerMoveEvent event) //tower follows mouse
   {
     if (gamePlay.isPlacingTower && gamePlay.towerBeingPlaced != null) 
     {
-      print("entri????");
       final mousePosition = event.localPosition;
       gamePlay.towerBeingPlaced!.position = mousePosition;
     }
@@ -82,15 +81,14 @@ class MicroworldGame extends FlameGame with flame.TapCallbacks,flame.PointerMove
   }
 
   @override
-  void onTapDown(flame.TapDownEvent event) 
+  void onTapDown(flame.TapDownEvent event) //placing towers
   {
-    print("lezzo");
     if (gamePlay.isPlacingTower) 
     {
        gamePlay.isPlacingTower = false;
-       gamePlay.towerBeingPlaced = null;
        gamePlay.towerBeingPlaced?.setPos = event.localPosition;
-       add(gamePlay.towerBeingPlaced!);
+       gamePlay.towerBeingPlaced!.inplacement = false;
+       gamePlay.towerBeingPlaced = null;
     }
     super.onTapDown(event);
   }

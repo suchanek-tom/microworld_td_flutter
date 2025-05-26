@@ -1,7 +1,9 @@
 import 'package:flame/components.dart';
 import 'package:microworld_td/game/components/enemy/baseEnemy.dart';
 
-abstract class BaseTower extends PositionComponent {
+abstract class BaseTower extends PositionComponent 
+{
+  bool inplacement = false;
   final double fireRate;
   final double range;
   final int damage;
@@ -38,27 +40,32 @@ abstract class BaseTower extends PositionComponent {
   }
 
   @override
-  void update(double dt) {
+  void update(double dt) 
+  {
     super.update(dt);
-    timeSinceLastShot += dt;
 
-    final enemies = parent?.children
-        .whereType<BaseEnemy>()
-        .where((enemy) => position.distanceTo(enemy.position) < range)
-        .toList();
+    if(inplacement == false)
+    {
+      timeSinceLastShot += dt;
 
-    if (enemies == null || enemies.isEmpty) return;
+      final enemies = parent?.children
+          .whereType<BaseEnemy>()
+          .where((enemy) => position.distanceTo(enemy.position) < range)
+          .toList();
 
-    final target = enemies.first;
+      if (enemies == null || enemies.isEmpty) return;
 
-    if (_spriteComponent != null) {
-      final direction = (target.position - position).normalized();
-      _spriteComponent!.angle = direction.screenAngle();
-    }
+      final target = enemies.first;
 
-    if (timeSinceLastShot >= fireRate) {
-      attackTarget(target);
-      timeSinceLastShot = 0;
+      if (_spriteComponent != null) {
+        final direction = (target.position - position).normalized();
+        _spriteComponent!.angle = direction.screenAngle();
+      }
+
+      if (timeSinceLastShot >= fireRate) {
+        attackTarget(target);
+        timeSinceLastShot = 0;
+      }
     }
   }
 

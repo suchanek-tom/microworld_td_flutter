@@ -7,7 +7,8 @@ import 'package:microworld_td/game/components/towers/baseTower.dart';
 import 'package:microworld_td/game/microworld_game.dart';
 
 
-class GamePlay extends PositionComponent with HasGameReference<MicroworldGame> {
+class GamePlay extends PositionComponent with HasGameReference<MicroworldGame>
+{
   late TiledComponent level;
   late EnemySpawner enemySpawner;
   late final CameraComponent cam;
@@ -51,11 +52,11 @@ class GamePlay extends PositionComponent with HasGameReference<MicroworldGame> {
     return super.onLoad();
   }
 
-    void placingTower(BaseTower tower)
+  void placingTower(BaseTower tower)
   {
     towerBeingPlaced = tower;
+    towerBeingPlaced!.inplacement = true;
     isPlacingTower = true;
-    
   }
 
 }

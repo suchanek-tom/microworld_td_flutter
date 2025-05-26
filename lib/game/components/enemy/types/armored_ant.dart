@@ -7,9 +7,8 @@ class ArmoredAnt extends BaseEnemy {
           reward: 10,
           speed: 2,
           health: 100,
-          spritePath: "sprites/formica.png",
+          spritePath: "sprites/formica_corazzata.png",
           spriteSize: Vector2(70, 70)
-          
         ) {
     size = Vector2(30, 30);
   }

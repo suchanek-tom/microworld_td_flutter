@@ -1,6 +1,7 @@
 import 'package:flame/components.dart';
 import 'package:microworld_td/game/components/enemy/baseEnemy.dart';
 import 'package:microworld_td/game/components/enemy/types/armored_ant.dart';
+import 'package:microworld_td/game/components/enemy/types/queen_ant.dart';
 import 'package:microworld_td/game/components/enemy/types/turbo_ant.dart';
 import 'package:microworld_td/game/components/enemy/types/queens_guard.dart';
 import 'package:microworld_td/game/components/enemy/types/worker_ant.dart';
@@ -20,7 +21,7 @@ class EnemySpawner extends Component
   EnemySpawner({required this.waypoints, this.spawnInterval = 2.0,required this.game});
 
   final Map<int, List<Map<String, dynamic>>> waveConfig = {
-  1: [{'type': WorkerAnt, 'count': 5}],
+  1: [{'type': WorkerAnt, 'count': 5},{'type': QueenAnt, 'count': 1}],
   2: [{'type': WorkerAnt, 'count': 8}],
   3: [{'type': WorkerAnt, 'count': 6}, {'type': TurboAnt, 'count': 2}],
   4: [{'type': TurboAnt, 'count': 5}],
@@ -86,7 +87,8 @@ class EnemySpawner extends Component
   void spawnEnemy(Type enemyType) {
   BaseEnemy? enemy;
 
-  switch (enemyType) {
+  switch (enemyType)
+  {
     case WorkerAnt:
       enemy = WorkerAnt(waypoints: waypoints);
       break;
@@ -98,6 +100,9 @@ class EnemySpawner extends Component
       break;
     case QueensGuard:
       enemy = QueensGuard(waypoints: waypoints);
+      break;
+    case QueenAnt:
+      enemy = QueenAnt(waypoints: waypoints);
     }
 
     enemy?.onDeath = () {
