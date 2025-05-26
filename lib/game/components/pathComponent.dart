@@ -12,7 +12,7 @@ class PathComponent extends PositionComponent {
     super.render(canvas);
 
     final paint = Paint()
-      ..color = const Color(0xFF8B4513) 
+      ..color = const Color(0x00000000) 
       ..strokeWidth = 10
       ..style = PaintingStyle.stroke;
 

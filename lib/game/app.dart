@@ -26,6 +26,7 @@ class _GameAppState extends State<GameApp>
    {
     return ClipRect(
       child: MaterialApp(
+        debugShowCheckedModeBanner: false,
         home: Scaffold(
           body: GameWidget(
             game: game,overlayBuilderMap: {
