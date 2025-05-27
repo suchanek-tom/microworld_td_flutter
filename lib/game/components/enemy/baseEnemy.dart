@@ -48,6 +48,16 @@ abstract class BaseEnemy extends PositionComponent {
       );
 
       sprite.position = Vector2(width / 2, height / 2);
+
+      if (waypoints.length > 1) {
+      final initialDirection = waypoints[1] - waypoints[0];
+      final initialNormalized = initialDirection.normalized();
+      final initialAngle = math.atan2(initialNormalized.y, initialNormalized.x) + math.pi / 2;
+
+      currentAngle = initialAngle;
+      sprite.angle = currentAngle;
+      }
+
       add(sprite);
     } catch (e) {
       print('❌ Failed to load enemy sprite at "$spritePath". Error: $e');
