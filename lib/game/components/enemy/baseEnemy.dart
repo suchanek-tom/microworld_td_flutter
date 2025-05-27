@@ -31,8 +31,9 @@ abstract class BaseEnemy extends PositionComponent {
     required this.spritePath,
     required this.spriteSize,
   }) {
-    position = waypoints.first;
     size = spriteSize;
+    anchor = Anchor.center;
+    position = waypoints.first;
   }
 
   @override
