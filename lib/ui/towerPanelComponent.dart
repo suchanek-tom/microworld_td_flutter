@@ -111,7 +111,6 @@ class _TowerPanelComponentState extends State<TowerPanelComponent>
                     BaseTower tower = towerList.elementAt(index);
                     widget.game.placingTower(tower);
                     widget.game.add(tower);
-                    print('Torre #$index selezionata!');
                   },
                   child: const Icon(
                     Icons.bug_report,
@@ -121,9 +120,9 @@ class _TowerPanelComponentState extends State<TowerPanelComponent>
               },
             ),
             const Spacer(),
-            // const Icon(Icons.fast_forward, color: Colors.red, size: 40),
-            // const Icon(Icons.stop, color: Colors.red, size: 40),
-            // const SizedBox(height: 20),
+            const Icon(Icons.fast_forward, color: Colors.red, size: 40),
+            const Icon(Icons.stop, color: Colors.red, size: 40),
+            const SizedBox(height: 20),
           ],
         ),
       ),

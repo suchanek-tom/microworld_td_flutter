@@ -20,7 +20,7 @@ abstract class BaseEnemy extends PositionComponent {
 
   double originalOpacity = 1.0;
 
-  SpriteComponent? spriteComponent;
+  late final SpriteComponent sprite;
   VoidCallback? onDeath;
 
   BaseEnemy({
@@ -38,14 +38,14 @@ abstract class BaseEnemy extends PositionComponent {
   @override
   Future<void> onLoad() async {
     try {
-      final sprite = await Sprite.load(spritePath);
-      spriteComponent = SpriteComponent(
-        sprite: sprite,
-        size: size,
-        anchor: Anchor.center, 
+      sprite = SpriteComponent(
+      sprite: await Sprite.load(spritePath),
+      size: size, 
+      anchor: Anchor.center
       );
-      anchor = Anchor.center;
-      add(spriteComponent!);
+
+      sprite.position = Vector2(width / 2, height / 2);
+      add(sprite);
     } catch (e) {
       print('❌ Failed to load enemy sprite at "$spritePath". Error: $e');
     }
@@ -74,7 +74,7 @@ abstract class BaseEnemy extends PositionComponent {
     position += normalized * speed * dt;
 
     final angle = math.atan2(normalized.y, normalized.x);
-    spriteComponent?.angle = angle + math.pi / 2; 
+    sprite.angle = angle + math.pi / 2; 
 
     if (position.distanceTo(nextWaypoint) < 5) {
       currentWaypointIndex++;
@@ -84,7 +84,7 @@ abstract class BaseEnemy extends PositionComponent {
   void handleHitEffect(double dt) {
     hitTimer += dt;
     if (hitTimer > 0.1) {
-      spriteComponent?.opacity = originalOpacity;
+      sprite.opacity = originalOpacity;
       isHit = false;
       hitTimer = 0;
     }
@@ -106,7 +106,7 @@ abstract class BaseEnemy extends PositionComponent {
       die();
       onDeath?.call();
     } else {
-      spriteComponent?.opacity = 0.6;
+      sprite.opacity = 0.6;
       isHit = true;
     }
   }
