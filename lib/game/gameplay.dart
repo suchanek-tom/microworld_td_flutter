@@ -47,7 +47,7 @@ class GamePlay extends PositionComponent with HasGameReference<MicroworldGame>
     add(PathComponent(waypoints: waypoints));
 
     // Enemy spawner
-    add(EnemySpawner(waypoints: waypoints,spawnInterval: 3.5,game: this,));
+    add(EnemySpawner(waypoints: waypoints,spawnInterval: 3.25,game: this,));
   
     return super.onLoad();
   }
