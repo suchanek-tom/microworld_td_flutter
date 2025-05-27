@@ -1,4 +1,5 @@
 import 'dart:async';
+import 'package:flame/game.dart';
 import 'package:microworld_td/game/components/enemy/enemy_spawner.dart';
 import 'package:microworld_td/game/components/pathComponent.dart';
 import 'package:flame/components.dart';
@@ -58,5 +59,14 @@ class GamePlay extends PositionComponent with HasGameReference<MicroworldGame>
     towerBeingPlaced!.inplacement = true;
     isPlacingTower = true;
   }
+
+  void pauseGame() {
+  FlameGame? parentGame = findParent<FlameGame>();
+  if (parentGame != null) {
+    parentGame.pauseEngine();
+    parentGame.overlays.add('PauseMenu');
+  }
+}
+
 
 }

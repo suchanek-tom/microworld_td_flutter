@@ -5,8 +5,8 @@ import 'package:flutter/material.dart';
 import 'package:microworld_td/game/components/game_state.dart';
 import 'package:microworld_td/game/gameplay.dart';
 
-class MicroworldGame extends FlameGame with flame.TapCallbacks,flame.PointerMoveCallbacks
-{
+class MicroworldGame extends FlameGame
+    with flame.TapCallbacks, flame.PointerMoveCallbacks {
   late TextComponent livesText;
   late TextComponent coinText;
   late TextComponent waveText;
@@ -15,15 +15,21 @@ class MicroworldGame extends FlameGame with flame.TapCallbacks,flame.PointerMove
   TextComponent? winText;
 
   final GamePlay gamePlay = GamePlay();
+  //todo: add pause_menu screen
+  void pauseGame() {
+    pauseEngine();
+    overlays.add('PauseMenu');
+  }
+
+  void resumeGame() {
+    overlays.remove('PauseMenu');
+    resumeEngine();
+  }
 
   @override
-  Future<void> onLoad() async 
-  {
-    
-    //WE NEED TO DO THE GAMELOOP
+  Future<void> onLoad() async {
     add(gamePlay);
-    overlays.add("gameOverlay"); 
-   
+    overlays.add("gameOverlay");
   }
 
   @override
@@ -45,9 +51,7 @@ class MicroworldGame extends FlameGame with flame.TapCallbacks,flame.PointerMove
         priority: 100,
       );
       add(gameOverText!);
-      Future.delayed(const Duration(seconds: 1), () {
-        pauseEngine();
-      });
+      Future.delayed(const Duration(seconds: 1), pauseEngine);
     } else if (GameState.isGameWon && winText == null) {
       winText = TextComponent(
         text: "YOU WIN!",
@@ -63,17 +67,13 @@ class MicroworldGame extends FlameGame with flame.TapCallbacks,flame.PointerMove
         priority: 100,
       );
       add(winText!);
-      Future.delayed(const Duration(seconds: 1), () {
-        pauseEngine();
-      });
+      Future.delayed(const Duration(seconds: 1), pauseEngine);
     }
-  }    
+  }
 
   @override
-  void onPointerMove(flame.PointerMoveEvent event) //tower follows mouse
-  {
-    if (gamePlay.isPlacingTower && gamePlay.towerBeingPlaced != null) 
-    {
+  void onPointerMove(flame.PointerMoveEvent event) {
+    if (gamePlay.isPlacingTower && gamePlay.towerBeingPlaced != null) {
       final mousePosition = event.localPosition;
       gamePlay.towerBeingPlaced!.position = mousePosition;
     }
@@ -81,14 +81,12 @@ class MicroworldGame extends FlameGame with flame.TapCallbacks,flame.PointerMove
   }
 
   @override
-  void onTapDown(flame.TapDownEvent event) //placing towers
-  {
-    if (gamePlay.isPlacingTower) 
-    {
-       gamePlay.isPlacingTower = false;
-       gamePlay.towerBeingPlaced?.setPos = event.localPosition;
-       gamePlay.towerBeingPlaced!.inplacement = false;
-       gamePlay.towerBeingPlaced = null;
+  void onTapDown(flame.TapDownEvent event) {
+    if (gamePlay.isPlacingTower) {
+      gamePlay.isPlacingTower = false;
+      gamePlay.towerBeingPlaced?.setPos = event.localPosition;
+      gamePlay.towerBeingPlaced!.inplacement = false;
+      gamePlay.towerBeingPlaced = null;
     }
     super.onTapDown(event);
   }

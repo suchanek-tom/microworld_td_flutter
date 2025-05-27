@@ -23,7 +23,6 @@ class _TowerPanelComponentState extends State<TowerPanelComponent>
   int wave = GameState.waveNumber;
 
   late Player player;
-
   @override
   void initState() {
     super.initState();
@@ -120,8 +119,13 @@ class _TowerPanelComponentState extends State<TowerPanelComponent>
               },
             ),
             const Spacer(),
-            const Icon(Icons.fast_forward, color: Colors.red, size: 40),
-            const Icon(Icons.stop, color: Colors.red, size: 40),
+            // const Icon(Icons.fast_forward, color: Colors.red, size: 40),
+            IconButton(
+              icon: const Icon(Icons.stop, color: Colors.red, size: 40),
+              onPressed: () {
+                widget.game.pauseGame();
+              },
+            ),
             const SizedBox(height: 20),
           ],
         ),
