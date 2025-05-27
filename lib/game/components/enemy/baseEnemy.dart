@@ -107,7 +107,7 @@ abstract class BaseEnemy extends PositionComponent {
       die();
       onDeath?.call();
     } else {
-      sprite.opacity = 0.6;
+      sprite.opacity = 0.4;
       isHit = true;
     }
   }
