@@ -13,12 +13,12 @@ class EnemySpawner extends Component
 {
   final List<Vector2> waypoints;
   final double spawnInterval;
-  double timer = 0;
+  double timer = 0.0;
   int enemiesToSpawn = 0;
   int enemiesRemaining = 0;
   final GamePlay game;
  
-  EnemySpawner({required this.waypoints, this.spawnInterval = 2.0,required this.game});
+  EnemySpawner({required this.waypoints, this.spawnInterval = 5.0,required this.game});
 
   final Map<int, List<Map<String, dynamic>>> waveConfig = {
   1: [{'type': WorkerAnt, 'count': 5},{'type': QueenAnt, 'count': 1}],
