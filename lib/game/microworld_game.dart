@@ -29,7 +29,8 @@ class MicroworldGame extends FlameGame
   @override
   Future<void> onLoad() async {
     add(gamePlay);
-    overlays.add("gameOverlay");
+    overlays.add("TowerPanel");
+    overlays.add("TowerPanelUpgrade");
   }
 
   @override

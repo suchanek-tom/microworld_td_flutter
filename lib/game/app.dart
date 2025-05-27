@@ -1,7 +1,7 @@
 import 'package:flame/game.dart';
 import 'package:flutter/material.dart';
 import 'package:microworld_td/game/microworld_game.dart';
-import 'package:microworld_td/ui/gameOverlayUI.dart';
+import 'package:microworld_td/ui/game_overlayUI.dart';
 
 class GameApp extends StatefulWidget {
   const GameApp({super.key});
@@ -12,13 +12,13 @@ class GameApp extends StatefulWidget {
 
 class _GameAppState extends State<GameApp> 
 {
-  late final MicroworldGame game;
+  late final MicroworldGame maingame;
 
   @override
   void initState() 
   {
    super.initState();
-   game = MicroworldGame();
+   maingame = MicroworldGame();
   }
 
   @override
@@ -28,12 +28,14 @@ class _GameAppState extends State<GameApp>
       child: MaterialApp(
         debugShowCheckedModeBanner: false,
         home: Scaffold(
-          body: GameWidget(
-            game: game,overlayBuilderMap: {
-              "gameOverlay": (BuildContext context, MicroworldGame game){
-          return Gameoverlayui(game: game,);
-        }
-      },)
+          body: GameWidget
+          (
+            game: maingame,overlayBuilderMap: 
+            {
+              'TowerPanel': (context, game) => GameOverlayUI(game: maingame, overlayName: 'TowerPanel'),
+              'TowerPanelUpgrade': (context, game) => GameOverlayUI(game: maingame, overlayName: 'TowerPanelUpgrade'),
+            },
+          )
       ),
       ),
     );
