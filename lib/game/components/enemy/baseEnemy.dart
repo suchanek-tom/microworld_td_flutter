@@ -23,6 +23,8 @@ abstract class BaseEnemy extends PositionComponent {
   late final SpriteComponent sprite;
   VoidCallback? onDeath;
 
+  double currentAngle = 0.0;
+
   BaseEnemy({
     required this.waypoints,
     required this.reward,
@@ -40,9 +42,9 @@ abstract class BaseEnemy extends PositionComponent {
   Future<void> onLoad() async {
     try {
       sprite = SpriteComponent(
-      sprite: await Sprite.load(spritePath),
-      size: size, 
-      anchor: Anchor.center
+        sprite: await Sprite.load(spritePath),
+        size: size,
+        anchor: Anchor.center,
       );
 
       sprite.position = Vector2(width / 2, height / 2);
@@ -74,12 +76,22 @@ abstract class BaseEnemy extends PositionComponent {
 
     position += normalized * speed * dt;
 
-    final angle = math.atan2(normalized.y, normalized.x);
-    sprite.angle = angle + math.pi / 2; 
+    final targetAngle = math.atan2(normalized.y, normalized.x) + math.pi / 2;
+    currentAngle = _lerpAngle(currentAngle, targetAngle, dt * 5);
+    sprite.angle = currentAngle;
 
     if (position.distanceTo(nextWaypoint) < 5) {
       currentWaypointIndex++;
     }
+  }
+
+  double _lerpAngle(double a, double b, double t) {
+    double diff = b - a;
+
+    while (diff < -math.pi) diff += 2 * math.pi;
+    while (diff > math.pi) diff -= 2 * math.pi;
+
+    return a + diff * t;
   }
 
   void handleHitEffect(double dt) {
