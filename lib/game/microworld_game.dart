@@ -1,4 +1,5 @@
 import 'package:flame/components.dart';
+import 'package:flame/effects.dart';
 import 'package:flame/game.dart';
 import 'package:flame/events.dart' as flame;
 import 'package:flutter/material.dart';
@@ -25,43 +26,86 @@ class MicroworldGame extends FlameGame
   }
 
   @override
-  void update(double dt) {
-    super.update(dt);
+void update(double dt) {
+  super.update(dt);
 
-    if (GameState.isGameOver && gameOverText == null) {
-      gameOverText = TextComponent(
-        text: "GAME OVER!",
-        position: Vector2(size.x / 2, 50),
-        anchor: Anchor.topCenter,
-        textRenderer: TextPaint(
-          style: const TextStyle(
-            fontSize: 50,
-            fontWeight: FontWeight.w900,
-            color: Colors.red,
-          ),
+  if (GameState.isGameOver && gameOverText == null) {
+    gameOverText = TextComponent(
+      text: "GAME OVER!",
+      position: size / 2,
+      anchor: Anchor.center,
+      textRenderer: TextPaint(
+        style: const TextStyle(
+          fontSize: 64,
+          fontWeight: FontWeight.bold,
+          color: Colors.redAccent,
+          shadows: [
+            Shadow(
+              offset: Offset(2, 2),
+              blurRadius: 4,
+              color: Colors.black87,
+            ),
+          ],
         ),
-        priority: 100,
-      );
-      add(gameOverText!);
-      Future.delayed(const Duration(seconds: 1), pauseEngine);
-    } else if (GameState.isGameWon && winText == null) {
-      winText = TextComponent(
-        text: "YOU WIN!",
-        position: Vector2(size.x / 2, 50),
-        anchor: Anchor.topCenter,
-        textRenderer: TextPaint(
-          style: const TextStyle(
-            fontSize: 50,
-            fontWeight: FontWeight.w900,
-            color: Colors.black,
-          ),
+      ),
+      priority: 100,
+      scale: Vector2.all(0), // pro animaci
+    );
+
+    add(gameOverText!);
+
+    gameOverText!.add(
+      ScaleEffect.to(
+        Vector2.all(1),
+        EffectController(
+          duration: 0.6,
+          curve: Curves.easeOutBack,
         ),
-        priority: 100,
-      );
-      add(winText!);
-      Future.delayed(const Duration(seconds: 1), pauseEngine);
-    }
+      ),
+    );
+
+    Future.delayed(const Duration(seconds: 2), pauseEngine);
   }
+
+  if (GameState.isGameWon && winText == null) {
+    winText = TextComponent(
+      text: "YOU WIN!",
+      position: size / 2,
+      anchor: Anchor.center,
+      textRenderer: TextPaint(
+        style: const TextStyle(
+          fontSize: 64,
+          fontWeight: FontWeight.bold,
+          color: Colors.green,
+          shadows: [
+            Shadow(
+              offset: Offset(2, 2),
+              blurRadius: 4,
+              color: Colors.black87,
+            ),
+          ],
+        ),
+      ),
+      priority: 100,
+      scale: Vector2.all(0), // animace
+    );
+
+    add(winText!);
+
+    winText!.add(
+      ScaleEffect.to(
+        Vector2.all(1),
+        EffectController(
+          duration: 0.6,
+          curve: Curves.easeOutBack,
+        ),
+      ),
+    );
+
+    Future.delayed(const Duration(seconds: 2), pauseEngine);
+  }
+}
+
 
   @override
   void onPointerMove(flame.PointerMoveEvent event) {
