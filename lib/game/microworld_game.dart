@@ -10,12 +10,12 @@ class MicroworldGame extends FlameGame
   late TextComponent livesText;
   late TextComponent coinText;
   late TextComponent waveText;
+  bool isFastForward = false;
 
   TextComponent? gameOverText;
   TextComponent? winText;
 
   final GamePlay gamePlay = GamePlay();
-  //todo: add pause_menu screen
   void pauseGame() {
     pauseEngine();
     overlays.add('PauseMenu');

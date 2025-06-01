@@ -67,6 +67,15 @@ class GamePlay extends PositionComponent with HasGameReference<MicroworldGame>
     parentGame.overlays.add('PauseMenu');
   }
 }
+bool isPaused = false;
+
+void pause() {
+  isPaused = true;
+}
+
+void resume() {
+  isPaused = false;
+}
 
 
 }
