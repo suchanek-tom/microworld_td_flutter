@@ -11,20 +11,12 @@ class MicroworldGame extends FlameGame
   late TextComponent coinText;
   late TextComponent waveText;
   bool isFastForward = false;
+  bool isGamePaused = false;
 
   TextComponent? gameOverText;
   TextComponent? winText;
 
   final GamePlay gamePlay = GamePlay();
-  void pauseGame() {
-    pauseEngine();
-    overlays.add('PauseMenu');
-  }
-
-  void resumeGame() {
-    overlays.remove('PauseMenu');
-    resumeEngine();
-  }
 
   @override
   Future<void> onLoad() async {

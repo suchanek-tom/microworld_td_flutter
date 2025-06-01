@@ -14,6 +14,7 @@ class TowerPanelComponent extends StatefulWidget {
   @override
   State<TowerPanelComponent> createState() => _TowerPanelComponentState();
 }
+bool isPaused = false;
 
 class _TowerPanelComponentState extends State<TowerPanelComponent> 
 {
@@ -121,9 +122,16 @@ class _TowerPanelComponentState extends State<TowerPanelComponent>
             const Spacer(),
             // const Icon(Icons.fast_forward, color: Colors.red, size: 40),
             IconButton(
-              icon: const Icon(Icons.stop, color: Colors.red, size: 40),
+              icon: Icon(
+                isPaused ? Icons.play_arrow : Icons.pause,
+                color: Colors.red,
+                size: 40,
+              ),
               onPressed: () {
-                widget.game.pauseGame();
+                setState(() {
+                  isPaused = !isPaused;
+                });
+                widget.game.togglePause();
               },
             ),
             const SizedBox(height: 20),

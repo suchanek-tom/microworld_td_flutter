@@ -1,35 +1,34 @@
 import 'dart:async';
 import 'package:flame/game.dart';
-import 'package:microworld_td/game/components/enemy/enemy_spawner.dart';
-import 'package:microworld_td/game/components/pathComponent.dart';
 import 'package:flame/components.dart';
 import 'package:flame_tiled/flame_tiled.dart';
+import 'package:microworld_td/game/components/enemy/enemy_spawner.dart';
+import 'package:microworld_td/game/components/pathComponent.dart';
 import 'package:microworld_td/game/components/towers/baseTower.dart';
 import 'package:microworld_td/game/microworld_game.dart';
 
-
-class GamePlay extends PositionComponent with HasGameReference<MicroworldGame>
-{
+class GamePlay extends PositionComponent with HasGameReference<MicroworldGame> {
   late TiledComponent level;
   late EnemySpawner enemySpawner;
   late final CameraComponent cam;
 
   BaseTower? towerBeingPlaced;
   bool isPlacingTower = false;
+  bool isPaused = false;
 
   @override
-  FutureOr<void> onLoad() async
-  {
+  FutureOr<void> onLoad() async {
     level = await TiledComponent.load("level1.tmx", Vector2.all(64));
     final world = World();
-    
+
     await add(world);
     await add(level);
 
     cam = CameraComponent.withFixedResolution(world: world, width: 1280, height: 768);
     cam.viewfinder.anchor = Anchor.topLeft;
+    add(cam);
 
-    //wayponts for the level 1 that neads to be moved
+    // Waypoints for level 1
     List<Vector2> waypoints = [
       Vector2(130, 0), 
       Vector2(134, 190),
@@ -48,34 +47,35 @@ class GamePlay extends PositionComponent with HasGameReference<MicroworldGame>
     add(PathComponent(waypoints: waypoints));
 
     // Enemy spawner
-    add(EnemySpawner(waypoints: waypoints,spawnInterval: 3.25,game: this,));
-  
+    enemySpawner = EnemySpawner(
+      waypoints: waypoints,
+      spawnInterval: 3.25,
+      game: this,
+    );
+    add(enemySpawner);
+
     return super.onLoad();
   }
 
-  void placingTower(BaseTower tower)
-  {
+  void placingTower(BaseTower tower) {
     towerBeingPlaced = tower;
     towerBeingPlaced!.inplacement = true;
     isPlacingTower = true;
   }
 
   void pauseGame() {
-  FlameGame? parentGame = findParent<FlameGame>();
-  if (parentGame != null) {
-    parentGame.pauseEngine();
-    parentGame.overlays.add('PauseMenu');
+    isPaused = true;
+    game.pauseEngine();
+    game.overlays.add('PauseMenu');
   }
-}
-bool isPaused = false;
 
-void pause() {
-  isPaused = true;
-}
+  void resume() {
+    isPaused = false;
+    game.resumeEngine();
+    game.overlays.remove('PauseMenu');
+  }
 
-void resume() {
-  isPaused = false;
-}
-
-
+  void togglePause() {
+    isPaused ? resume() : pauseGame();
+  }
 }
