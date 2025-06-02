@@ -8,106 +8,120 @@ import 'package:microworld_td/game/components/enemy/types/worker_ant.dart';
 import 'package:microworld_td/game/components/game_state.dart';
 import 'package:microworld_td/game/gameplay.dart';
 
-
-class EnemySpawner extends Component 
-{
+class EnemySpawner extends Component {
   final List<Vector2> waypoints;
-  final double spawnInterval;
-  double timer = 0.0;
-  int enemiesToSpawn = 0;
-  int enemiesRemaining = 0;
+  double spawnInterval;
   final GamePlay game;
- 
-  EnemySpawner({required this.waypoints, required this.spawnInterval,required this.game});
 
-  final Map<int, List<Map<String, dynamic>>> waveConfig = {
-  1: [{'type': WorkerAnt, 'count': 5},{'type': QueenAnt, 'count': 1}],
-  2: [{'type': WorkerAnt, 'count': 8}],
-  3: [{'type': WorkerAnt, 'count': 6}, {'type': TurboAnt, 'count': 2}],
-  4: [{'type': TurboAnt, 'count': 5}],
-  5: [{'type': WorkerAnt, 'count': 5}, {'type': ArmoredAnt, 'count': 2}],
-  6: [{'type': TurboAnt, 'count': 6}, {'type': ArmoredAnt, 'count': 2}],
-  7: [{'type': WorkerAnt, 'count': 4}, {'type': TurboAnt, 'count': 4}, {'type': ArmoredAnt, 'count': 3}],
-  8: [{'type': ArmoredAnt, 'count': 5}],
-  9: [{'type': WorkerAnt, 'count': 6}, {'type': TurboAnt, 'count': 6}],
-  10: [{'type': QueensGuard, 'count': 1}, {'type': ArmoredAnt, 'count': 3}],
+  double _timer = 0.0;
+  int _enemiesToSpawn = 0;
+  int _enemiesRemaining = 0;
+  int _spawnIndex = 0;
+  List<_EnemyBatch> _currentWaveEnemies = [];
+
+  EnemySpawner({
+    required this.waypoints,
+    required this.spawnInterval,
+    required this.game,
+  });
+
+  final Map<int, List<_EnemyBatch>> waveConfig = {
+    1: [ _EnemyBatch(WorkerAnt, 5), _EnemyBatch(QueenAnt, 1) ],
+    2: [ _EnemyBatch(WorkerAnt, 8) ],
+    3: [ _EnemyBatch(WorkerAnt, 6), _EnemyBatch(TurboAnt, 2) ],
+    4: [ _EnemyBatch(TurboAnt, 5) ],
+    5: [ _EnemyBatch(WorkerAnt, 5), _EnemyBatch(ArmoredAnt, 2) ],
+    6: [ _EnemyBatch(TurboAnt, 6), _EnemyBatch(ArmoredAnt, 2) ],
+    7: [ _EnemyBatch(WorkerAnt, 4), _EnemyBatch(TurboAnt, 4), _EnemyBatch(ArmoredAnt, 3) ],
+    8: [ _EnemyBatch(ArmoredAnt, 5) ],
+    9: [ _EnemyBatch(WorkerAnt, 6), _EnemyBatch(TurboAnt, 6) ],
+    10: [ _EnemyBatch(QueensGuard, 1), _EnemyBatch(ArmoredAnt, 3) ],
   };
 
-
   @override
-  void update(double dt) 
-  {
+  void update(double dt) {
     super.update(dt);
 
-    if (enemiesToSpawn <= 0 && enemiesRemaining == 0) {
+    if (_enemiesToSpawn <= 0 && _enemiesRemaining == 0) {
       if (GameState.waveNumber >= 10) {
         GameState.winGame();
         return;
       }
 
       GameState.waveNumber++;
-      startNewWave();
+      _startNewWave();
     }
 
-    timer += dt;
-    if (timer >= spawnInterval && enemiesToSpawn > 0) {
-      timer = 0;
-      spawnNextEnemy();
+    _timer += dt;
+    if (_timer >= spawnInterval && _enemiesToSpawn > 0) {
+      _timer = 0;
+      _spawnNextEnemy();
     }
   }
 
-  void startNewWave() {
-    enemiesToSpawn = 0;
+  void _startNewWave() {
+    _timer = 0;
+    _spawnIndex = 0;
+    _enemiesToSpawn = 0;
+    _currentWaveEnemies.clear();
 
-    if (waveConfig.containsKey(GameState.waveNumber)) {
-      for (var enemyGroup in waveConfig[GameState.waveNumber]!) {
-        enemiesToSpawn += enemyGroup['count'] as int;
-      }
+    final config = waveConfig[GameState.waveNumber];
+    if (config != null) {
+      _currentWaveEnemies = config.map((e) => e.copy()).toList();
+      _enemiesToSpawn = _currentWaveEnemies.fold(0, (sum, batch) => sum + batch.count);
     } else {
-      enemiesToSpawn = 5 + (GameState.waveNumber * 2); 
+      // Default wave if not defined
+      final fallbackCount = 5 + (GameState.waveNumber * 2);
+      _currentWaveEnemies.add(_EnemyBatch(WorkerAnt, fallbackCount));
+      _enemiesToSpawn = fallbackCount;
     }
   }
 
-  void spawnNextEnemy() {
-    final List<Map<String, dynamic>>? currentWave = waveConfig[GameState.waveNumber];
-
-    if (currentWave != null) {
-      for (var enemyGroup in currentWave) {
-        if ((enemyGroup['count'] as int) > 0) {
-          spawnEnemy(enemyGroup['type']);
-          enemyGroup['count'] = (enemyGroup['count'] as int) - 1;
-          enemiesToSpawn--;
-          enemiesRemaining++;
-          return;
-        }
+  void _spawnNextEnemy() {
+    for (var batch in _currentWaveEnemies) {
+      if (batch.count > 0) {
+        _spawnEnemy(batch.type);
+        batch.count--;
+        _enemiesToSpawn--;
+        _enemiesRemaining++;
+        return;
       }
     }
   }
 
-  void spawnEnemy(Type enemyType) {
-  BaseEnemy? enemy;
+  void _spawnEnemy(Type type) {
+    BaseEnemy? enemy;
 
-  switch (enemyType)
-  {
-    case WorkerAnt:
-      enemy = WorkerAnt(waypoints: waypoints);
-      break;
-    case ArmoredAnt:
-      enemy = ArmoredAnt(waypoints: waypoints);
-      break;
-    case TurboAnt:
-      enemy = TurboAnt(waypoints: waypoints);
-      break;
-    case QueensGuard:
-      enemy = QueensGuard(waypoints: waypoints);
-      break;
-    case QueenAnt:
-      enemy = QueenAnt(waypoints: waypoints);
+    switch (type) {
+      case WorkerAnt:
+        enemy = WorkerAnt(waypoints: waypoints);
+        break;
+      case ArmoredAnt:
+        enemy = ArmoredAnt(waypoints: waypoints);
+        break;
+      case TurboAnt:
+        enemy = TurboAnt(waypoints: waypoints);
+        break;
+      case QueensGuard:
+        enemy = QueensGuard(waypoints: waypoints);
+        break;
+      case QueenAnt:
+        enemy = QueenAnt(waypoints: waypoints);
+        break;
+      default:
+        return;
     }
 
-    enemy?.onDeath = () {
-      enemiesRemaining--;
-    };
-    game.add(enemy as Component);
+    enemy?.onDeath = () => _enemiesRemaining--;
+    game.add(enemy!);
   }
+}
+
+class _EnemyBatch {
+  final Type type;
+  int count;
+
+  _EnemyBatch(this.type, this.count);
+
+  _EnemyBatch copy() => _EnemyBatch(type, count);
 }

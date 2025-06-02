@@ -15,6 +15,8 @@ class GamePlay extends PositionComponent with HasGameReference<MicroworldGame> {
   BaseTower? towerBeingPlaced;
   bool isPlacingTower = false;
   bool isPaused = false;
+  bool isFastForwarded = false;
+  double originalSpawnInterval = 3.25;
 
   @override
   FutureOr<void> onLoad() async {
@@ -53,6 +55,17 @@ class GamePlay extends PositionComponent with HasGameReference<MicroworldGame> {
       game: this,
     );
     add(enemySpawner);
+
+    void toggleFastForward() {
+    isFastForwarded = !isFastForwarded;
+
+    if (isFastForwarded) {
+      enemySpawner.spawnInterval = originalSpawnInterval / 2;
+    } else {
+      enemySpawner.spawnInterval = originalSpawnInterval;
+    }
+}
+
 
     return super.onLoad();
   }

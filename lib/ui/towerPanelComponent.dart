@@ -120,11 +120,24 @@ class _TowerPanelComponentState extends State<TowerPanelComponent>
               },
             ),
             const Spacer(),
-            // const Icon(Icons.fast_forward, color: Colors.red, size: 40),
+            //Fast-forward button
+            IconButton(
+              icon: Icon(
+                widget.game.isFastForwarded ? Icons.fast_forward : Icons.fast_forward_outlined,
+                color: Colors.white,
+                size: 40,
+              ),
+              onPressed: () {
+                setState(() {
+                  // game.toggleFastForward();
+                });
+              },
+            ),
+            //Pause button
             IconButton(
               icon: Icon(
                 isPaused ? Icons.play_arrow : Icons.pause,
-                color: Colors.red,
+                color: Colors.white,
                 size: 40,
               ),
               onPressed: () {
