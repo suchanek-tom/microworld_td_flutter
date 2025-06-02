@@ -6,6 +6,7 @@ import 'package:microworld_td/game/components/towers/baseTower.dart';
 class BeeTower extends BaseTower {
   BeeTower()
       : super(
+          towerName: "Bee",
           fireRate: 0.3,
           range: 200,
           damage: 5,

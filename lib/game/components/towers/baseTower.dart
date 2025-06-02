@@ -1,9 +1,11 @@
 import 'package:flame/components.dart';
+import 'package:flame/events.dart';
 import 'package:microworld_td/game/components/enemy/baseEnemy.dart';
 
-abstract class BaseTower extends PositionComponent 
+abstract class BaseTower extends PositionComponent with HoverCallbacks
 {
   bool inplacement = false;
+  final String towerName;
   final double fireRate;
   final double range;
   final int damage;
@@ -12,9 +14,10 @@ abstract class BaseTower extends PositionComponent
 
   double timeSinceLastShot = 0;
 
-  SpriteComponent? _spriteComponent;
+  late final SpriteComponent sprite;
 
   BaseTower({
+    required this.towerName,
     required this.fireRate,
     required this.range,
     required this.damage,
@@ -22,18 +25,21 @@ abstract class BaseTower extends PositionComponent
     required this.spriteSize,
   }) {
     size = spriteSize;
+    anchor = Anchor.center;
   }
 
   @override
   Future<void> onLoad() async {
     try {
-      final sprite = await Sprite.load(spritePath);
-      _spriteComponent = SpriteComponent(
-        sprite: sprite,
+      sprite = SpriteComponent(
+        sprite: await Sprite.load(spritePath),
         size: size,
         anchor: Anchor.center,
       );
-      add(_spriteComponent!);
+
+      sprite.position = Vector2(width / 2, height / 2);
+
+      add(sprite);
     } catch (e) {
       print('❌ Failed to load sprite at "$spritePath". Error: $e');
     }
@@ -57,11 +63,9 @@ abstract class BaseTower extends PositionComponent
 
       final target = enemies.first;
 
-      if (_spriteComponent != null) {
-        final direction = (target.position - position).normalized();
-        _spriteComponent!.angle = direction.screenAngle();
-      }
-
+      final direction = (target.position - position).normalized();
+      sprite.angle = direction.screenAngle();
+    
       if (timeSinceLastShot >= fireRate) {
         attackTarget(target);
         timeSinceLastShot = 0;
@@ -72,6 +76,21 @@ abstract class BaseTower extends PositionComponent
   set setPos(Vector2 position)
   {
     this.position = position;
+  }
+
+  @override
+  void onHoverEnter() 
+  {
+    sprite.opacity = 0.7;
+    print("lezzo $position");
+    super.onHoverEnter();
+  }
+
+  @override
+  void onHoverExit() 
+  {
+    sprite.opacity = 1;
+    super.onHoverExit();
   }
 
   void attackTarget(BaseEnemy target);

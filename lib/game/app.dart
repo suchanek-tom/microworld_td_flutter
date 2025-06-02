@@ -13,17 +13,20 @@ class GameApp extends StatefulWidget {
 class _GameAppState extends State<GameApp> 
 {
   late final MicroworldGame maingame;
+  late final GameOverlayUI gameOverlays;
 
   @override
   void initState() 
   {
    super.initState();
    maingame = MicroworldGame();
+   gameOverlays = GameOverlayUI(game: maingame);
   }
 
   @override
   Widget build(BuildContext context)
    {
+    
     return ClipRect(
       child: MaterialApp(
         debugShowCheckedModeBanner: false,
@@ -32,11 +35,11 @@ class _GameAppState extends State<GameApp>
           (
             game: maingame,overlayBuilderMap: 
             {
-              'TowerPanel': (context, game) => GameOverlayUI(game: maingame, overlayName: 'TowerPanel'),
-              'TowerPanelUpgrade': (context, game) => GameOverlayUI(game: maingame, overlayName: 'TowerPanelUpgrade'),
+              'TowerPanel': (context, game) => gameOverlays.buildPanels("TowerPanel"),
+              'TowerPanelUpgrade': (context, game) => gameOverlays.buildPanels("TowerPanelUpgrade"),
             },
           )
-      ),
+        ),
       ),
     );
   }

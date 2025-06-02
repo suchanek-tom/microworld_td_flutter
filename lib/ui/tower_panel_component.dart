@@ -1,5 +1,4 @@
 import 'dart:async';
-import 'package:flame/image_composition.dart';
 import 'package:flutter/material.dart';
 import 'package:microworld_td/game/components/game_state.dart';
 import 'package:microworld_td/game/components/towers/baseTower.dart';
@@ -12,17 +11,17 @@ class TowerPanelComponent extends StatefulWidget {
   const TowerPanelComponent({super.key, required this.game});
 
   @override
-  State<TowerPanelComponent> createState() => _TowerPanelComponentState();
+  State<TowerPanelComponent> createState() => TowerPanelComponentState();
 }
 
-class _TowerPanelComponentState extends State<TowerPanelComponent> 
+class TowerPanelComponentState extends State<TowerPanelComponent> 
 {
   late Timer _timer;
   int coins = GameState.coins;
   int lives = GameState.lives;
   int wave = GameState.waveNumber;
 
-  late Player player;
+  late Player player  = Player();
   @override
   void initState() {
     super.initState();
@@ -44,8 +43,9 @@ class _TowerPanelComponentState extends State<TowerPanelComponent>
   }
 
   @override
-  Widget build(BuildContext context) {
-    player = Player();
+  Widget build(BuildContext context) 
+  {
+    //player = widget.game.player;
     List<BaseTower> towerList = player.getTowers;
 
     return Transform.translate(

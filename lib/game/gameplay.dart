@@ -13,9 +13,13 @@ class GamePlay extends PositionComponent with HasGameReference<MicroworldGame>
   late TiledComponent level;
   late EnemySpawner enemySpawner;
   late final CameraComponent cam;
-
+  
   BaseTower? towerBeingPlaced;
+
+  late List<BaseTower> towersPlaced;
+
   bool isPlacingTower = false;
+  bool isSelectingTower = false;
 
   @override
   FutureOr<void> onLoad() async
@@ -25,6 +29,7 @@ class GamePlay extends PositionComponent with HasGameReference<MicroworldGame>
     
     await add(world);
     await add(level);
+    game.initializeUpgradeSystem();
 
     cam = CameraComponent.withFixedResolution(world: world, width: 1280, height: 768);
     cam.viewfinder.anchor = Anchor.topLeft;
@@ -60,13 +65,13 @@ class GamePlay extends PositionComponent with HasGameReference<MicroworldGame>
     isPlacingTower = true;
   }
 
+  //i think this neads to be on microworldgame
   void pauseGame() {
   FlameGame? parentGame = findParent<FlameGame>();
   if (parentGame != null) {
     parentGame.pauseEngine();
     parentGame.overlays.add('PauseMenu');
   }
-}
-
+  }
 
 }

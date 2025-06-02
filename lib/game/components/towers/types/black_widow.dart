@@ -6,6 +6,7 @@ import 'package:microworld_td/game/components/towers/baseTower.dart';
 class BlackWidowTower extends BaseTower {
   BlackWidowTower()
       : super(
+          towerName: "Black Widow",
           fireRate: 0.5,
           range: 300,
           damage: 10,
@@ -17,4 +18,5 @@ class BlackWidowTower extends BaseTower {
   void attackTarget(BaseEnemy target) {
     parent?.add(StandardBullet(position: position.clone(), target: target, damage: damage));
   }
+
 }

@@ -4,26 +4,45 @@ import 'package:microworld_td/game/microworld_game.dart';
 import 'package:microworld_td/ui/tower_panel_upgrade_component.dart';
 import 'tower_panel_component.dart';
 
- class GameOverlayUI extends StatelessWidget
+ class GameOverlayUI 
 {
+  GameOverlayUI({required this.game,});
 
-  const GameOverlayUI({super.key,required this.game,required this.overlayName,});
- 
   final MicroworldGame game;
-  final String overlayName;
- 
-  @override
-  Widget build(BuildContext context) 
-  {
+  final Map<String, Widget> overlayInstances = {};
+  final GlobalKey<TowerPanelUpgradeComponentState> upgradepanelKey = GlobalKey<TowerPanelUpgradeComponentState>();
+  final GlobalKey<TowerPanelComponentState> towerpanelKey = GlobalKey<TowerPanelComponentState>();
+   
 
-     switch (overlayName) 
-     {
+  Widget buildPanels(String overlayName)
+  {
+    switch (overlayName) 
+    {
       case 'TowerPanel':
-        return TowerPanelComponent(game: game.gamePlay);
+      {
+        overlayInstances["TowerPanel"] = TowerPanelComponent(key: towerpanelKey, game: game.gamePlay);
+        sendPanelOverlays("TowerPanel",towerpanelKey);
+        return overlayInstances["TowerPanel"]!;
+      }
       case 'TowerPanelUpgrade':
-        return TowerPanelUpgradeComponent(game: game.gamePlay);
+      {
+        overlayInstances["TowerPanelUpgrade"] = TowerPanelUpgradeComponent(key: upgradepanelKey, game: game.gamePlay);
+        sendPanelOverlays("TowerPanelUpgrade",upgradepanelKey);
+        return overlayInstances["TowerPanelUpgrade"]!;
+      }
       default:
-        return const SizedBox.shrink(); // Nessun overlay trovato
+      return const SizedBox.shrink(); // Nessun overlay trovato
     }
+  }
+
+  void sendPanelOverlays(String overlayName, GlobalKey key)
+  {
+    game.overlayInstances[overlayName] = overlayInstances[overlayName]!;
+    if(overlayName == "TowerPanelUpgrade") {
+      game.upgradepanelKeystate = key as  GlobalKey<TowerPanelUpgradeComponentState>;
+    }else{
+      game.towerpanelKeystate = key as GlobalKey<TowerPanelComponentState>;
+    }
+    //print("dio merda $game.$overlayInstances[$overlayName]");
   }
 }

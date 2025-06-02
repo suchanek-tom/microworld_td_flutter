@@ -3,7 +3,8 @@ import 'dart:ui';
 import 'package:flame/components.dart';
 import 'package:microworld_td/game/components/game_state.dart';
 
-abstract class BaseEnemy extends PositionComponent {
+abstract class BaseEnemy extends PositionComponent 
+{
   final List<Vector2> waypoints;
   final double speed;
   final int reward;
