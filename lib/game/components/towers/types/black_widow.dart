@@ -7,16 +7,37 @@ class BlackWidowTower extends BaseTower {
   BlackWidowTower()
       : super(
           towerName: "Black Widow",
+          cost: 175,
           fireRate: 0.5,
           range: 300,
+          sellCost: 75,
           damage: 10,
-          spritePath: 'sprites/vedova_nera.png',
-          spriteSize: Vector2(90, 90),
+          sprite_path: 'sprites/vedova_nera.png',
+          sprit_icon_path: 'sprites/tower_icons/vedova_nera_i.png',
+          sprite_size: Vector2(90, 90),
         );
 
   @override
   void attackTarget(BaseEnemy target) {
     parent?.add(StandardBullet(position: position.clone(), target: target, damage: damage));
+  }
+  
+  @override
+  Target changeTarget() {
+    // TODO: implement changeTarget
+    throw UnimplementedError();
+  }
+  
+  @override
+  int killCounter() {
+    // TODO: implement killCounter
+    throw UnimplementedError();
+  }
+  
+  @override
+  int sellTower(BaseTower towerToSell) {
+    // TODO: implement sellTower
+    throw UnimplementedError();
   }
 
 }

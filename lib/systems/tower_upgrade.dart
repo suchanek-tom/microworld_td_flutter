@@ -11,8 +11,6 @@ class TowerUpgradeSystem
 
   void openUpgradePanel(BaseTower towerToUpgrade) 
   {
-    print("ci stengo fino qua $panelKey");
-    print(panelKey.currentState);
     panelKey.currentState?.showForTower(towerToUpgrade);
   }
 
@@ -21,13 +19,15 @@ class TowerUpgradeSystem
   }
 
   // Esempio: upgrade della torre (da completare)
-  BaseTower baseUpgrade(BaseTower towerToUpgrade, int coins) {
+  BaseTower baseUpgrade(BaseTower towerToUpgrade, int coins) 
+  {
     // Implementa la logica di upgrade...
     return towerToUpgrade;
   }
 
-  BaseTower abilityUpgrade(BaseTower towerToUpgrade, int coins) {
-    // Implementa la logica di upgrade...
+  BaseTower abilityUpgrade(BaseTower towerToUpgrade, int coins) 
+  {
+    // Implementa la logica di upgrade per le abilità...
     return towerToUpgrade;
   }
 }

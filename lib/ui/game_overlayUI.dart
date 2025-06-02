@@ -43,6 +43,5 @@ import 'tower_panel_component.dart';
     }else{
       game.towerpanelKeystate = key as GlobalKey<TowerPanelComponentState>;
     }
-    //print("dio merda $game.$overlayInstances[$overlayName]");
   }
 }

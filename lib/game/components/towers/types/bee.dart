@@ -8,14 +8,35 @@ class BeeTower extends BaseTower {
       : super(
           towerName: "Bee",
           fireRate: 0.3,
+          cost: 100,
+          sellCost: 40,
           range: 200,
           damage: 5,
-          spritePath: 'bee.png',
-          spriteSize: Vector2(90, 90),
+          sprite_path: 'sprites/bee.png',
+          sprit_icon_path: 'sprites/tower_icons/bee_i.png',
+          sprite_size: Vector2(90, 90),
         );
 
   @override
   void attackTarget(BaseEnemy target) {
     parent?.add(StandardBullet(position: position.clone(), target: target, damage: damage));
+  }
+  
+  @override
+  Target changeTarget() {
+    // TODO: implement changeTarget
+    throw UnimplementedError();
+  }
+  
+  @override
+  int killCounter() {
+    // TODO: implement killCounter
+    throw UnimplementedError();
+  }
+  
+  @override
+  int sellTower(BaseTower towerToSell) {
+    // TODO: implement sellTower
+    throw UnimplementedError();
   }
 }

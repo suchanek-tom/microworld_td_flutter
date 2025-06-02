@@ -17,18 +17,16 @@ class TowerPanelUpgradeComponentState extends State<TowerPanelUpgradeComponent>
   bool isvisible = false;
   BaseTower? selectedTower;
 
-    void showForTower(BaseTower tower) 
-    {   
-      print("carbongelli");
-      setState(() 
-      {
-        isvisible = true;
-        print("carbongelli");
-        selectedTower = tower;
-      });
-    }
+  void showForTower(BaseTower tower) 
+  {   
+    setState((){
+      isvisible = true;
+      selectedTower = tower;
+    });
+  }
 
-  void hide() {
+  void hide() 
+  {
     setState(() {
       isvisible = false;
       selectedTower = null;
@@ -61,16 +59,15 @@ class TowerPanelUpgradeComponentState extends State<TowerPanelUpgradeComponent>
                 children: [
                   //Image.asset('assets/dart_monkey.png', width: 60, height: 60), // Replace with your tower image
                   const SizedBox(height: 8),
-                  const Text("Dart Monkey", style: TextStyle(fontWeight: FontWeight.bold)),
-                  const Text("Pop Count: 0"),
+                  Text(selectedTower?.towerName ?? '', style: TextStyle(fontWeight: FontWeight.bold)),
+                  Text("Pop Count: 0"),
                   const SizedBox(height: 8),
                   Wrap(
                     spacing: 3,
                     children: [
                       targetButton("FIRST"),
-                      targetButton("LAST"),
                       targetButton("CLOSE"),
-                    //targetButton("STRONG"),
+                      targetButton("STRONG"),
                     ],
                   ),
                 ],

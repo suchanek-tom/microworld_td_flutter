@@ -23,6 +23,7 @@ class MicroworldGame extends FlameGame with flame.TapCallbacks, flame.PointerMov
   final GamePlay gamePlay = GamePlay();
   late final TowerUpgradeSystem upgradeSystem; 
   final Map<String, Widget> overlayInstances = {};
+  
   late GlobalKey<TowerPanelUpgradeComponentState> upgradepanelKeystate;
   late GlobalKey<TowerPanelComponentState> towerpanelKeystate;
 
@@ -46,7 +47,6 @@ class MicroworldGame extends FlameGame with flame.TapCallbacks, flame.PointerMov
   }
 
   void initializeUpgradeSystem() {
-    print(overlayInstances);
     upgradeSystem = TowerUpgradeSystem(panelKey: upgradepanelKeystate);
   }
 
@@ -124,7 +124,11 @@ class MicroworldGame extends FlameGame with flame.TapCallbacks, flame.PointerMov
         print('Hai selezionato la torre: ${tappedTower.towerName}');
         upgradeSystem.openUpgradePanel(tappedTower);
       }
-      
+      else
+      {
+        gamePlay.isSelectingTower = false;
+        upgradeSystem.closeUpgradePanel();
+      }
     }   
     super.onTapDown(event);
   }
