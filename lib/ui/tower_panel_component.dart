@@ -261,7 +261,7 @@ class TowerPanelComponentState extends State<TowerPanelComponent> {
                       ),
                       child: hasTower
                           ? Image.asset(
-                              towerList[index].sprite_path, // Assicurati che ogni tower abbia un `spritePath`
+                              towerList[index].sprit_icon_path, // Assicurati che ogni tower abbia un `spritePath`
                               fit: BoxFit.cover,
                             )
                           : const Icon

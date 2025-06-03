@@ -14,7 +14,7 @@ class Cricket extends BaseTower
         range: 100,
         damage: 150,
         sprite_path: 'sprites/grillo.png',
-        sprit_icon_path: 'sprites/tower_icons/grillo_i.png',
+        sprit_icon_path: 'images/UI/tower_icons/grillo_i.png',
         sprite_size: Vector2(110, 110),
       );
 
