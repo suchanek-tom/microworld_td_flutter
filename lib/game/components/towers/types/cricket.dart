@@ -15,7 +15,7 @@ class Cricket extends BaseTower
         damage: 150,
         sprite_path: 'sprites/grillo.png',
         sprit_icon_path: 'images/UI/tower_icons/grillo_i.png',
-        sprite_size: Vector2(110, 110),
+        sprite_size: Vector2(90, 90),
       );
 
   @override
