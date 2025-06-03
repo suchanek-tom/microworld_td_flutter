@@ -16,7 +16,6 @@ class GamePlay extends PositionComponent with HasGameReference<MicroworldGame> {
   bool isPlacingTower = false;
   bool isPaused = false;
   bool isFastForwarded = false;
-  double originalSpawnInterval = 3.25;
 
   @override
   FutureOr<void> onLoad() async {
@@ -26,13 +25,16 @@ class GamePlay extends PositionComponent with HasGameReference<MicroworldGame> {
     await add(world);
     await add(level);
 
-    cam = CameraComponent.withFixedResolution(world: world, width: 1280, height: 768);
+    cam = CameraComponent.withFixedResolution(
+      world: world,
+      width: 1280,
+      height: 768,
+    );
     cam.viewfinder.anchor = Anchor.topLeft;
     add(cam);
 
-    // Waypoints for level 1
     List<Vector2> waypoints = [
-      Vector2(130, 0), 
+      Vector2(130, 0),
       Vector2(134, 190),
       Vector2(510, 190),
       Vector2(510, 320),
@@ -55,17 +57,6 @@ class GamePlay extends PositionComponent with HasGameReference<MicroworldGame> {
       game: this,
     );
     add(enemySpawner);
-
-    void toggleFastForward() {
-    isFastForwarded = !isFastForwarded;
-
-    if (isFastForwarded) {
-      enemySpawner.spawnInterval = originalSpawnInterval / 2;
-    } else {
-      enemySpawner.spawnInterval = originalSpawnInterval;
-    }
-}
-
 
     return super.onLoad();
   }
@@ -90,5 +81,10 @@ class GamePlay extends PositionComponent with HasGameReference<MicroworldGame> {
 
   void togglePause() {
     isPaused ? resume() : pauseGame();
+  }
+
+  void toggleFastForward() {
+    isFastForwarded = !isFastForwarded;
+    game.timeScale = isFastForwarded ? 2.0 : 1.0;
   }
 }

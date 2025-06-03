@@ -3,36 +3,48 @@ import 'dart:ui';
 import 'package:flame/components.dart';
 import 'package:microworld_td/game/components/game_state.dart';
 
+enum StatusEffect { none, poisoned, slowed }
+
 abstract class BaseEnemy extends PositionComponent {
   final List<Vector2> waypoints;
-  final double speed;
   final int reward;
   final String spritePath;
   final Vector2 spriteSize;
+
+  late final SpriteComponent sprite;
+  late double baseSpeed;
+  late double speed;
+  double speedMultiplier = 1.0;
 
   int health;
   int currentWaypointIndex = 0;
 
   bool isHit = false;
   double hitTimer = 0;
+
+  // Poison
   int poisonDamage = 0;
   double poisonTimer = 0;
 
+  // Slow
+  double slowDuration = 0;
+
   double originalOpacity = 1.0;
-
-  late final SpriteComponent sprite;
-  VoidCallback? onDeath;
-
   double currentAngle = 0.0;
+
+  StatusEffect status = StatusEffect.none;
+  VoidCallback? onDeath;
 
   BaseEnemy({
     required this.waypoints,
     required this.reward,
-    required this.speed,
+    required double speed,
     required this.health,
     required this.spritePath,
     required this.spriteSize,
   }) {
+    this.baseSpeed = speed;
+    this.speed = speed;
     size = spriteSize;
     anchor = Anchor.center;
     position = waypoints.first;
@@ -46,16 +58,16 @@ abstract class BaseEnemy extends PositionComponent {
         size: size,
         anchor: Anchor.center,
       );
-
       sprite.position = Vector2(width / 2, height / 2);
 
+      // Počáteční otočení směrem k prvnímu cíli
       if (waypoints.length > 1) {
-      final initialDirection = waypoints[1] - waypoints[0];
-      final initialNormalized = initialDirection.normalized();
-      final initialAngle = math.atan2(initialNormalized.y, initialNormalized.x) + math.pi / 2;
+        final initialDirection = waypoints[1] - waypoints[0];
+        final initialNormalized = initialDirection.normalized();
+        final initialAngle = math.atan2(initialNormalized.y, initialNormalized.x) + math.pi / 2;
 
-      currentAngle = initialAngle;
-      sprite.angle = currentAngle;
+        currentAngle = initialAngle;
+        sprite.angle = currentAngle;
       }
 
       add(sprite);
@@ -73,10 +85,12 @@ abstract class BaseEnemy extends PositionComponent {
     } else {
       GameState.loseLife();
       removeFromParent();
+      return;
     }
 
     if (isHit) handleHitEffect(dt);
-    if (poisonDamage > 0) handlePoisonEffect(dt);
+    if (status == StatusEffect.poisoned) handlePoisonEffect(dt);
+    if (status == StatusEffect.slowed) handleSlowEffect(dt);
   }
 
   void moveToNextWaypoint(double dt) {
@@ -97,10 +111,8 @@ abstract class BaseEnemy extends PositionComponent {
 
   double _lerpAngle(double a, double b, double t) {
     double diff = b - a;
-
     while (diff < -math.pi) diff += 2 * math.pi;
     while (diff > math.pi) diff -= 2 * math.pi;
-
     return a + diff * t;
   }
 
@@ -119,27 +131,46 @@ abstract class BaseEnemy extends PositionComponent {
       health -= poisonDamage;
       poisonTimer = 0;
 
-      if (health <= 0) die();
+      if (health <= 0) {
+        die();
+      }
+    }
+  }
+
+  void handleSlowEffect(double dt) {
+    slowDuration -= dt;
+    if (slowDuration <= 0) {
+      speed = baseSpeed;
+      status = StatusEffect.none;
     }
   }
 
   void takeDamage(int damage) {
     health -= damage;
+
     if (health <= 0) {
       die();
-      onDeath?.call();
     } else {
       sprite.opacity = 0.4;
       isHit = true;
     }
   }
 
-  void applyPoison(int poisonDamage) {
-    this.poisonDamage = poisonDamage;
+  void applyPoison(int damagePerSecond) {
+    poisonDamage = damagePerSecond;
+    poisonTimer = 0;
+    status = StatusEffect.poisoned;
+  }
+
+  void applySlow(double multiplier, double duration) {
+    speed = baseSpeed * multiplier;
+    slowDuration = duration;
+    status = StatusEffect.slowed;
   }
 
   void die() {
     GameState.addCoins(reward);
+    onDeath?.call();
     removeFromParent();
   }
 }

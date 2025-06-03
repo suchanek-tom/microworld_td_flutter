@@ -11,6 +11,7 @@ class MicroworldGame extends FlameGame
   late TextComponent livesText;
   late TextComponent coinText;
   late TextComponent waveText;
+
   bool isFastForward = false;
   bool isGamePaused = false;
 
@@ -19,17 +20,28 @@ class MicroworldGame extends FlameGame
 
   final GamePlay gamePlay = GamePlay();
 
+  set timeScale(double timeScale) {}
+
   @override
   Future<void> onLoad() async {
-    add(gamePlay);
+    await add(gamePlay);
     overlays.add("gameOverlay");
   }
 
   @override
-void update(double dt) {
-  super.update(dt);
+  void update(double dt) {
+    super.update(dt);
 
-  if (GameState.isGameOver && gameOverText == null) {
+    if (GameState.isGameOver && gameOverText == null) {
+      showGameOverText();
+    }
+
+    if (GameState.isGameWon && winText == null) {
+      showWinText();
+    }
+  }
+
+  void showGameOverText() {
     gameOverText = TextComponent(
       text: "GAME OVER!",
       position: size / 2,
@@ -49,7 +61,7 @@ void update(double dt) {
         ),
       ),
       priority: 100,
-      scale: Vector2.all(0), // pro animaci
+      scale: Vector2.all(0),
     );
 
     add(gameOverText!);
@@ -67,7 +79,7 @@ void update(double dt) {
     Future.delayed(const Duration(seconds: 2), pauseEngine);
   }
 
-  if (GameState.isGameWon && winText == null) {
+  void showWinText() {
     winText = TextComponent(
       text: "YOU WIN!",
       position: size / 2,
@@ -87,7 +99,7 @@ void update(double dt) {
         ),
       ),
       priority: 100,
-      scale: Vector2.all(0), // animace
+      scale: Vector2.all(0),
     );
 
     add(winText!);
@@ -104,8 +116,11 @@ void update(double dt) {
 
     Future.delayed(const Duration(seconds: 2), pauseEngine);
   }
-}
 
+  void toggleFastForward() {
+    isFastForward = !isFastForward;
+    gamePlay.toggleFastForward();
+  }
 
   @override
   void onPointerMove(flame.PointerMoveEvent event) {

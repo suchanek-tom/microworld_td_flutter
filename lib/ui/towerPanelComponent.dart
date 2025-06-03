@@ -129,7 +129,7 @@ class _TowerPanelComponentState extends State<TowerPanelComponent>
               ),
               onPressed: () {
                 setState(() {
-                  // game.toggleFastForward();
+                  widget.game.toggleFastForward();
                 });
               },
             ),
