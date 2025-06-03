@@ -147,7 +147,6 @@ class TowerPanelComponentState extends State<TowerPanelComponent>
 
 
 
-
 import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:microworld_td/game/components/game_state.dart';
@@ -226,8 +225,8 @@ class TowerPanelComponentState extends State<TowerPanelComponent> {
                 Text('$coins', style: const TextStyle(color: Colors.white)),
               ],
             ),
-            const SizedBox(height: 20),
-            const Icon(Icons.arrow_drop_up, size: 32, color: Colors.red),
+            const SizedBox(height: 30),
+            const Icon(Icons.arrow_drop_up, size: 64, color: Colors.red),
             Expanded(
               child: GridView.builder
               (
@@ -280,7 +279,7 @@ class TowerPanelComponentState extends State<TowerPanelComponent> {
                 },
               ),
             ),
-            const Icon(Icons.arrow_drop_down, size: 32, color: Colors.red),
+            const Icon(Icons.arrow_drop_down, size: 64, color: Colors.red),
             const SizedBox(height: 8),
             Container(
               padding: const EdgeInsets.all(6),
