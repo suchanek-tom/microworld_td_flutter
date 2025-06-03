@@ -1,41 +1,60 @@
 import 'package:flame/components.dart';
+import 'package:flame/events.dart';
 import 'package:microworld_td/game/components/enemy/baseEnemy.dart';
 
-abstract class BaseTower extends PositionComponent 
+enum Target{ first, close, strong}
+
+abstract class BaseTower extends PositionComponent with HoverCallbacks
 {
   bool inplacement = false;
-  final double fireRate;
-  final double range;
-  final int damage;
-  final String spritePath;
-  final Vector2 spriteSize; 
 
+  final String towerName;
+  final String sprite_path;
+  final String sprit_icon_path;
+  final Vector2 sprite_size; 
+  late SpriteComponent sprite;
+  
+  int cost;
+  int sellCost;
+  double fireRate;
+  double range;
+  int damage;
+  
+  Target typeTarget = Target.first;
   double timeSinceLastShot = 0;
-
-  SpriteComponent? _spriteComponent;
+  int antKilled = 0;
+  int exp_torre = 0;
 
   BaseTower({
+    required this.towerName,
     required this.fireRate,
     required this.range,
     required this.damage,
-    required this.spritePath,
-    required this.spriteSize,
-  }) {
-    size = spriteSize;
+    required this.sprite_path,
+    required this.sprite_size,
+    required this.cost,
+    required this.sellCost,  
+    required this.sprit_icon_path,    
+  }) 
+  {
+    size = sprite_size;
+    anchor = Anchor.center;
   }
 
   @override
   Future<void> onLoad() async {
     try {
-      final sprite = await Sprite.load(spritePath);
-      _spriteComponent = SpriteComponent(
-        sprite: sprite,
+      sprite = SpriteComponent(
+        sprite: await Sprite.load(sprite_path),
         size: size,
         anchor: Anchor.center,
       );
-      add(_spriteComponent!);
+
+      sprite.position = Vector2(width / 2, height / 2);
+
+      add(sprite);
     } catch (e) {
-      print('❌ Failed to load sprite at "$spritePath". Error: $e');
+      print('❌ Failed to load sprite at "$sprite_path". Error: $e');
     }
   }
 
@@ -57,11 +76,9 @@ abstract class BaseTower extends PositionComponent
 
       final target = enemies.first;
 
-      if (_spriteComponent != null) {
-        final direction = (target.position - position).normalized();
-        _spriteComponent!.angle = direction.screenAngle();
-      }
-
+      final direction = (target.position - position).normalized();
+      sprite.angle = direction.screenAngle();
+    
       if (timeSinceLastShot >= fireRate) {
         attackTarget(target);
         timeSinceLastShot = 0;
@@ -74,5 +91,25 @@ abstract class BaseTower extends PositionComponent
     this.position = position;
   }
 
+  @override
+  void onHoverEnter() 
+  {
+    sprite.opacity = 0.7;
+    super.onHoverEnter();
+  }
+
+  @override
+  void onHoverExit() 
+  {
+    sprite.opacity = 1;
+    super.onHoverExit();
+  }
+
   void attackTarget(BaseEnemy target);
+
+  int sellTower(BaseTower towerToSell);
+
+  int killCounter();
+
+  Target changeTarget();
 }

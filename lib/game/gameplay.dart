@@ -11,11 +11,15 @@ class GamePlay extends PositionComponent with HasGameReference<MicroworldGame> {
   late TiledComponent level;
   late EnemySpawner enemySpawner;
   late final CameraComponent cam;
-
+  
   BaseTower? towerBeingPlaced;
+
+  late List<BaseTower> towersPlaced;
+
   bool isPlacingTower = false;
   bool isPaused = false;
   bool isFastForwarded = false;
+  bool isSelectingTower = false;
 
   @override
   FutureOr<void> onLoad() async {
@@ -24,6 +28,7 @@ class GamePlay extends PositionComponent with HasGameReference<MicroworldGame> {
 
     await add(world);
     await add(level);
+    game.initializeUpgradeSystem();
 
     cam = CameraComponent.withFixedResolution(
       world: world,
@@ -67,6 +72,7 @@ class GamePlay extends PositionComponent with HasGameReference<MicroworldGame> {
     isPlacingTower = true;
   }
 
+  //i think this neads to be on microworldgame
   void pauseGame() {
     isPaused = true;
     game.pauseEngine();

@@ -111,8 +111,14 @@ abstract class BaseEnemy extends PositionComponent {
 
   double _lerpAngle(double a, double b, double t) {
     double diff = b - a;
-    while (diff < -math.pi) diff += 2 * math.pi;
-    while (diff > math.pi) diff -= 2 * math.pi;
+
+    while (diff < -math.pi) {
+      diff += 2 * math.pi;
+    }
+    while (diff > math.pi) {
+      diff -= 2 * math.pi;
+    }
+
     return a + diff * t;
   }
 

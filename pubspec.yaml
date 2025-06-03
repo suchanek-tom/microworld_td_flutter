@@ -28,6 +28,8 @@ flutter:
   uses-material-design: true
   assets: 
     - assets/images/
+    - assets/images/UI/
+    - assets/images/UI/tower_icons/
     - assets/images/sprites/    
     - assets/tiles/
     - assets/images/sprites/tileset1.png

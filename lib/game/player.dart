@@ -1,5 +1,6 @@
 import 'package:microworld_td/game/components/towers/baseTower.dart';
 import 'package:microworld_td/game/components/towers/types/black_widow.dart';
+import 'package:microworld_td/game/components/towers/types/cricket.dart';
 import 'package:microworld_td/game/components/towers/types/stag_beeatle.dart';
 import 'package:microworld_td/game/components/towers/types/bee.dart';
 
@@ -8,7 +9,7 @@ class Player
   late List<BaseTower> towerlist = [];
   Player()
   {
-    towerlist.addAll([BeeTower(),BlackWidowTower(),StagBeeatleTower()]);
+    towerlist.addAll([BeeTower(),BlackWidowTower(),StagBeeatleTower(),Cricket()]);
   }
   
   List<BaseTower> get getTowers
