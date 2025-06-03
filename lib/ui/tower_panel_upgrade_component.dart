@@ -19,6 +19,7 @@ class TowerPanelUpgradeComponentState extends State<TowerPanelUpgradeComponent>
 
   void showForTower(BaseTower tower) 
   {   
+    print("clickes");
     setState((){
       isvisible = true;
       selectedTower = tower;
