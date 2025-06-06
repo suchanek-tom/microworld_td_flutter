@@ -230,7 +230,7 @@ class TowerPanelComponentState extends State<TowerPanelComponent> {
             Expanded(
               child: GridView.builder
               (
-                padding: const EdgeInsets.all(10),
+                padding: const EdgeInsets.all(6),
                 shrinkWrap: true,
                 gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount
                 (

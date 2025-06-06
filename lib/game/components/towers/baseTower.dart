@@ -34,7 +34,8 @@ abstract class BaseTower extends PositionComponent with HoverCallbacks
     required this.sprite_size,
     required this.cost,
     required this.sellCost,  
-    required this.sprit_icon_path,    
+    required this.sprit_icon_path, 
+    required this.antKilled,   
   }) 
   {
     size = sprite_size;
@@ -109,7 +110,13 @@ abstract class BaseTower extends PositionComponent with HoverCallbacks
 
   int sellTower(BaseTower towerToSell);
 
-  int killCounter();
+  static int killCounter(BaseTower tower)
+  {
+    //for tom
+    int count =0;
+
+    return count;
+  }
 
   Target changeTarget();
 }

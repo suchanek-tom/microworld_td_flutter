@@ -11,6 +11,7 @@ class StagBeeatleTower extends BaseTower
           cost: 200,
           sellCost: 100,
           fireRate: 2,
+          antKilled: 0,
           range: 100,
           damage: 150,
           sprite_path: 'sprites/cervo_volante.png',
@@ -26,12 +27,6 @@ class StagBeeatleTower extends BaseTower
   @override
   Target changeTarget() {
     // TODO: implement changeTarget
-    throw UnimplementedError();
-  }
-  
-  @override
-  int killCounter() {
-    // TODO: implement killCounter
     throw UnimplementedError();
   }
   

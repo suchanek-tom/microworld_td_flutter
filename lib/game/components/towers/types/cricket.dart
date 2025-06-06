@@ -10,9 +10,10 @@ class Cricket extends BaseTower
         towerName: "Cricket",
         cost: 120,
         sellCost: 50,
-        fireRate: 2,
-        range: 100,
-        damage: 150,
+        fireRate: 10,
+        antKilled: 0,
+        range: 300,
+        damage: 90,
         sprite_path: 'sprites/grillo.png',
         sprit_icon_path: 'images/UI/tower_icons/grillo_i.png',
         sprite_size: Vector2(90, 90),
@@ -26,12 +27,6 @@ class Cricket extends BaseTower
   @override
   Target changeTarget() {
     // TODO: implement changeTarget
-    throw UnimplementedError();
-  }
-  
-  @override
-  int killCounter() {
-    // TODO: implement killCounter
     throw UnimplementedError();
   }
   

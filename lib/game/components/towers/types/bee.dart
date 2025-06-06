@@ -9,6 +9,7 @@ class BeeTower extends BaseTower {
           towerName: "Bee",
           fireRate: 0.3,
           cost: 100,
+          antKilled: 0,
           sellCost: 40,
           range: 200,
           damage: 5,
@@ -25,12 +26,6 @@ class BeeTower extends BaseTower {
   @override
   Target changeTarget() {
     // TODO: implement changeTarget
-    throw UnimplementedError();
-  }
-  
-  @override
-  int killCounter() {
-    // TODO: implement killCounter
     throw UnimplementedError();
   }
   

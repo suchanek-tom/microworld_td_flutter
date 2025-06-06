@@ -8,6 +8,7 @@ class BlackWidowTower extends BaseTower {
       : super(
           towerName: "Black Widow",
           cost: 175,
+          antKilled: 0,
           fireRate: 0.5,
           range: 300,
           sellCost: 75,
@@ -27,13 +28,7 @@ class BlackWidowTower extends BaseTower {
     // TODO: implement changeTarget
     throw UnimplementedError();
   }
-  
-  @override
-  int killCounter() {
-    // TODO: implement killCounter
-    throw UnimplementedError();
-  }
-  
+
   @override
   int sellTower(BaseTower towerToSell) {
     // TODO: implement sellTower
