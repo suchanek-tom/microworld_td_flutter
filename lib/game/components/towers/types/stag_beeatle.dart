@@ -1,4 +1,6 @@
 import 'package:flame/components.dart';
+import 'package:microworld_td/game/components/abilities/abilities_imp/palla_di_fango_abilita.dart';
+import 'package:microworld_td/game/components/abilities/abilities_imp/spostamento_rapido_abilita.dart';
 import 'package:microworld_td/game/components/bullet/types/standartBullet.dart';
 import 'package:microworld_td/game/components/enemy/baseEnemy.dart';
 import 'package:microworld_td/game/components/towers/baseTower.dart';
@@ -10,7 +12,9 @@ class StagBeeatleTower extends BaseTower
           towerName: "Stag Beetle",
           cost: 200,
           sellCost: 100,
+          upgradeCost: 40,
           fireRate: 2,
+          towerLevel: 1,
           antKilled: 0,
           range: 100,
           damage: 150,
@@ -34,5 +38,25 @@ class StagBeeatleTower extends BaseTower
   int sellTower(BaseTower towerToSell) {
     // TODO: implement sellTower
     throw UnimplementedError();
+  }
+  
+  @override
+  void implementUpgrade(int side) 
+  {
+    switch(side)
+    {
+      case 0: 
+      {
+        left_abilities.add(PallaDiFangoAbilita());
+        break;
+      }
+
+      case 1: 
+      {
+        right_abilities.add(SpostamentoRapidoAbilita());
+      }
+
+      default: "error, can't upgrade tower $towerName";
+    }
   }
 }

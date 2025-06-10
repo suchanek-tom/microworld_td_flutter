@@ -5,9 +5,11 @@ class WorkerAnt extends BaseEnemy {
   WorkerAnt({required super.waypoints})
       : super(
           reward: 5,
-          speed: 20,
+          speed: 45,
           health: 40,
           spritePath: "sprites/formica.png",
           spriteSize: Vector2(70, 70),
-        );
+        ){
+    size = Vector2(70, 70);
+  }
 }

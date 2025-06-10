@@ -42,10 +42,10 @@ class TowerPanelUpgradeComponentState extends State<TowerPanelUpgradeComponent>
       visible: isvisible,
       child: Transform.translate
       (
-          offset: const Offset(0, 750),
+          offset: const Offset(0, 300),
           child: Container
           (
-          width: 1280,
+          width: 600,
           height: 120,
           padding: const EdgeInsets.all(8),
           decoration: BoxDecoration(
@@ -91,9 +91,9 @@ class TowerPanelUpgradeComponentState extends State<TowerPanelUpgradeComponent>
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
-                  levelUp("100"),
-                  upgradePath("Path 2", "XP TO UNLOCK","contorno_erba"),
-                  upgradePath("Path 3", "XP TO UNLOCK","contorno_erba"),
+                  levelUp("${selectedTower?.upgradeCost  ?? 0}"),
+                  upgradePath("Path 2", "XP TO UNLOCK","contorno_erba",0),
+                  upgradePath("Path 3", "XP TO UNLOCK","contorno_erba",1),
                 ],
               ),
             ),
@@ -147,7 +147,8 @@ class TowerPanelUpgradeComponentState extends State<TowerPanelUpgradeComponent>
          TextButton(
            onPressed: () 
            {
-             
+            //call for levelup
+             TowerUpgradeSystem.levelUp(selectedTower!, selectedTower!.upgradeCost);
            },
            style: ElevatedButton.styleFrom(
              backgroundColor: Colors.green,
@@ -178,13 +179,14 @@ class TowerPanelUpgradeComponentState extends State<TowerPanelUpgradeComponent>
    );
   }
 
-  Widget upgradePath(upgrade_name, String requirement, String icon_path) 
+  Widget upgradePath(upgrade_name, String requirement, String icon_path, int side) 
   {
+    //quando side è 0 ci si riferisce al bottone a sinistra, quando è 1 al bottone destro
     return GestureDetector(
     onTap: () 
     {
-      print("lezzo");
-      //TowerUpgradeSystem.abilityUpgrade(selectedTower!, 100);
+      //call for ability upgrade
+      TowerUpgradeSystem.abilityUpgrade(selectedTower!, 100,side);
     },
     child: Row(
     children: [

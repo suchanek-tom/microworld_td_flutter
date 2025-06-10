@@ -1,5 +1,6 @@
 import 'package:flame/components.dart';
 import 'package:flame/events.dart';
+import 'package:microworld_td/game/components/abilities/abilities_action_service.dart';
 import 'package:microworld_td/game/components/enemy/baseEnemy.dart';
 
 enum Target{ first, close, strong}
@@ -13,12 +14,17 @@ abstract class BaseTower extends PositionComponent with HoverCallbacks
   final String sprit_icon_path;
   final Vector2 sprite_size; 
   late SpriteComponent sprite;
+
+  late List<AbilitiesActionService> left_abilities;
+  late List<AbilitiesActionService> right_abilities;
   
   int cost;
   int sellCost;
   double fireRate;
   double range;
   int damage;
+  int upgradeCost;
+  int towerLevel;
   
   Target typeTarget = Target.first;
   double timeSinceLastShot = 0;
@@ -35,7 +41,9 @@ abstract class BaseTower extends PositionComponent with HoverCallbacks
     required this.cost,
     required this.sellCost,  
     required this.sprit_icon_path, 
-    required this.antKilled,   
+    required this.antKilled, 
+    required this.upgradeCost, 
+    required this.towerLevel, 
   }) 
   {
     size = sprite_size;
@@ -107,6 +115,8 @@ abstract class BaseTower extends PositionComponent with HoverCallbacks
   }
 
   void attackTarget(BaseEnemy target);
+
+  void implementUpgrade(int side);
 
   int sellTower(BaseTower towerToSell);
 

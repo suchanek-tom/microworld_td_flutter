@@ -3,7 +3,7 @@
         "height": 4300,
         "width": 2
     },
-    "activeFile": "tilemap1.tsx",
+    "activeFile": "level1.tmx",
     "expandedProjectPaths": [
         ".",
         "C:/Users/simadeda/Desktop/università/PROGETTO_MOBILE/microworld_td_flutter/assets"
@@ -14,8 +14,8 @@
             "scale": 0.5,
             "selectedLayer": 0,
             "viewCenter": {
-                "x": 1035,
-                "y": 410
+                "x": 1149,
+                "y": 382
             }
         },
         "tilemap1.tsx": {
@@ -30,13 +30,11 @@
     "map.tileWidth": 64,
     "map.width": 20,
     "openFiles": [
-        "level1.tmx",
-        "tilemap1.tsx"
+        "level1.tmx"
     ],
     "project": "microwolrd.tiled-project",
     "recentFiles": [
-        "level1.tmx",
-        "tilemap1.tsx"
+        "level1.tmx"
     ],
     "tileset.lastUsedFormat": "tsx",
     "tileset.tileSize": {

@@ -1,5 +1,7 @@
 import 'dart:async';
+import 'package:flame/camera.dart';
 import 'package:flame/game.dart';
+import 'package:flutter/material.dart';
 import 'package:microworld_td/game/components/enemy/enemy_spawner.dart';
 import 'package:microworld_td/game/components/pathComponent.dart';
 import 'package:flame/components.dart';
@@ -24,17 +26,25 @@ class GamePlay extends PositionComponent with HasGameReference<MicroworldGame>
   @override
   FutureOr<void> onLoad() async
   {
-    level = await TiledComponent.load("level1.tmx", Vector2.all(64));
+    level = await TiledComponent.load("level1.tmx", Vector2.all(32));
     final world = World();
     
     await add(world);
     await add(level);
-    game.initializeUpgradeSystem();
 
-    cam = CameraComponent.withFixedResolution(world: world, width: 1280, height: 768);
+    final aspect_ratio = MediaQuery.of(game.buildContext!).size.aspectRatio;
+    const height = 200.0;
+    final width = height * aspect_ratio;
+
+    print("$height $width");
+
+    cam = CameraComponent.withFixedResolution(world: world, width: width, height: height);
+
+    //cam.viewport = FixedResolutionViewport(resolution: Vector2(width, he));
     cam.viewfinder.anchor = Anchor.topLeft;
-
-    //wayponts for the level 1 that neads to be moved
+  
+    game.initializeUpgradeSystem();
+      //wayponts for the level 1 that neads to be moved
     List<Vector2> waypoints = [
       Vector2(130, 0), 
       Vector2(134, 190),
@@ -53,7 +63,7 @@ class GamePlay extends PositionComponent with HasGameReference<MicroworldGame>
     add(PathComponent(waypoints: waypoints));
 
     // Enemy spawner
-    add(EnemySpawner(waypoints: waypoints,spawnInterval: 3.25,game: this,));
+    //add(EnemySpawner(waypoints: waypoints,spawnInterval: 3.25,game: this,));
   
     return super.onLoad();
   }

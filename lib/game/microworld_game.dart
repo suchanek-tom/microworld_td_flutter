@@ -1,4 +1,5 @@
 import 'package:flame/components.dart';
+import 'package:flame/flame.dart';
 import 'package:flame/game.dart';
 import 'package:flame/events.dart' as flame;
 import 'package:flutter/material.dart';
@@ -41,7 +42,10 @@ class MicroworldGame extends FlameGame with flame.TapCallbacks, flame.PointerMov
   @override
   Future<void> onLoad() async 
   {
+
+    await Flame.device.fullScreen();
     add(gamePlay);
+    
     overlays.add("TowerPanel");
     overlays.add("TowerPanelUpgrade");
   }

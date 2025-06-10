@@ -196,9 +196,10 @@ class TowerPanelComponentState extends State<TowerPanelComponent> {
     List<BaseTower> towerList = player.getTowers;
 
     return Transform.translate(
-      offset: const Offset(1280, 0),
+      offset: const Offset(855, 0),
       child: Container(
-        width: 120,
+        width: 60,
+        height: 450,
         decoration: const BoxDecoration(
           image: DecorationImage(
             image: AssetImage('assets/images/UI/wood_background.jpg'),
