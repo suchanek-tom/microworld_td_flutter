@@ -20,7 +20,9 @@ class BlackWidowTower extends BaseTower {
           sprite_path: 'sprites/vedova_nera.png',
           sprit_icon_path: 'images/UI/tower_icons/vedova_nera_i.png',
           sprite_size: Vector2(90, 90),
-        );
+        ){
+          size = Vector2(35, 35);
+        }
 
   @override
   void attackTarget(BaseEnemy target) {

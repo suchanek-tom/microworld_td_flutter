@@ -37,8 +37,9 @@ class RoutesManager
           }
 
           case game:
-          {
-              return flutter.MaterialPageRoute(builder: (context) => GameApp(),);
+          { 
+            final microworldGame = MicroworldGame();
+            return flutter.MaterialPageRoute(builder: (context) => GameApp(microworldGame),);
           }
 
           case levelpage:

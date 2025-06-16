@@ -21,7 +21,9 @@ class Cricket extends BaseTower
         sprite_path: 'sprites/grillo.png',
         sprit_icon_path: 'images/UI/tower_icons/grillo_i.png',
         sprite_size: Vector2(90, 90),
-      );
+      ){
+        size = Vector2(35, 35);
+      }
 
   @override
   void attackTarget(BaseEnemy target) {

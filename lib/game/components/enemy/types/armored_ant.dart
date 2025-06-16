@@ -11,6 +11,6 @@ class ArmoredAnt extends BaseEnemy {
           spriteSize: Vector2(70, 70)
         ) 
         {
-    size = Vector2(70, 70);
+    size = Vector2(35, 35);
   }
 }

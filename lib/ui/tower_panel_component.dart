@@ -1,150 +1,3 @@
-//OLD PANEL
-
-/* import 'dart:async';
-import 'package:flutter/material.dart';
-import 'package:microworld_td/game/components/game_state.dart';
-import 'package:microworld_td/game/components/towers/baseTower.dart';
-import 'package:microworld_td/game/gameplay.dart';
-import 'package:microworld_td/game/player.dart';
-
-class TowerPanelComponent extends StatefulWidget {
-  final GamePlay game;
-
-  const TowerPanelComponent({super.key, required this.game});
-
-  @override
-  State<TowerPanelComponent> createState() => TowerPanelComponentState();
-}
-
-class TowerPanelComponentState extends State<TowerPanelComponent> 
-{
-  late Timer _timer;
-  int coins = GameState.coins;
-  int lives = GameState.lives;
-  int wave = GameState.waveNumber;
-
-  late Player player  = Player();
-  @override
-  void initState() {
-    super.initState();
-    _timer = Timer.periodic(const Duration(milliseconds: 200), (timer) {
-      if (mounted) {
-        setState(() {
-          coins = GameState.coins;
-          lives = GameState.lives;
-          wave = GameState.waveNumber;
-        });
-      }
-    });
-  }
-
-  @override
-  void dispose() {
-    _timer.cancel();
-    super.dispose();
-  }
-
-  @override
-  Widget build(BuildContext context) 
-  {
-    //player = widget.game.player;
-    List<BaseTower> towerList = player.getTowers;
-
-    return Transform.translate(
-      offset: const Offset(1280, 0),
-      child: Container(
-        width: 120,
-        decoration: const BoxDecoration(
-          image: DecorationImage(
-            image: AssetImage('assets/images/sprites/wood_background.jpg'),
-            fit: BoxFit.cover,
-          ),
-        ),
-        child: Column(
-          children: [
-            const SizedBox(height: 20),
-            Text(
-              'WAVE: $wave',
-              style: const TextStyle(
-                color: Colors.white,
-                fontWeight: FontWeight.bold,
-                fontSize: 16,
-              ),
-            ),
-            Row(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: [
-                const Icon(Icons.health_and_safety, color: Colors.white),
-                const SizedBox(width: 4),
-                Text(
-                  '$lives',
-                  style: const TextStyle(color: Colors.white, fontWeight: FontWeight.bold),
-                ),
-                const SizedBox(width: 16),
-                const Icon(Icons.attach_money, color: Colors.white),
-                const SizedBox(width: 4),
-                Text(
-                  '$coins',
-                  style: const TextStyle(color: Colors.white, fontWeight: FontWeight.bold),
-                ),
-              ],
-            ),
-            const SizedBox(height: 20),
-            GridView.builder
-            (
-              shrinkWrap: true,
-              padding: const EdgeInsets.all(10),
-              itemCount: 6,
-              gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount
-              (
-                crossAxisCount: 2,
-                mainAxisSpacing: 8,
-                crossAxisSpacing: 8,
-              ),
-              itemBuilder: (context, index) 
-              {
-                return ElevatedButton
-                (
-                  style: ElevatedButton.styleFrom
-                  (
-                    backgroundColor: Colors.green.withOpacity(0.3),
-                    padding: EdgeInsets.zero,
-                    shape: RoundedRectangleBorder
-                    (
-                      borderRadius: BorderRadius.circular(8),
-                    ),
-                  ),
-                  onPressed: () 
-                  {
-                    BaseTower tower = towerList.elementAt(index);
-                    widget.game.placingTower(tower);
-                    widget.game.add(tower);
-                  },
-                  child: const Icon
-                  (
-                    Icons.bug_report,
-                    color: Colors.black,
-                  ),
-                );
-              },
-            ),
-            const Spacer(),
-            const Icon(Icons.fast_forward, color: Colors.red, size: 40),
-            IconButton(
-              icon: const Icon(Icons.stop, color: Colors.red, size: 40),
-              onPressed: () {
-                widget.game.pauseGame();
-              },
-            ),
-            const SizedBox(height: 20),
-          ],
-        ),
-      ),
-    );
-  }
-}
-*/
-
 
 
 import 'dart:async';
@@ -196,10 +49,10 @@ class TowerPanelComponentState extends State<TowerPanelComponent> {
     List<BaseTower> towerList = player.getTowers;
 
     return Transform.translate(
-      offset: const Offset(855, 0),
+      offset: const Offset(760, 0),
       child: Container(
-        width: 60,
-        height: 450,
+        width: 90,
+        height: 385,
         decoration: const BoxDecoration(
           image: DecorationImage(
             image: AssetImage('assets/images/UI/wood_background.jpg'),
@@ -209,6 +62,7 @@ class TowerPanelComponentState extends State<TowerPanelComponent> {
         child: Column(
           children: [
             const SizedBox(height: 10),
+            
             const Text(
               'DIFFICULTY',
               style: TextStyle(color: Colors.white, fontSize: 14),

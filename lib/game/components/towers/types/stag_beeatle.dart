@@ -20,8 +20,10 @@ class StagBeeatleTower extends BaseTower
           damage: 150,
           sprite_path: 'sprites/cervo_volante.png',
           sprit_icon_path: 'images/UI/tower_icons/cervo_volante_i.png',
-          sprite_size: Vector2(110, 110),
-        );
+          sprite_size: Vector2(120, 120),
+        ){
+          size = Vector2(40, 40);
+        }
 
   @override
   void attackTarget(BaseEnemy target) {

@@ -46,8 +46,8 @@ class GamePlay extends PositionComponent with HasGameReference<MicroworldGame>
     game.initializeUpgradeSystem();
       //wayponts for the level 1 that neads to be moved
     List<Vector2> waypoints = [
-      Vector2(130, 0), 
-      Vector2(134, 190),
+      Vector2(65, 0), 
+      Vector2(67, 190),
       Vector2(510, 190),
       Vector2(510, 320),
       Vector2(132, 320),

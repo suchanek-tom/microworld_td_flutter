@@ -23,6 +23,7 @@ class TowerPanelUpgradeComponentState extends State<TowerPanelUpgradeComponent>
     setState((){
       isvisible = true;
       selectedTower = tower;
+
     });
   }
 
@@ -36,97 +37,14 @@ class TowerPanelUpgradeComponentState extends State<TowerPanelUpgradeComponent>
   @override
   Widget build(BuildContext context) 
   {
-    
     return Visibility
     (
       visible: isvisible,
       child: Transform.translate
       (
-          offset: const Offset(0, 300),
-          child: Container
-          (
-          width: 600,
-          height: 120,
-          padding: const EdgeInsets.all(8),
-          decoration: BoxDecoration(
-            color: Colors.brown[800],
-            border: Border.all(color: Colors.brown.shade900, width: 4),
-          ),
-          child: Row(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            // Left section: Tower image + targeting buttons
-            if (isvisible)
-            Padding(
-              padding: const EdgeInsets.only(right: 16.0),
-              child: Image.asset(
-                selectedTower!.sprit_icon_path,
-                width: 96,
-                height: 96,
-                fit: BoxFit.fill,
-              ),
-            ),
-            // CENTRO: Tutto il resto
-            Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                Text(
-                  selectedTower?.towerName ?? '',
-                  style: const TextStyle(fontWeight: FontWeight.bold),
-                ),
-                Text("Ant Count: ${selectedTower?.antKilled ?? 0}"),
-                const SizedBox(height: 8),
-                Wrap(
-                  spacing: 3,
-                  children: [
-                    targetButton("FIRST"),
-                    targetButton("CLOSE"),
-                    targetButton("STRONG"),
-                  ],
-                ),
-              ],
-            ),
-            // Right section: Upgrade paths
-            Expanded(
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: [
-                  levelUp("${selectedTower?.upgradeCost  ?? 0}"),
-                  upgradePath("Path 2", "XP TO UNLOCK","contorno_erba",0),
-                  upgradePath("Path 3", "XP TO UNLOCK","contorno_erba",1),
-                ],
-              ),
-            ),
-             // Middle section: Sell button
-            Column(
-              children: [
-                ElevatedButton(
-                  style: ElevatedButton.styleFrom(
-                    backgroundColor: Colors.red,
-                    padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 8),
-                  ),
-                  onPressed: () {},
-                  child: const Text("SELL FOR \n    \$172"),
-                ),
-              ],
-            ),
-            const SizedBox(width: 16),
-          ],
-        ),
-        ),
+          offset: const Offset(0, 295),
+          child: selectedTower == null ? const SizedBox(): buildUpgradePanel()
       ),
-    );
-  }
-
-  Widget targetButton(String label) {
-    return ElevatedButton(
-      style: ElevatedButton.styleFrom(
-        backgroundColor: Colors.brown[600],
-        foregroundColor: Colors.white,
-        padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 4),
-      ),
-      onPressed: () {},
-      child: Text(label),
     );
   }
 
@@ -141,7 +59,7 @@ class TowerPanelUpgradeComponentState extends State<TowerPanelUpgradeComponent>
            "Level up $requirement",
             style: TextStyle(
              fontWeight: FontWeight.bold,
-             fontSize: 16,
+             fontSize: 12,
            ),
           ),
          TextButton(
@@ -156,7 +74,7 @@ class TowerPanelUpgradeComponentState extends State<TowerPanelUpgradeComponent>
              shape: RoundedRectangleBorder(
                borderRadius: BorderRadius.circular(12), // Bordi smussati
              ),
-             minimumSize: const Size(64, 64), // Quadrato
+             minimumSize: const Size(54, 54), // Quadrato
              padding: EdgeInsets.zero, // Per evitare padding interno
            ),
            child: Container(
@@ -192,13 +110,13 @@ class TowerPanelUpgradeComponentState extends State<TowerPanelUpgradeComponent>
     children: [
           Text(
             upgrade_name,
-            style: const TextStyle(fontSize: 16),
+            style: const TextStyle(fontSize: 12),
           ),
           const SizedBox(width: 8), // Spazio tra testo e immagine
           Image.asset(
             'assets/images/UI/$icon_path.png',
-            width: 96,
-            height: 96,
+            width: 64,
+            height: 64,
             fit: BoxFit.cover,
           ),
         ],
@@ -206,4 +124,96 @@ class TowerPanelUpgradeComponentState extends State<TowerPanelUpgradeComponent>
     );
   }
 
+
+ Widget buildUpgradePanel()
+ {
+    return Container(
+          width: 760,
+          height: 90,
+          padding: const EdgeInsets.all(8),
+          decoration: BoxDecoration(
+            color: Colors.brown[800],
+            border: Border.all(color: Colors.brown.shade900, width: 4),
+          ),
+          child: Row(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            // Left section: Tower image + targeting buttons
+            Padding(
+              padding: const EdgeInsets.only(right: 16.0),
+              child: Image.asset(
+                selectedTower!.sprit_icon_path,
+                width: 64,
+                height: 64,
+                fit: BoxFit.fill,
+              ),
+            ),
+            // CENTRO: Tutto il resto
+            Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Text(
+                  selectedTower?.towerName ?? '',
+                  style: const TextStyle(fontWeight: FontWeight.bold),
+                ),
+                Text("Ant Count: ${selectedTower?.antKilled ?? 0}"),
+                const SizedBox(height: 3),
+                SizedBox(
+                height: 23,  // altezza sufficiente per non fare overflow
+                child: ToggleButtons(
+                  isSelected: Target.values.map((target) => selectedTower?.typeTarget == target).toList(),
+                  onPressed: (int index) {
+                    setState(() {
+                      selectedTower?.typeTarget = Target.values.elementAt(index);
+                    });
+                  },
+                  color: Colors.white,
+                  selectedColor: Colors.black,
+                  fillColor: Colors.brown[300],
+                  borderRadius: BorderRadius.circular(8),
+                  constraints: const BoxConstraints(minWidth: 0, minHeight: 0), // disabilitiamo i vincoli interni
+                  children: Target.values.map((target) {
+                    return Padding(
+                      padding: const EdgeInsets.symmetric(horizontal: 4, vertical: 2), // padding manuale ridotto
+                      child: Text(
+                        target.name.toLowerCase(),
+                        style: const TextStyle(fontSize: 12),
+                      ),
+                    );
+                  }).toList(),
+                ),
+              ),
+              ],
+            ),
+            // Right section: Upgrade paths
+            Expanded(
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  levelUp("${selectedTower?.upgradeCost  ?? 0}"),
+                  upgradePath("Path 2", "XP TO UNLOCK","contorno_erba",0),
+                  upgradePath("Path 3", "XP TO UNLOCK","contorno_erba",1),
+                ],
+              ),
+            ),
+             // Middle section: Sell button
+            Column(
+              children: [
+                ElevatedButton(
+                  style: ElevatedButton.styleFrom(
+                    backgroundColor: Colors.red,
+                    padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 8),
+                  ),
+                  onPressed: () {},
+                  child: const Text( "SELL FOR \n    \$172",style: 
+                    TextStyle(fontSize: 10  ) ,
+                    ),
+                ),
+              ],
+            ),
+            const SizedBox(width: 10),
+          ],
+        ),
+      );
+ }
 }
