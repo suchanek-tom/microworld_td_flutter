@@ -11,6 +11,6 @@ class QueenAnt extends BaseEnemy
       spritePath: "sprites/formica_regina.png",
       spriteSize: Vector2(140, 140))
       {
-      size = Vector2(60, 60);
+      size = Vector2(70, 70);
   }
 }

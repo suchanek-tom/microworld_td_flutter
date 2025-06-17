@@ -9,5 +9,8 @@ class QueensGuard extends BaseEnemy { //This class can be managed by a larger cl
           health: 300,
           spritePath: "sprites/formica.png",
           spriteSize: Vector2(70, 70)
-        );
+        )
+        {
+      size = Vector2(35, 35);
+  }
 }

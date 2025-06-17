@@ -49,7 +49,7 @@ class TowerPanelComponentState extends State<TowerPanelComponent> {
     List<BaseTower> towerList = player.getTowers;
 
     return Transform.translate(
-      offset: const Offset(760, 0),
+      offset: const Offset(765, 0),
       child: Container(
         width: 90,
         height: 385,
@@ -61,13 +61,13 @@ class TowerPanelComponentState extends State<TowerPanelComponent> {
         ),
         child: Column(
           children: [
-            const SizedBox(height: 10),
+            const SizedBox(height: 5),
             
             const Text(
               'DIFFICULTY',
               style: TextStyle(color: Colors.white, fontSize: 14),
             ),
-            const SizedBox(height: 4),
+            const SizedBox(height: 2),
             Row(
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
@@ -80,8 +80,7 @@ class TowerPanelComponentState extends State<TowerPanelComponent> {
                 Text('$coins', style: const TextStyle(color: Colors.white)),
               ],
             ),
-            const SizedBox(height: 30),
-            const Icon(Icons.arrow_drop_up, size: 64, color: Colors.red),
+            const Icon(Icons.arrow_drop_up, size: 48, color: Colors.red),
             Expanded(
               child: GridView.builder
               (
@@ -93,7 +92,7 @@ class TowerPanelComponentState extends State<TowerPanelComponent> {
                   mainAxisSpacing: 8,
                   crossAxisSpacing: 8,
                 ),
-                itemCount: 8,
+                itemCount: 6,
                 itemBuilder: (context, index) 
                 {
                   bool hasTower = index < towerList.length;
@@ -114,8 +113,8 @@ class TowerPanelComponentState extends State<TowerPanelComponent> {
                         border: Border.all(color: Colors.black, width: 2),
                       ),
                       child: hasTower
-                          ? Image.asset(
-                              towerList[index].sprit_icon_path, // Assicurati che ogni tower abbia un `spritePath`
+                          ? Image.asset("assets/${towerList[index].sprit_icon_path}"
+                              , // Assicurati che ogni tower abbia un `spritePath`
                               fit: BoxFit.cover,
                             )
                           : const Icon
@@ -134,8 +133,7 @@ class TowerPanelComponentState extends State<TowerPanelComponent> {
                 },
               ),
             ),
-            const Icon(Icons.arrow_drop_down, size: 64, color: Colors.red),
-            const SizedBox(height: 8),
+            const Icon(Icons.arrow_drop_down, size: 48, color: Colors.red),
             Container(
               padding: const EdgeInsets.all(6),
               decoration: BoxDecoration(

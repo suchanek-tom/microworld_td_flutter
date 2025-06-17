@@ -47,23 +47,23 @@ class GamePlay extends PositionComponent with HasGameReference<MicroworldGame>
       //wayponts for the level 1 that neads to be moved
     List<Vector2> waypoints = [
       Vector2(65, 0), 
-      Vector2(67, 190),
-      Vector2(510, 190),
-      Vector2(510, 320),
-      Vector2(132, 320),
-      Vector2(132, 580),
-      Vector2(510, 580),
-      Vector2(510, 700),
-      Vector2(830, 700),
-      Vector2(830, 130),
-      Vector2(1020, 130),
-      Vector2(1030, 710),
-      Vector2(1290, 710),
+      Vector2(67, 95),
+      Vector2(255, 95),
+      Vector2(255, 160),
+      Vector2(65, 160),
+      Vector2(65, 290),
+      Vector2(255, 290),
+      Vector2(255, 350),
+      Vector2(415, 350),
+      Vector2(415, 65),
+      Vector2(515, 65),
+      Vector2(515, 350),
+      Vector2(800, 350),
     ];
     add(PathComponent(waypoints: waypoints));
 
     // Enemy spawner
-    //add(EnemySpawner(waypoints: waypoints,spawnInterval: 3.25,game: this,));
+    add(EnemySpawner(waypoints: waypoints,spawnInterval: 3.25,game: this,));
   
     return super.onLoad();
   }

@@ -22,7 +22,7 @@ class StagBeeatleTower extends BaseTower
           sprit_icon_path: 'images/UI/tower_icons/cervo_volante_i.png',
           sprite_size: Vector2(120, 120),
         ){
-          size = Vector2(40, 40);
+          size = Vector2(60, 60);
         }
 
   @override

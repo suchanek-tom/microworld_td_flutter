@@ -22,7 +22,7 @@ class Cricket extends BaseTower
         sprit_icon_path: 'images/UI/tower_icons/grillo_i.png',
         sprite_size: Vector2(90, 90),
       ){
-        size = Vector2(35, 35);
+        size = Vector2(45, 45);
       }
 
   @override
