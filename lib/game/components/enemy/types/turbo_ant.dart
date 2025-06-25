@@ -7,7 +7,7 @@ class TurboAnt extends BaseEnemy {
           reward: 3,
           speed: 30,
           health: 30,
-          spritePath: "sprites/formica.png",
+          spritePath: "sprites/formica.webp",
           spriteSize: Vector2(70, 70)
         )
         {

@@ -3,7 +3,7 @@
         "height": 4300,
         "width": 2
     },
-    "activeFile": "level1.tmx",
+    "activeFile": "tilemap1.tsx",
     "expandedProjectPaths": [
         ".",
         "C:/Users/simadeda/Desktop/università/PROGETTO_MOBILE/microworld_td_flutter/assets"
@@ -14,27 +14,49 @@
             "scale": 0.5,
             "selectedLayer": 0,
             "viewCenter": {
-                "x": 1149,
-                "y": 382
+                "x": 769,
+                "y": 383
+            }
+        },
+        "level2.tmx": {
+            "scale": 0.5,
+            "selectedLayer": 0,
+            "viewCenter": {
+                "x": 801,
+                "y": 383
+            }
+        },
+        "level3.tmx": {
+            "scale": 0.33,
+            "selectedLayer": 0,
+            "viewCenter": {
+                "x": 815.1515151515151,
+                "y": 695.4545454545454
             }
         },
         "tilemap1.tsx": {
-            "scaleInDock": 1,
+            "scaleInDock": 0.75,
             "scaleInEditor": 1
         }
     },
-    "last.imagePath": "C:/Users/simadeda/Desktop/università/PROGETTO_MOBILE/microworld_td_flutter/assets/images/sprites",
+    "last.imagePath": "C:/Users/simadeda/Desktop/universita/PROGETTO_MOBILE/microworld_td_flutter/assets/images/sprites",
     "map.height": 12,
     "map.lastUsedFormat": "tmx",
     "map.tileHeight": 64,
     "map.tileWidth": 64,
-    "map.width": 20,
+    "map.width": 25,
     "openFiles": [
-        "level1.tmx"
+        "level1.tmx",
+        "level2.tmx",
+        "level3.tmx",
+        "tilemap1.tsx"
     ],
     "project": "microwolrd.tiled-project",
     "recentFiles": [
-        "level1.tmx"
+        "level1.tmx",
+        "level2.tmx",
+        "level3.tmx",
+        "tilemap1.tsx"
     ],
     "tileset.lastUsedFormat": "tsx",
     "tileset.tileSize": {

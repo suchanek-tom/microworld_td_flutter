@@ -14,13 +14,14 @@ class EnemySpawner extends Component
   final List<Vector2> waypoints;
   final double spawnInterval;
   double timer = 0.0;
-  int enemiesToSpawn = 0;
+  static int enemiesToSpawn = 0;
   int enemiesRemaining = 0;
+  double new_wave_time = 15.0;
   final GamePlay game;
  
   EnemySpawner({required this.waypoints, required this.spawnInterval,required this.game});
 
-  final Map<int, List<Map<String, dynamic>>> waveConfig = {
+  static Map<int, List<Map<String, dynamic>>> waveConfig = {
   1: [{'type': WorkerAnt, 'count': 5},{'type': QueenAnt, 'count': 1}],
   2: [{'type': WorkerAnt, 'count': 8}],
   3: [{'type': WorkerAnt, 'count': 6}, {'type': TurboAnt, 'count': 2}],
@@ -45,8 +46,13 @@ class EnemySpawner extends Component
         return;
       }
 
-      GameState.waveNumber++;
-      startNewWave();
+      new_wave_time -= dt;
+      if(new_wave_time == 0)
+      {
+        GameState.waveNumber++;
+        startNewWave();
+        new_wave_time = 15.0;
+      }
     }
 
     timer += dt;
@@ -56,7 +62,8 @@ class EnemySpawner extends Component
     }
   }
 
-  void startNewWave() {
+  static void startNewWave() 
+  {
     enemiesToSpawn = 0;
 
     if (waveConfig.containsKey(GameState.waveNumber)) {

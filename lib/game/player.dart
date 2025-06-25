@@ -9,7 +9,7 @@ class Player
   late List<BaseTower> towerlist = [];
   Player()
   {
-    towerlist.addAll([BeeTower(),BlackWidowTower(),StagBeeatleTower(),Cricket()]);
+    towerlist.addAll([BeeTower(),BlackWidowTower(),StagBeeatleTower(),CricketTower()]);
   }
   
   List<BaseTower> get getTowers

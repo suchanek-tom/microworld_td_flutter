@@ -23,7 +23,6 @@ class TowerPanelUpgradeComponentState extends State<TowerPanelUpgradeComponent>
     setState((){
       isvisible = true;
       selectedTower = tower;
-
     });
   }
 
@@ -114,7 +113,7 @@ class TowerPanelUpgradeComponentState extends State<TowerPanelUpgradeComponent>
           ),
           const SizedBox(width: 8), // Spazio tra testo e immagine
           Image.asset(
-            'assets/images/UI/$icon_path.png',
+            'assets/images/UI/$icon_path.webp',
             width: 64,
             height: 64,
             fit: BoxFit.cover,

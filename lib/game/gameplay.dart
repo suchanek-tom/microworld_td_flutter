@@ -23,10 +23,26 @@ class GamePlay extends PositionComponent with HasGameReference<MicroworldGame>
   bool isPlacingTower = false;
   bool isSelectingTower = false;
 
+  List<Vector2> waypoints = [ //da spostare in seguito
+    Vector2(65, 0), 
+    Vector2(67, 95),
+    Vector2(255, 95),
+    Vector2(255, 160),
+    Vector2(65, 160),
+    Vector2(65, 290),
+    Vector2(255, 290),
+    Vector2(255, 350),
+    Vector2(415, 350),
+    Vector2(415, 65),
+    Vector2(515, 65),
+    Vector2(515, 350),
+    Vector2(800, 350),
+  ];
+  
   @override
   FutureOr<void> onLoad() async
   {
-    level = await TiledComponent.load("level1.tmx", Vector2.all(32));
+    level = await TiledComponent.load("level1.tmx", Vector2.all(32)); //farlo diventare dinamico
     final world = World();
     
     await add(world);
@@ -36,35 +52,13 @@ class GamePlay extends PositionComponent with HasGameReference<MicroworldGame>
     const height = 200.0;
     final width = height * aspect_ratio;
 
-    print("$height $width");
-
     cam = CameraComponent.withFixedResolution(world: world, width: width, height: height);
-
-    //cam.viewport = FixedResolutionViewport(resolution: Vector2(width, he));
     cam.viewfinder.anchor = Anchor.topLeft;
   
     game.initializeUpgradeSystem();
-      //wayponts for the level 1 that neads to be moved
-    List<Vector2> waypoints = [
-      Vector2(65, 0), 
-      Vector2(67, 95),
-      Vector2(255, 95),
-      Vector2(255, 160),
-      Vector2(65, 160),
-      Vector2(65, 290),
-      Vector2(255, 290),
-      Vector2(255, 350),
-      Vector2(415, 350),
-      Vector2(415, 65),
-      Vector2(515, 65),
-      Vector2(515, 350),
-      Vector2(800, 350),
-    ];
     add(PathComponent(waypoints: waypoints));
-
-    // Enemy spawner
     add(EnemySpawner(waypoints: waypoints,spawnInterval: 3.25,game: this,));
-  
+
     return super.onLoad();
   }
 
@@ -84,4 +78,5 @@ class GamePlay extends PositionComponent with HasGameReference<MicroworldGame>
   }
   }
 
+  void startGame() {EnemySpawner.startNewWave();}
 }

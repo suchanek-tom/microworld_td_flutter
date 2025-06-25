@@ -17,8 +17,8 @@ class BlackWidowTower extends BaseTower {
           range: 300,
           sellCost: 75,
           damage: 10,
-          sprite_path: 'sprites/vedova_nera.png',
-          sprit_icon_path: 'images/UI/tower_icons/vedova_nera_i.png',
+          sprite_path: 'sprites/vedova_nera.webp',
+          sprit_icon_path: 'images/UI/tower_icons/vedova_nera_i.webp',
           sprite_size: Vector2(90, 90),
         ){
           size = Vector2(35, 35);

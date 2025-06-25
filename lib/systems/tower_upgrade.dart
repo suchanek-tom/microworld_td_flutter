@@ -14,6 +14,8 @@ final class TowerUpgradeSystem
 
   void openUpgradePanel(BaseTower towerToUpgrade) 
   {
+    print("unto $towerToUpgrade");
+    print("panelKey.currentState: ${panelKey.currentState}");
     panelKey.currentState?.showForTower(towerToUpgrade);
   }
 

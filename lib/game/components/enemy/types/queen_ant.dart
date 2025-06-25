@@ -8,7 +8,7 @@ class QueenAnt extends BaseEnemy
       health: 1000,
       speed: 30,
       reward: 150,
-      spritePath: "sprites/formica_regina.png",
+      spritePath: "sprites/formica_regina.webp",
       spriteSize: Vector2(140, 140))
       {
       size = Vector2(70, 70);

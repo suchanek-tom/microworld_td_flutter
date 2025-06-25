@@ -18,8 +18,8 @@ class StagBeeatleTower extends BaseTower
           antKilled: 0,
           range: 100,
           damage: 150,
-          sprite_path: 'sprites/cervo_volante.png',
-          sprit_icon_path: 'images/UI/tower_icons/cervo_volante_i.png',
+          sprite_path: 'sprites/cervo_volante.webp',
+          sprit_icon_path: 'images/UI/tower_icons/cervo_volante_i.webp',
           sprite_size: Vector2(120, 120),
         ){
           size = Vector2(60, 60);

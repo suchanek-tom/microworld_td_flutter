@@ -7,7 +7,7 @@ class WorkerAnt extends BaseEnemy {
           reward: 5,
           speed: 45,
           health: 40,
-          spritePath: "sprites/formica.png",
+          spritePath: "sprites/formica.webp",
           spriteSize: Vector2(70, 70),
         ){
     size = Vector2(35, 35);

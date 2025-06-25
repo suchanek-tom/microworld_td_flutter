@@ -17,8 +17,8 @@ class BeeTower extends BaseTower {
           towerLevel: 1,
           range: 200,
           damage: 5,
-          sprite_path: 'sprites/bee.png',
-          sprit_icon_path: 'images/UI/tower_icons/bee_i.png',
+          sprite_path: 'sprites/bee.webp',
+          sprit_icon_path: 'images/UI/tower_icons/bee_i.webp',
           sprite_size: Vector2(90, 90),
         ){
           size = Vector2(45, 45);

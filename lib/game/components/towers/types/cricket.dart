@@ -5,9 +5,9 @@ import 'package:microworld_td/game/components/bullet/types/standartBullet.dart';
 import 'package:microworld_td/game/components/enemy/baseEnemy.dart';
 import 'package:microworld_td/game/components/towers/baseTower.dart';
 
-class Cricket extends BaseTower 
+class CricketTower extends BaseTower 
 {
-    Cricket()
+    CricketTower()
     : super(
         towerName: "Cricket",
         cost: 120,
@@ -18,8 +18,8 @@ class Cricket extends BaseTower
         antKilled: 0,
         range: 300,
         damage: 90,
-        sprite_path: 'sprites/grillo.png',
-        sprit_icon_path: 'images/UI/tower_icons/grillo_i.png',
+        sprite_path: 'sprites/grillo.webp',
+        sprit_icon_path: 'images/UI/tower_icons/grillo_i.webp',
         sprite_size: Vector2(90, 90),
       ){
         size = Vector2(45, 45);

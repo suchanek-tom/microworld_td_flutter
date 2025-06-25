@@ -4,6 +4,10 @@ import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:microworld_td/game/components/game_state.dart';
 import 'package:microworld_td/game/components/towers/baseTower.dart';
+import 'package:microworld_td/game/components/towers/types/bee.dart';
+import 'package:microworld_td/game/components/towers/types/black_widow.dart';
+import 'package:microworld_td/game/components/towers/types/cricket.dart';
+import 'package:microworld_td/game/components/towers/types/stag_beeatle.dart';
 import 'package:microworld_td/game/gameplay.dart';
 import 'package:microworld_td/game/player.dart';
 
@@ -55,7 +59,7 @@ class TowerPanelComponentState extends State<TowerPanelComponent> {
         height: 385,
         decoration: const BoxDecoration(
           image: DecorationImage(
-            image: AssetImage('assets/images/UI/wood_background.jpg'),
+            image: AssetImage('assets/images/UI/wood_background.webp'),
             fit: BoxFit.cover,
           ),
         ),
@@ -124,8 +128,25 @@ class TowerPanelComponentState extends State<TowerPanelComponent> {
                           ),
                       ),
                     onPressed: () 
-                    { 
-                      BaseTower tower = towerList.elementAt(index);
+                    {
+                      BaseTower tower;
+                      switch(towerList.elementAt(index).towerName) 
+                      {
+                        case "Bee":
+                          tower = BeeTower();
+                        break;
+                        case "BlackWidow":
+                         tower = BlackWidowTower();
+                        break;
+                        case "StagBeatle":
+                          tower = StagBeeatleTower();
+                        break;
+                        case "Cricket":
+                          tower = CricketTower();
+                        break;
+                        default:
+                        throw Exception("Tower name not recognized: ${towerList.elementAt(index).towerName}");
+                      }
                       widget.game.placingTower(tower);
                       widget.game.add(tower);
                     },
@@ -160,7 +181,7 @@ class TowerPanelComponentState extends State<TowerPanelComponent> {
                 padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 4),
               ),
               onPressed: () {
-                //widget.game.startGame();
+                widget.game.startGame();
               },
               child: const Text('START', style: TextStyle(color: Colors.white)),
             ),

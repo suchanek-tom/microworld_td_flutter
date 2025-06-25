@@ -28,6 +28,7 @@ import 'tower_panel_component.dart';
       {
         overlayInstances["TowerPanelUpgrade"] = TowerPanelUpgradeComponent(key: upgradepanelKey, game: game.gamePlay);
         sendPanelOverlays("TowerPanelUpgrade",upgradepanelKey);
+
         return overlayInstances["TowerPanelUpgrade"]!;
       }
       default:
