@@ -1,7 +1,6 @@
-
-
 import 'dart:async';
 import 'package:flutter/material.dart';
+import 'package:microworld_td/game/components/enemy/enemy_spawner.dart';
 import 'package:microworld_td/game/components/game_state.dart';
 import 'package:microworld_td/game/components/towers/baseTower.dart';
 import 'package:microworld_td/game/components/towers/types/bee.dart';
@@ -21,10 +20,12 @@ class TowerPanelComponent extends StatefulWidget {
 }
 
 class TowerPanelComponentState extends State<TowerPanelComponent> {
+
   late Timer _timer;
   int coins = GameState.coins;
   int lives = GameState.lives;
   int wave = GameState.waveNumber;
+  int next_wave_timer = GameState.new_wave_timer.toInt();
 
   late Player player = Player();
 
@@ -37,6 +38,7 @@ class TowerPanelComponentState extends State<TowerPanelComponent> {
           coins = GameState.coins;
           lives = GameState.lives;
           wave = GameState.waveNumber;
+          next_wave_timer = GameState.new_wave_timer.toInt();
         });
       }
     });
@@ -66,10 +68,9 @@ class TowerPanelComponentState extends State<TowerPanelComponent> {
         child: Column(
           children: [
             const SizedBox(height: 5),
-            
-            const Text(
-              'DIFFICULTY',
-              style: TextStyle(color: Colors.white, fontSize: 14),
+            Text(
+              'NEXT WAVE: $next_wave_timer',
+              style: TextStyle(color: Colors.white, fontSize: 11),
             ),
             const SizedBox(height: 2),
             Row(
@@ -180,7 +181,8 @@ class TowerPanelComponentState extends State<TowerPanelComponent> {
                 backgroundColor: Colors.red,
                 padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 4),
               ),
-              onPressed: () {
+              onPressed: () 
+              {
                 widget.game.startGame();
               },
               child: const Text('START', style: TextStyle(color: Colors.white)),

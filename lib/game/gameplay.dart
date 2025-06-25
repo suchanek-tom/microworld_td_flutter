@@ -3,6 +3,7 @@ import 'package:flame/camera.dart';
 import 'package:flame/game.dart';
 import 'package:flutter/material.dart';
 import 'package:microworld_td/game/components/enemy/enemy_spawner.dart';
+import 'package:microworld_td/game/components/game_state.dart';
 import 'package:microworld_td/game/components/pathComponent.dart';
 import 'package:flame/components.dart';
 import 'package:flame_tiled/flame_tiled.dart';
@@ -22,6 +23,7 @@ class GamePlay extends PositionComponent with HasGameReference<MicroworldGame>
 
   bool isPlacingTower = false;
   bool isSelectingTower = false;
+  bool waveOnGoing = false;
 
   List<Vector2> waypoints = [ //da spostare in seguito
     Vector2(65, 0), 
@@ -78,5 +80,13 @@ class GamePlay extends PositionComponent with HasGameReference<MicroworldGame>
   }
   }
 
-  void startGame() {EnemySpawner.startNewWave();}
+  void startGame() 
+  {
+    if(waveOnGoing != true)
+    {
+      waveOnGoing = true;
+      GameState.nextWave();
+      EnemySpawner.startNewWave(); 
+    }
+  }
 }

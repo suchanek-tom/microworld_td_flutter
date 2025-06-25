@@ -8,7 +8,6 @@ import 'package:microworld_td/game/components/enemy/types/worker_ant.dart';
 import 'package:microworld_td/game/components/game_state.dart';
 import 'package:microworld_td/game/gameplay.dart';
 
-
 class EnemySpawner extends Component 
 {
   final List<Vector2> waypoints;
@@ -16,12 +15,12 @@ class EnemySpawner extends Component
   double timer = 0.0;
   static int enemiesToSpawn = 0;
   int enemiesRemaining = 0;
-  double new_wave_time = 15.0;
   final GamePlay game;
  
   EnemySpawner({required this.waypoints, required this.spawnInterval,required this.game});
 
-  static Map<int, List<Map<String, dynamic>>> waveConfig = {
+  static Map<int, List<Map<String, dynamic>>> waveConfig = 
+  {
   1: [{'type': WorkerAnt, 'count': 5},{'type': QueenAnt, 'count': 1}],
   2: [{'type': WorkerAnt, 'count': 8}],
   3: [{'type': WorkerAnt, 'count': 6}, {'type': TurboAnt, 'count': 2}],
@@ -39,19 +38,24 @@ class EnemySpawner extends Component
   void update(double dt) 
   {
     super.update(dt);
+    
+    if (enemiesToSpawn <= 0 && enemiesRemaining == 0) 
+    {
+      if(game.waveOnGoing == true) {
+        GameState.new_wave_timer = 15.0;
+        game.waveOnGoing = false;
+      }
 
-    if (enemiesToSpawn <= 0 && enemiesRemaining == 0) {
+      GameState.new_wave_timer > 0 ? GameState.new_wave_timer -= dt: GameState.new_wave_timer = 0;
       if (GameState.waveNumber >= 10) {
-        GameState.winGame();
+        GameState.winGame(); 
         return;
       }
 
-      new_wave_time -= dt;
-      if(new_wave_time == 0)
-      {
+      if(GameState.new_wave_timer == 0) {
         GameState.waveNumber++;
+        game.waveOnGoing = true;
         startNewWave();
-        new_wave_time = 15.0;
       }
     }
 
@@ -65,6 +69,7 @@ class EnemySpawner extends Component
   static void startNewWave() 
   {
     enemiesToSpawn = 0;
+    GameState.new_wave_timer = 0;
 
     if (waveConfig.containsKey(GameState.waveNumber)) {
       for (var enemyGroup in waveConfig[GameState.waveNumber]!) {

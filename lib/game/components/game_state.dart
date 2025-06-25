@@ -5,6 +5,7 @@ class GameState
   static bool isGameOver = false;
   static bool isGameWon = false;
   static int waveNumber = 0;
+  static double new_wave_timer = 15.0;
   
   static void addCoins(int amount) {
     coins += amount;
