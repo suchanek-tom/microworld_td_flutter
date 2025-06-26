@@ -21,6 +21,7 @@ class GameApp extends StatelessWidget {
             overlayBuilderMap: {
               'TowerPanel': (context, game) => gameOverlays.buildPanels("TowerPanel"),
               'TowerPanelUpgrade': (context, game) => gameOverlays.buildPanels("TowerPanelUpgrade"),
+              'PauseMenuPanel': (context, game) => gameOverlays.buildPanels('PauseMenuPanel'),
             },
           ),
         ),

@@ -41,7 +41,7 @@ class TowerPanelUpgradeComponentState extends State<TowerPanelUpgradeComponent>
       visible: isvisible,
       child: Transform.translate
       (
-          offset: const Offset(0, 295),
+          offset: const Offset(0, 328),
           child: selectedTower == null ? const SizedBox(): buildUpgradePanel()
       ),
     );
@@ -127,7 +127,7 @@ class TowerPanelUpgradeComponentState extends State<TowerPanelUpgradeComponent>
  Widget buildUpgradePanel()
  {
     return Container(
-          width: 760,
+          width: 765,
           height: 90,
           padding: const EdgeInsets.all(8),
           decoration: BoxDecoration(

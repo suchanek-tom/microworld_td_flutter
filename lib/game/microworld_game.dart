@@ -3,6 +3,7 @@ import 'package:flame/flame.dart';
 import 'package:flame/game.dart';
 import 'package:flame/events.dart' as flame;
 import 'package:flutter/material.dart';
+import 'package:microworld_td/game/components/enemy/enemy_spawner.dart';
 import 'package:microworld_td/game/components/game_state.dart';
 import 'package:microworld_td/game/components/towers/baseTower.dart';
 import 'package:microworld_td/game/gameplay.dart';
@@ -31,12 +32,22 @@ class MicroworldGame extends FlameGame with flame.TapCallbacks, flame.PointerMov
   //todo: add pause_menu screen
   void pauseGame() {
     pauseEngine();
-    overlays.add('PauseMenu');
+    overlays.add('PauseMenuPanel');
   }
 
   void resumeGame() {
-    overlays.remove('PauseMenu');
+    overlays.remove('PauseMenuPanel');
     resumeEngine();
+  }
+
+    void startGame() 
+  {
+    if(gamePlay.waveOnGoing != true)
+    {
+      gamePlay.waveOnGoing = true;
+      GameState.nextWave();
+      EnemySpawner.startNewWave(); 
+    }
   }
 
   @override
@@ -65,7 +76,7 @@ class MicroworldGame extends FlameGame with flame.TapCallbacks, flame.PointerMov
         anchor: Anchor.topCenter,
         textRenderer: TextPaint(
           style: const TextStyle(
-            fontSize: 50,
+            fontSize: 40,
             fontWeight: FontWeight.w900,
             color: Colors.red,
           ),
@@ -81,7 +92,7 @@ class MicroworldGame extends FlameGame with flame.TapCallbacks, flame.PointerMov
         anchor: Anchor.topCenter,
         textRenderer: TextPaint(
           style: const TextStyle(
-            fontSize: 50,
+            fontSize: 40,
             fontWeight: FontWeight.w900,
             color: Colors.black,
           ),
@@ -125,7 +136,7 @@ class MicroworldGame extends FlameGame with flame.TapCallbacks, flame.PointerMov
       if (tappedTower != null)
       {
         gamePlay.isSelectingTower = true;
-        print('Hai selezionato la torre: ${tappedTower.towerName}');
+        //print('Hai selezionato la torre: ${tappedTower.towerName}');
         upgradeSystem.openUpgradePanel(tappedTower);
       }
       else

@@ -1,6 +1,5 @@
 import 'dart:async';
 import 'package:flutter/material.dart';
-import 'package:microworld_td/game/components/enemy/enemy_spawner.dart';
 import 'package:microworld_td/game/components/game_state.dart';
 import 'package:microworld_td/game/components/towers/baseTower.dart';
 import 'package:microworld_td/game/components/towers/types/bee.dart';
@@ -11,9 +10,9 @@ import 'package:microworld_td/game/gameplay.dart';
 import 'package:microworld_td/game/player.dart';
 
 class TowerPanelComponent extends StatefulWidget {
-  final GamePlay game;
+  final GamePlay gamePlay;
 
-  const TowerPanelComponent({super.key, required this.game});
+  const TowerPanelComponent({super.key, required this.gamePlay});
 
   @override
   State<TowerPanelComponent> createState() => TowerPanelComponentState();
@@ -32,7 +31,7 @@ class TowerPanelComponentState extends State<TowerPanelComponent> {
   @override
   void initState() {
     super.initState();
-    _timer = Timer.periodic(const Duration(milliseconds: 200), (timer) {
+    _timer = Timer.periodic(const Duration(milliseconds: 300), (timer) {
       if (mounted) {
         setState(() {
           coins = GameState.coins;
@@ -58,7 +57,7 @@ class TowerPanelComponentState extends State<TowerPanelComponent> {
       offset: const Offset(765, 0),
       child: Container(
         width: 90,
-        height: 385,
+        height: 417,
         decoration: const BoxDecoration(
           image: DecorationImage(
             image: AssetImage('assets/images/UI/wood_background.webp'),
@@ -136,10 +135,10 @@ class TowerPanelComponentState extends State<TowerPanelComponent> {
                         case "Bee":
                           tower = BeeTower();
                         break;
-                        case "BlackWidow":
+                        case "Black Widow":
                          tower = BlackWidowTower();
                         break;
-                        case "StagBeatle":
+                        case "Stag Beatle":
                           tower = StagBeeatleTower();
                         break;
                         case "Cricket":
@@ -148,8 +147,8 @@ class TowerPanelComponentState extends State<TowerPanelComponent> {
                         default:
                         throw Exception("Tower name not recognized: ${towerList.elementAt(index).towerName}");
                       }
-                      widget.game.placingTower(tower);
-                      widget.game.add(tower);
+                      widget.gamePlay.placingTower(tower);
+                      widget.gamePlay.add(tower);
                     },
                   );
                 },
@@ -179,18 +178,18 @@ class TowerPanelComponentState extends State<TowerPanelComponent> {
             ElevatedButton(
               style: ElevatedButton.styleFrom(
                 backgroundColor: Colors.red,
-                padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 4),
+                padding: const EdgeInsets.symmetric(horizontal: 9, vertical: 3),
               ),
               onPressed: () 
               {
-                widget.game.startGame();
+                widget.gamePlay.game.startGame();
               },
               child: const Text('START', style: TextStyle(color: Colors.white)),
             ),
             IconButton(
-              icon: const Icon(Icons.fast_forward, color: Colors.red, size: 24),
+              icon: const Icon(Icons.pause, color: Colors.red, size: 20),
               onPressed: () {
-                //widget.game.speedUpGame();
+                widget.gamePlay.game.pauseGame();
               },
             ),
             const SizedBox(height: 10),
