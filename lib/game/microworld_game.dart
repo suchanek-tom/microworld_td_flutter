@@ -8,7 +8,6 @@ import 'package:microworld_td/game/components/game_state.dart';
 import 'package:microworld_td/game/components/towers/baseTower.dart';
 import 'package:microworld_td/game/gameplay.dart';
 import 'package:collection/collection.dart';
-import 'package:flame/extensions.dart';
 import 'package:microworld_td/systems/tower_upgrade.dart';
 import 'package:microworld_td/ui/tower_panel_component.dart';
 import 'package:microworld_td/ui/tower_panel_upgrade_component.dart';
@@ -85,6 +84,7 @@ class MicroworldGame extends FlameGame with flame.TapCallbacks, flame.PointerMov
       add(gameOverText!);
       Future.delayed(const Duration(seconds: 1), pauseEngine);
     } else if (GameState.isGameWon && winText == null) {
+      GameState.completeLevel();  
       winText = TextComponent(
         text: "YOU WIN!",
         position: Vector2(size.x / 2, 50),
