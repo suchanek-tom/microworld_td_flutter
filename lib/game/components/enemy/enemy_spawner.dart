@@ -3,7 +3,7 @@ import 'package:microworld_td/game/components/enemy/baseEnemy.dart';
 import 'package:microworld_td/game/components/enemy/types/armored_ant.dart';
 import 'package:microworld_td/game/components/enemy/types/queen_ant.dart';
 import 'package:microworld_td/game/components/enemy/types/turbo_ant.dart';
-import 'package:microworld_td/game/components/enemy/types/queens_guard.dart';
+import 'package:microworld_td/game/components/enemy/types/queen_guard.dart';
 import 'package:microworld_td/game/components/enemy/types/worker_ant.dart';
 import 'package:microworld_td/game/components/game_state.dart';
 import 'package:microworld_td/game/gameplay.dart';
@@ -29,7 +29,7 @@ class EnemySpawner extends Component
   7: [{'type': WorkerAnt, 'count': 4}, {'type': TurboAnt, 'count': 4}, {'type': ArmoredAnt, 'count': 3}],
   8: [{'type': ArmoredAnt, 'count': 5}],
   9: [{'type': WorkerAnt, 'count': 6}, {'type': TurboAnt, 'count': 6}],
-  10: [{'type': QueensGuard, 'count': 1}, {'type': ArmoredAnt, 'count': 3}],
+  10: [{'type': QueenGuard, 'count': 1}, {'type': ArmoredAnt, 'count': 3}],
   };
 
 
@@ -109,8 +109,8 @@ class EnemySpawner extends Component
     case TurboAnt:
       enemy = TurboAnt(waypoints: waypoints);
       break;
-    case QueensGuard:
-      enemy = QueensGuard(waypoints: waypoints);
+    case QueenGuard:
+      enemy = QueenGuard(waypoints: waypoints);
       break;
     case QueenAnt:
       enemy = QueenAnt(waypoints: waypoints);

@@ -2,7 +2,8 @@ import 'package:microworld_td/game/components/abilities/abilities_action_service
 
 class PungiglioneAvvelenatoAbilita implements AbilitiesActionService {
   @override
-  void ability() {
+  void ability() 
+  {
     // TODO: implement ability
   }
 }

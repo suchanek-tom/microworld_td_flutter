@@ -4,6 +4,7 @@ import 'package:microworld_td/game/components/enemy/baseEnemy.dart';
 class ArmoredAnt extends BaseEnemy {
   ArmoredAnt({required super.waypoints})
       : super(
+          antName: "Armored Ant",
           reward: 10,
           speed: 20,
           health: 400,

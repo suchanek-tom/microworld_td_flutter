@@ -5,6 +5,7 @@ class QueenAnt extends BaseEnemy
 {
   QueenAnt({required super.waypoints})
   : super(
+      antName: "Queen Ant",
       health: 1000,
       speed: 30,
       reward: 150,

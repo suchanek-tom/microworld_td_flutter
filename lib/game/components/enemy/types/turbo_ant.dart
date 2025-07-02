@@ -4,6 +4,7 @@ import 'package:flame/components.dart';
 class TurboAnt extends BaseEnemy {
   TurboAnt({required super.waypoints})
       : super(
+          antName: "Turbo Ant",
           reward: 3,
           speed: 30,
           health: 30,

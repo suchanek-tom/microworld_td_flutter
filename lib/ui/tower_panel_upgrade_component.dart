@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:microworld_td/game/components/game_state.dart';
 import 'package:microworld_td/game/gameplay.dart';
 import 'package:microworld_td/game/components/towers/baseTower.dart';
 import 'package:microworld_td/systems/tower_upgrade.dart';
@@ -65,9 +66,16 @@ class TowerPanelUpgradeComponentState extends State<TowerPanelUpgradeComponent>
           TextButton(
            onPressed: () 
            {
-            setState(() {
-              if(selectedTower!.towerLevel != 5){
-              TowerUpgradeSystem.levelUp(selectedTower!, selectedTower!.upgradeCost[selectedTower!.towerLevel-1]);
+            setState(() 
+            {
+            int cost =  selectedTower!.upgradeCost[selectedTower!.towerLevel-1];
+            if(selectedTower!.towerLevel != 5){
+              if(GameState.coins < cost){
+                GameState.coins -= cost;
+                TowerUpgradeSystem.levelUp(selectedTower!);
+              }else{
+                print("you have:${GameState.coins} but you need: $cost");
+              }
             }
             else{
               print("max level reached");
@@ -221,5 +229,5 @@ class TowerPanelUpgradeComponentState extends State<TowerPanelUpgradeComponent>
           ],
         ),
       );
- }
+    }
 }

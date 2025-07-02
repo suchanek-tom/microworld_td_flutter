@@ -1,7 +1,7 @@
 import 'package:flame/components.dart';
-import 'package:microworld_td/game/components/abilities/abilities_imp/inseguimento_abilita.dart';
+import 'package:microworld_td/game/components/abilities/abilities_imp/spostamento_rapido_abilita.dart';
 import 'package:microworld_td/game/components/abilities/abilities_imp/tela_abilita.dart';
-import 'package:microworld_td/game/components/bullet/types/standartBullet.dart';
+import 'package:microworld_td/game/components/bullet/types/standard_bullet.dart';
 import 'package:microworld_td/game/components/enemy/baseEnemy.dart';
 import 'package:microworld_td/game/components/towers/baseTower.dart';
 
@@ -26,15 +26,9 @@ class BlackWidowTower extends BaseTower {
 
   @override
   void attackTarget(BaseEnemy target) {
-    parent?.add(StandardBullet(position: position.clone(), target: target, damage: damage));
+    parent?.add(StandardBullet(tower: this, target: target, damage: damage));
   }
   
-  @override
-  Target changeTarget() {
-    // TODO: implement changeTarget
-    throw UnimplementedError();
-  }
-
   @override
   int sellTower(BaseTower towerToSell) {
     // TODO: implement sellTower
@@ -47,13 +41,15 @@ class BlackWidowTower extends BaseTower {
     {
       case 0: 
       {
-        left_abilities.add(TelaAbilita());
+        var abilita = TelaAbilita(tower: this);
+        left_abilities.add(abilita);
+        abilita.onMount();  // Avvio timer solo ora
         break;
       }
 
       case 1: 
       {
-        right_abilities.add(InseguimentoAbilita());
+        right_abilities.add(SpostamentoRapidoAbilita());
       }
 
       default: "error, can't upgrade tower $towerName";

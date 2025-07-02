@@ -2,15 +2,18 @@ import 'dart:math' as math;
 import 'dart:ui';
 import 'package:flame/components.dart';
 import 'package:microworld_td/game/components/game_state.dart';
+import 'package:microworld_td/game/components/towers/baseTower.dart';
 
 abstract class BaseEnemy extends PositionComponent 
 {
+  final String antName;
   final List<Vector2> waypoints;
   final double speed;
   final int reward;
   final String spritePath;
   final Vector2 spriteSize;
 
+  late BaseTower taking_hit_from;
   int health;
   int currentWaypointIndex = 0;
 
@@ -27,6 +30,7 @@ abstract class BaseEnemy extends PositionComponent
   double currentAngle = 0.0;
 
   BaseEnemy({
+    required this.antName,
     required this.waypoints,
     required this.reward,
     required this.speed,
@@ -124,14 +128,17 @@ abstract class BaseEnemy extends PositionComponent
       health -= poisonDamage;
       poisonTimer = 0;
 
-      if (health <= 0) die();
+      if (health <= 0) die(taking_hit_from);
     }
   }
 
-  void takeDamage(int damage) {
+  void takeDamage(int damage, BaseTower tower) 
+  {
     health -= damage;
-    if (health <= 0) {
-      die();
+    if (health <= 0) 
+    {
+      taking_hit_from = tower;
+      die(taking_hit_from);
       onDeath?.call();
     } else {
       sprite.opacity = 0.4;
@@ -143,8 +150,10 @@ abstract class BaseEnemy extends PositionComponent
     this.poisonDamage = poisonDamage;
   }
 
-  void die() {
+  void die(BaseTower killer) 
+  {
     GameState.addCoins(reward);
+    killer.antKilled++;
     removeFromParent();
   }
 }

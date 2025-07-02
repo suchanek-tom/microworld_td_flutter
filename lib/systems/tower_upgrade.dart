@@ -22,7 +22,7 @@ final class TowerUpgradeSystem
   }
 
   // Esempio: upgrade della torre (da completare)
-  static BaseTower levelUp(BaseTower towerToUpgrade, int coins) 
+  static BaseTower levelUp(BaseTower towerToUpgrade) 
   {
     towerToUpgrade.towerLevel ++;
     print(towerToUpgrade.towerLevel);
@@ -59,6 +59,7 @@ final class TowerUpgradeSystem
 
   static BaseTower abilityUpgrade(BaseTower towerToUpgrade, int coins, int side) 
   {
+    print("BESTIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA");
     towerToUpgrade.implementUpgrade(side);
     // Implementa la logica di upgrade per le abilità...
     return towerToUpgrade;

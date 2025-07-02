@@ -15,8 +15,8 @@ abstract class BaseTower extends PositionComponent with HoverCallbacks
   final Vector2 sprite_size; 
   late SpriteComponent sprite;
 
-  late List<AbilitiesActionService> left_abilities;
-  late List<AbilitiesActionService> right_abilities;
+  late List<AbilitiesActionService> left_abilities = [];
+  late List<AbilitiesActionService> right_abilities = [];
   
   int cost;
   int sellCost;
@@ -25,7 +25,8 @@ abstract class BaseTower extends PositionComponent with HoverCallbacks
   int damage;
   List<int> upgradeCost = [];
   int towerLevel;
-  
+  BaseEnemy? target;
+   
   Target typeTarget = Target.first;
   double timeSinceLastShot = 0;
   int antKilled = 0;
@@ -83,13 +84,19 @@ abstract class BaseTower extends PositionComponent with HoverCallbacks
 
       if (enemies == null || enemies.isEmpty) return;
 
-      final target = enemies.first;
+      target = enemies.first;
+      print(target?.antName);
 
-      final direction = (target.position - position).normalized();
+      if (target?.isRemoved ?? true) {
+        target = null;
+      } 
+
+      final direction = (target!.position - position).normalized();
       sprite.angle = direction.screenAngle();
     
       if (timeSinceLastShot >= fireRate) {
-        attackTarget(target);
+        attackTarget(target!);
+
         timeSinceLastShot = 0;
       }
     }
@@ -120,13 +127,8 @@ abstract class BaseTower extends PositionComponent with HoverCallbacks
 
   int sellTower(BaseTower towerToSell);
 
-  static int killCounter(BaseTower tower)
+  static Target changeTarget()
   {
-    //for tom
-    int count =0;
-
-    return count;
+    return Target.close;
   }
-
-  Target changeTarget();
 }

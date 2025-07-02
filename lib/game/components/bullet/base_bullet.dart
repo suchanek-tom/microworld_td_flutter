@@ -1,24 +1,27 @@
 import 'dart:ui';
 import 'package:flame/components.dart';
 import 'package:microworld_td/game/components/enemy/baseEnemy.dart';
+import 'package:microworld_td/game/components/towers/baseTower.dart';
 
 abstract class BaseBullet extends PositionComponent {
   final double speed;
   final int damage;
-  BaseEnemy? target;
+  BaseEnemy target;
+  BaseTower tower;
 
   BaseBullet({
-    required Vector2 position,
-    required this.target,
-    required this.damage,
-    required this.speed,
+  required this.tower,
+  required this.target,
+  required this.damage,
+  required this.speed,
   }) {
-    this.position = position;
-    size = Vector2(4, 4);
+  position = tower.position.clone(); // Imposta la posizione del proiettile
+  size = Vector2(4, 4);
   }
 
   @override
-  Future<void> onLoad() async {
+  Future<void> onLoad() async 
+  {
     add(RectangleComponent(
       size: size,
       paint: Paint()..color = const Color(0xFFFFFF00),
@@ -29,15 +32,15 @@ abstract class BaseBullet extends PositionComponent {
   void update(double dt) {
     super.update(dt);
 
-    if (target == null || target!.isRemoved) {
+    if (target.isRemoved) {
       removeFromParent();
       return;
     }
 
-    Vector2 direction = (target!.position - position).normalized();
+    Vector2 direction = (target.position - position).normalized();
     position += direction * speed * dt;
 
-    if (position.distanceTo(target!.position) < 8) {
+    if (position.distanceTo(target.position) < 8) {
       hitTarget();
     }
   }

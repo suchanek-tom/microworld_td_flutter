@@ -1,7 +1,7 @@
 import 'package:flame/components.dart';
 import 'package:microworld_td/game/components/abilities/abilities_imp/palla_di_fango_abilita.dart';
 import 'package:microworld_td/game/components/abilities/abilities_imp/spostamento_rapido_abilita.dart';
-import 'package:microworld_td/game/components/bullet/types/standartBullet.dart';
+import 'package:microworld_td/game/components/bullet/types/standard_bullet.dart';
 import 'package:microworld_td/game/components/enemy/baseEnemy.dart';
 import 'package:microworld_td/game/components/towers/baseTower.dart';
 
@@ -27,15 +27,9 @@ class StagBeetleTower extends BaseTower
 
   @override
   void attackTarget(BaseEnemy target) {
-    parent?.add(StandardBullet(position: position.clone(), target: target, damage: damage));
+    parent?.add(StandardBullet(tower: this, target: target, damage: damage));
   }
-  
-  @override
-  Target changeTarget() {
-    // TODO: implement changeTarget
-    throw UnimplementedError();
-  }
-  
+
   @override
   int sellTower(BaseTower towerToSell) {
     // TODO: implement sellTower
