@@ -5,7 +5,7 @@ import 'package:microworld_td/game/components/towers/baseTower.dart';
 import 'package:microworld_td/game/components/towers/types/bee.dart';
 import 'package:microworld_td/game/components/towers/types/black_widow.dart';
 import 'package:microworld_td/game/components/towers/types/cricket.dart';
-import 'package:microworld_td/game/components/towers/types/stag_beeatle.dart';
+import 'package:microworld_td/game/components/towers/types/stag_beetle.dart';
 import 'package:microworld_td/game/gameplay.dart';
 import 'package:microworld_td/game/player.dart';
 
@@ -130,25 +130,28 @@ class TowerPanelComponentState extends State<TowerPanelComponent> {
                     onPressed: () 
                     {
                       BaseTower tower;
-                      switch(towerList.elementAt(index).towerName) 
+                      if(GameState.coins >= towerList.elementAt(index).cost)
                       {
-                        case "Bee":
-                          tower = BeeTower();
-                        break;
-                        case "Black Widow":
-                         tower = BlackWidowTower();
-                        break;
-                        case "Stag Beatle":
-                          tower = StagBeeatleTower();
-                        break;
-                        case "Cricket":
-                          tower = CricketTower();
-                        break;
-                        default:
-                        throw Exception("Tower name not recognized: ${towerList.elementAt(index).towerName}");
-                      }
-                      widget.gamePlay.placingTower(tower);
-                      widget.gamePlay.add(tower);
+                        switch(towerList.elementAt(index).towerName) 
+                        {
+                          case "Bee":
+                            tower = BeeTower();
+                          break;
+                          case "Black Widow":
+                           tower = BlackWidowTower();
+                          break;
+                          case "Stag Beetle":
+                            tower = StagBeetleTower();
+                          break;
+                          case "Cricket":
+                            tower = CricketTower();
+                          break;
+                          default:
+                          throw Exception("Tower name not recognized: ${towerList.elementAt(index).towerName}");
+                        }
+                        widget.gamePlay.placingTower(tower);
+                        widget.gamePlay.add(tower);
+                      }else {(print("you don't have the money to buy that tower!"));}
                     },
                   );
                 },

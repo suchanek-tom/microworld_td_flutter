@@ -5,15 +5,15 @@ import 'package:microworld_td/game/components/bullet/types/standartBullet.dart';
 import 'package:microworld_td/game/components/enemy/baseEnemy.dart';
 import 'package:microworld_td/game/components/towers/baseTower.dart';
 
-class StagBeeatleTower extends BaseTower 
+class StagBeetleTower extends BaseTower 
 {
-  StagBeeatleTower()
+  StagBeetleTower()
       : super(
           towerName: "Stag Beetle",
           cost: 200,
           sellCost: 100,
-          upgradeCost: 40,
-          fireRate: 2,
+          upgradeCost: [60,70,90,100,150],
+          fireRate: 1,
           towerLevel: 1,
           antKilled: 0,
           range: 100,
@@ -22,7 +22,7 @@ class StagBeeatleTower extends BaseTower
           sprit_icon_path: 'images/UI/tower_icons/cervo_volante_i.webp',
           sprite_size: Vector2(120, 120),
         ){
-          size = Vector2(60, 60);
+          size = Vector2(80, 80);
         }
 
   @override

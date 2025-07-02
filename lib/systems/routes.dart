@@ -8,8 +8,6 @@ import 'package:microworld_td/menu/select_menu/select_levels_page.dart';
 
 class RoutesManager 
 {
-    MicroworldGame microworldGame = MicroworldGame();
-
     static const String home = "/";
     static const String login = "/Login";
     static const String registration = "/registration";
@@ -39,6 +37,7 @@ class RoutesManager
           case game:
           { 
             final microworldGame = MicroworldGame();
+
             return flutter.MaterialPageRoute(builder: (context) => GameApp(microworldGame),);
           }
 

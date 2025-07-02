@@ -14,8 +14,6 @@ final class TowerUpgradeSystem
 
   void openUpgradePanel(BaseTower towerToUpgrade) 
   {
-    print("unto $towerToUpgrade");
-    print("panelKey.currentState: ${panelKey.currentState}");
     panelKey.currentState?.showForTower(towerToUpgrade);
   }
 
@@ -26,35 +24,36 @@ final class TowerUpgradeSystem
   // Esempio: upgrade della torre (da completare)
   static BaseTower levelUp(BaseTower towerToUpgrade, int coins) 
   {
-    towerToUpgrade.towerLevel < 5 ? towerToUpgrade.towerLevel ++ : towerToUpgrade.towerLevel;
+    towerToUpgrade.towerLevel ++;
+    print(towerToUpgrade.towerLevel);
 
     switch (towerToUpgrade.towerLevel)
     {
       case 2: 
         {
-          towerToUpgrade.damage += 15;
+          towerToUpgrade.damage += 5;
           break;
         }
       case 3:
         {
-          towerToUpgrade.fireRate *= 10 / 100;
-          towerToUpgrade.damage + 10;
+          towerToUpgrade.fireRate -= towerToUpgrade.fireRate * 20 / 100;
+          towerToUpgrade.damage + 15;
           break;
         }
       case 4:
         {
           towerToUpgrade.range += 20;
-          towerToUpgrade.damage += 10;
+          towerToUpgrade.damage += 15;
           break;
         }
       case 5:
         {
-          towerToUpgrade.damage += 30;
+          towerToUpgrade.fireRate -= towerToUpgrade.fireRate * 20 / 100;
+          towerToUpgrade.damage += 25;
+          print(towerToUpgrade.fireRate);
           break;
         }
     }
-    
-    // Implementa la logica di upgrade...
     return towerToUpgrade;
   }
 

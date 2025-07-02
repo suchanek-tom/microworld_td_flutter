@@ -28,7 +28,7 @@ class MicroworldGame extends FlameGame with flame.TapCallbacks, flame.PointerMov
   
   late GlobalKey<TowerPanelUpgradeComponentState> upgradepanelKeystate;
   late GlobalKey<TowerPanelComponentState> towerpanelKeystate;
-
+  
   //todo: add pause_menu screen
   void pauseGame() {
     pauseEngine();
@@ -40,7 +40,7 @@ class MicroworldGame extends FlameGame with flame.TapCallbacks, flame.PointerMov
     resumeEngine();
   }
 
-    void startGame() 
+  void startGame() 
   {
     if(gamePlay.waveOnGoing != true)
     {
@@ -53,10 +53,9 @@ class MicroworldGame extends FlameGame with flame.TapCallbacks, flame.PointerMov
   @override
   Future<void> onLoad() async 
   {
-
     await Flame.device.fullScreen();
     add(gamePlay);
-    
+     
     overlays.add("TowerPanel");
     overlays.add("TowerPanelUpgrade");
   }
@@ -121,6 +120,7 @@ class MicroworldGame extends FlameGame with flame.TapCallbacks, flame.PointerMov
 
     if (gamePlay.isPlacingTower) 
     {
+      GameState.coins -= gamePlay.towerBeingPlaced!.cost;
       gamePlay.isPlacingTower = false;
       gamePlay.towerBeingPlaced?.setPos = event.localPosition;
       gamePlay.towerBeingPlaced!.inplacement = false;
@@ -136,7 +136,6 @@ class MicroworldGame extends FlameGame with flame.TapCallbacks, flame.PointerMov
       if (tappedTower != null)
       {
         gamePlay.isSelectingTower = true;
-        //print('Hai selezionato la torre: ${tappedTower.towerName}');
         upgradeSystem.openUpgradePanel(tappedTower);
       }
       else

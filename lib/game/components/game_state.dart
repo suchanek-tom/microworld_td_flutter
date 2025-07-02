@@ -1,17 +1,19 @@
 class GameState 
 {
-  static int coins = 150;
+  static int coins = 250;
   static int lives = 5;
   static bool isGameOver = false;
   static bool isGameWon = false;
   static int waveNumber = 0;
   static double new_wave_timer = 15.0;
+  static int enemiesRemaining = 0;
   
   static void addCoins(int amount) {
     coins += amount;
   }
 
   static void loseLife(){
+    enemiesRemaining --;
     lives --;
     if(lives <= 0){
       gameOver();

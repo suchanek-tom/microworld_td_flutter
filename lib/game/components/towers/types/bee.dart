@@ -13,7 +13,7 @@ class BeeTower extends BaseTower {
           cost: 100,
           antKilled: 0,
           sellCost: 40,
-          upgradeCost: 30,
+          upgradeCost: [30,50,60,70,110],
           towerLevel: 1,
           range: 200,
           damage: 5,

@@ -5,8 +5,8 @@
     },
     "activeFile": "tilemap1.tsx",
     "expandedProjectPaths": [
-        ".",
-        "C:/Users/simadeda/Desktop/università/PROGETTO_MOBILE/microworld_td_flutter/assets"
+        "C:/Users/simadeda/Desktop/università/PROGETTO_MOBILE/microworld_td_flutter/assets",
+        "."
     ],
     "file.lastUsedOpenFilter": "Tutti i file (*)",
     "fileStates": {
@@ -14,7 +14,7 @@
             "scale": 0.5,
             "selectedLayer": 0,
             "viewCenter": {
-                "x": 1039,
+                "x": 824,
                 "y": 383
             }
         },

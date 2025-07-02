@@ -61,11 +61,18 @@ class TowerPanelUpgradeComponentState extends State<TowerPanelUpgradeComponent>
              fontSize: 12,
            ),
           ),
-         TextButton(
+          const SizedBox(height: 2),
+          TextButton(
            onPressed: () 
            {
+            setState(() {
+              if(selectedTower!.towerLevel != 5){
+              TowerUpgradeSystem.levelUp(selectedTower!, selectedTower!.upgradeCost[selectedTower!.towerLevel-1]);
+            }
+            else{
+              print("max level reached");
+            }});
             //call for levelup
-             TowerUpgradeSystem.levelUp(selectedTower!, selectedTower!.upgradeCost);
            },
            style: ElevatedButton.styleFrom(
              backgroundColor: Colors.green,
@@ -152,7 +159,7 @@ class TowerPanelUpgradeComponentState extends State<TowerPanelUpgradeComponent>
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 Text(
-                  selectedTower?.towerName ?? '',
+                  "${selectedTower?.towerName ?? ''} (Lv. ${selectedTower?.towerLevel ?? '?'})",
                   style: const TextStyle(fontWeight: FontWeight.bold),
                 ),
                 Text("Ant Count: ${selectedTower?.antKilled ?? 0}"),
@@ -189,7 +196,7 @@ class TowerPanelUpgradeComponentState extends State<TowerPanelUpgradeComponent>
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
-                  levelUp("${selectedTower?.upgradeCost  ?? 0}"),
+                  levelUp("${selectedTower?.upgradeCost.elementAt(selectedTower!.towerLevel-1)  ?? 0}"),
                   upgradePath("Path 2", "XP TO UNLOCK","contorno_erba",0),
                   upgradePath("Path 3", "XP TO UNLOCK","contorno_erba",1),
                 ],
@@ -198,19 +205,19 @@ class TowerPanelUpgradeComponentState extends State<TowerPanelUpgradeComponent>
              // Middle section: Sell button
             Column(
               children: [
+                const SizedBox(width: 90,height: 15,),
                 ElevatedButton(
                   style: ElevatedButton.styleFrom(
                     backgroundColor: Colors.red,
                     padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 8),
                   ),
                   onPressed: () {},
-                  child: const Text( "SELL FOR \n    \$172",style: 
+                  child: Text( "SELL FOR \n    \$ ${selectedTower!.sellCost}",style: 
                     TextStyle(fontSize: 10  ) ,
                     ),
                 ),
               ],
             ),
-            const SizedBox(width: 10),
           ],
         ),
       );

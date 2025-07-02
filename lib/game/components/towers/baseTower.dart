@@ -23,7 +23,7 @@ abstract class BaseTower extends PositionComponent with HoverCallbacks
   double fireRate;
   double range;
   int damage;
-  int upgradeCost;
+  List<int> upgradeCost = [];
   int towerLevel;
   
   Target typeTarget = Target.first;

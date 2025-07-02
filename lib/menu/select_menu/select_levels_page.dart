@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
+import 'package:microworld_td/systems/level_manager.dart';
 import 'package:microworld_td/systems/routes.dart';
 
-class SelectLevelPage extends StatelessWidget {
+class SelectLevelPage extends StatelessWidget 
+{
   const SelectLevelPage({super.key});
 
   @override
@@ -37,8 +39,8 @@ class SelectLevelPage extends StatelessWidget {
                     runSpacing: 20,
                     children: const [
                       HoverLevelBox(level: 1, enabled: true),
-                      HoverLevelBox(level: 2, enabled: false),
-                      HoverLevelBox(level: 3, enabled: false),
+                      HoverLevelBox(level: 2, enabled: true),
+                      HoverLevelBox(level: 3, enabled: true),
                     ],
                   ),
                 ),
@@ -67,7 +69,7 @@ class HoverLevelBox extends StatefulWidget {
 
 class _HoverLevelBoxState extends State<HoverLevelBox> {
   bool _hovering = false;
-
+ 
   @override
   Widget build(BuildContext context) {
     final Color baseColor = widget.enabled ? Colors.orange : Colors.grey;
@@ -83,8 +85,10 @@ class _HoverLevelBoxState extends State<HoverLevelBox> {
       },
       child: GestureDetector(
         onTap: () {
-          if (widget.enabled) {
-            Navigator.of(context).pushNamed(RoutesManager.game);
+          if (widget.enabled) 
+          {
+            LevelManager.current_level = widget.level;
+            Navigator.of(context).pushNamed(RoutesManager.game);  
           }
         },
         child: AnimatedContainer(

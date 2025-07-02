@@ -14,7 +14,6 @@ class EnemySpawner extends Component
   final double spawnInterval;
   double timer = 0.0;
   static int enemiesToSpawn = 0;
-  int enemiesRemaining = 0;
   final GamePlay game;
  
   EnemySpawner({required this.waypoints, required this.spawnInterval,required this.game});
@@ -39,7 +38,7 @@ class EnemySpawner extends Component
   {
     super.update(dt);
     
-    if (enemiesToSpawn <= 0 && enemiesRemaining == 0) 
+    if (enemiesToSpawn <= 0 && GameState.enemiesRemaining == 0) 
     {
       if(game.waveOnGoing == true) {
         GameState.new_wave_timer = 15.0;
@@ -89,7 +88,7 @@ class EnemySpawner extends Component
           spawnEnemy(enemyGroup['type']);
           enemyGroup['count'] = (enemyGroup['count'] as int) - 1;
           enemiesToSpawn--;
-          enemiesRemaining++;
+          GameState.enemiesRemaining++;
           return;
         }
       }
@@ -118,7 +117,7 @@ class EnemySpawner extends Component
     }
 
     enemy?.onDeath = () {
-      enemiesRemaining--;
+      GameState.enemiesRemaining--;
     };
     game.add(enemy as Component);
   }

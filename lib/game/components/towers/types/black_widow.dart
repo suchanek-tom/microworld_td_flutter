@@ -12,7 +12,7 @@ class BlackWidowTower extends BaseTower {
           cost: 175,
           antKilled: 0,
           fireRate: 0.5,
-          upgradeCost: 50,
+          upgradeCost: [50,70,80,100,120],
           towerLevel: 1,
           range: 300,
           sellCost: 75,

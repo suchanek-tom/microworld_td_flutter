@@ -7,12 +7,14 @@ import 'package:microworld_td/game/components/pathComponent.dart';
 import 'package:flame/components.dart';
 import 'package:flame_tiled/flame_tiled.dart';
 import 'package:microworld_td/game/components/towers/baseTower.dart';
+import 'package:microworld_td/game/levels/level.dart';
 import 'package:microworld_td/game/microworld_game.dart';
+import 'package:microworld_td/systems/level_manager.dart';
 
 
 class GamePlay extends PositionComponent with HasGameReference<MicroworldGame>
 {
-  late TiledComponent level;
+  late TiledComponent tiles;
   late EnemySpawner enemySpawner;
   late final CameraComponent cam;
   
@@ -24,30 +26,19 @@ class GamePlay extends PositionComponent with HasGameReference<MicroworldGame>
   bool isSelectingTower = false;
   bool waveOnGoing = false;
 
-  List<Vector2> waypoints = [ //da spostare in seguito
-    Vector2(65, 0), 
-    Vector2(67, 95),
-    Vector2(255, 95),
-    Vector2(255, 160),
-    Vector2(65, 160),
-    Vector2(65, 290),
-    Vector2(255, 290),
-    Vector2(255, 350),
-    Vector2(415, 350),
-    Vector2(415, 65),
-    Vector2(515, 65),
-    Vector2(515, 350),
-    Vector2(800, 350),
-  ];
-  
+  late List<Vector2> waypoints;
+
   @override
   FutureOr<void> onLoad() async
   {
-    level = await TiledComponent.load("level1.tmx", Vector2.all(32)); //farlo diventare dinamico
+    Level currentlevel = LevelManager.getLevel(LevelManager.current_level);
+    tiles = await TiledComponent.load(currentlevel.level_tile_name, Vector2.all(32)); //farlo diventare dinamico
+    waypoints = currentlevel.path;
+
     final world = World();
     
     await add(world);
-    await add(level);
+    await add(tiles);
 
     final aspect_ratio = MediaQuery.of(game.buildContext!).size.aspectRatio;
     const height = 200.0;
