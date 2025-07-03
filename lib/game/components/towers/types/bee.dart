@@ -26,7 +26,7 @@ class BeeTower extends BaseTower {
 
   @override
   void attackTarget(BaseEnemy target) {
-    parent?.add(StandardBullet(tower: this, target: target, damage: damage));
+   parent?.add(StandardBullet(tower: this, target: target, damage: damage));
   }
   
   
@@ -37,7 +37,7 @@ class BeeTower extends BaseTower {
   }
   
   @override
-  void implementUpgrade(int side)
+  void implementUpgrade(int side, BaseTower tower) {
   {
      switch(side)
     {
@@ -49,10 +49,15 @@ class BeeTower extends BaseTower {
 
       case 1: 
       {
-        right_abilities.add(PungiglioneAvvelenatoAbilita());
+        print("pronti veleno");
+        var abilita = PungiglioneAvvelenatoAbilita(tower: tower);
+        right_abilities.add(abilita);
+        parent!.add(abilita);
+        break;
       }
 
       default: "error, can't upgrade tower $towerName";
     }
+  }
   }
 }

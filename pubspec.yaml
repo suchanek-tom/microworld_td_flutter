@@ -29,6 +29,7 @@ flutter:
   assets: 
     - assets/images/UI/
     - assets/images/UI/tower_icons/
+    - assets/images/bullets/
     - assets/images/sprites/    
     - assets/tiles/
     - assets/images/sprites/tileset1.webp

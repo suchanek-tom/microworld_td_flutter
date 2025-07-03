@@ -8,12 +8,14 @@ abstract class BaseEnemy extends PositionComponent
 {
   final String antName;
   final List<Vector2> waypoints;
-  final double speed;
+  double speed;
   final int reward;
   final String spritePath;
   final Vector2 spriteSize;
 
-  late BaseTower taking_hit_from;
+  double moltiplicatore_danni = 0;
+
+  BaseTower? taking_hit_from;
   int health;
   int currentWaypointIndex = 0;
 
@@ -25,7 +27,6 @@ abstract class BaseEnemy extends PositionComponent
   double originalOpacity = 1.0;
 
   late final SpriteComponent sprite;
-  VoidCallback? onDeath;
 
   double currentAngle = 0.0;
 
@@ -116,7 +117,7 @@ abstract class BaseEnemy extends PositionComponent
   void handleHitEffect(double dt) {
     hitTimer += dt;
     if (hitTimer > 0.1) {
-      sprite.opacity = originalOpacity;
+      sprite.paint = Paint();
       isHit = false;
       hitTimer = 0;
     }
@@ -128,32 +129,46 @@ abstract class BaseEnemy extends PositionComponent
       health -= poisonDamage;
       poisonTimer = 0;
 
-      if (health <= 0) die(taking_hit_from);
+      if (health <= 0) die(taking_hit_from!);
     }
   }
 
   void takeDamage(int damage, BaseTower tower) 
   {
+    damage = damage * (1 + moltiplicatore_danni) as int;
     health -= damage;
     if (health <= 0) 
     {
-      taking_hit_from = tower;
-      die(taking_hit_from);
-      onDeath?.call();
+      die(taking_hit_from!);
     } else {
-      sprite.opacity = 0.4;
+      taking_hit_from = tower;
+      sprite.paint = Paint()
+      ..colorFilter = const ColorFilter.mode(
+      Color(0x66FF0000), // Rosso semi-trasparente
+      BlendMode.srcATop,
+      );
       isHit = true;
     }
   }
 
   void applyPoison(int poisonDamage) {
     this.poisonDamage = poisonDamage;
+    sprite.paint = Paint()
+      ..colorFilter = const ColorFilter.mode(
+      Color.fromARGB(102, 166, 0, 255), // viola semi-trasparente
+      BlendMode.srcATop,
+      );
   }
 
   void die(BaseTower killer) 
   {
     GameState.addCoins(reward);
+    GameState.enemiesRemaining --;
     killer.antKilled++;
+
+    if (killer.target == this) {
+    killer.target = null;
+    }
     removeFromParent();
   }
 }

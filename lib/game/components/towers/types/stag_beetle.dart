@@ -37,7 +37,7 @@ class StagBeetleTower extends BaseTower
   }
   
   @override
-  void implementUpgrade(int side) 
+  void implementUpgrade(int side, BaseTower tower) { 
   {
     switch(side)
     {
@@ -54,5 +54,6 @@ class StagBeetleTower extends BaseTower
 
       default: "error, can't upgrade tower $towerName";
     }
+  }
   }
 }

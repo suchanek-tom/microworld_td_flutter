@@ -37,7 +37,7 @@ class CricketTower extends BaseTower
   }
   
   @override
-  void implementUpgrade(int side) {
+  void implementUpgrade(int side, BaseTower tower) {
      switch(side)
     {
       case 0: 

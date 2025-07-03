@@ -36,14 +36,15 @@ class BlackWidowTower extends BaseTower {
   }
   
   @override
-  void implementUpgrade(int side) {
+  void implementUpgrade(int side, BaseTower tower) {
     switch(side)
     {
       case 0: 
       {
-        var abilita = TelaAbilita(tower: this);
+        print("pronti tela");
+        var abilita = TelaAbilita(tower: tower);
         left_abilities.add(abilita);
-        abilita.onMount();  // Avvio timer solo ora
+        parent!.add(abilita);
         break;
       }
 

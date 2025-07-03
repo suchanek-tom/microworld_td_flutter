@@ -37,8 +37,8 @@ class EnemySpawner extends Component
   void update(double dt) 
   {
     super.update(dt);
-    
-    if (enemiesToSpawn <= 0 && GameState.enemiesRemaining == 0) 
+
+    if (enemiesToSpawn == 0 && GameState.enemiesRemaining == 0) 
     {
       if(game.waveOnGoing == true) {
         GameState.new_wave_timer = 15.0;
@@ -46,6 +46,7 @@ class EnemySpawner extends Component
       }
 
       GameState.new_wave_timer > 0 ? GameState.new_wave_timer -= dt: GameState.new_wave_timer = 0;
+
       if (GameState.waveNumber >= 10) {
         GameState.winGame(); 
         return;
@@ -61,6 +62,8 @@ class EnemySpawner extends Component
     timer += dt;
     if (timer >= spawnInterval && enemiesToSpawn > 0) {
       timer = 0;
+      print(enemiesToSpawn);
+      print(GameState.enemiesRemaining);
       spawnNextEnemy();
     }
   }
@@ -77,6 +80,7 @@ class EnemySpawner extends Component
     } else {
       enemiesToSpawn = 5 + (GameState.waveNumber * 2); 
     }
+    GameState.enemiesRemaining = enemiesToSpawn;
   }
 
   void spawnNextEnemy() {
@@ -88,7 +92,6 @@ class EnemySpawner extends Component
           spawnEnemy(enemyGroup['type']);
           enemyGroup['count'] = (enemyGroup['count'] as int) - 1;
           enemiesToSpawn--;
-          GameState.enemiesRemaining++;
           return;
         }
       }
@@ -115,10 +118,7 @@ class EnemySpawner extends Component
     case QueenAnt:
       enemy = QueenAnt(waypoints: waypoints);
     }
-
-    enemy?.onDeath = () {
-      GameState.enemiesRemaining--;
-    };
+  
     game.add(enemy as Component);
   }
 }

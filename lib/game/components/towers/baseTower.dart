@@ -10,8 +10,8 @@ abstract class BaseTower extends PositionComponent with HoverCallbacks
   bool inplacement = false;
 
   final String towerName;
-  final String sprite_path;
   final String sprit_icon_path;
+  final String sprite_path;
   final Vector2 sprite_size; 
   late SpriteComponent sprite;
 
@@ -69,38 +69,43 @@ abstract class BaseTower extends PositionComponent with HoverCallbacks
   }
 
   @override
-  void update(double dt) 
-  {
+  void update(double dt) {
     super.update(dt);
 
-    if(inplacement == false)
+    if (inplacement == false) 
     {
       timeSinceLastShot += dt;
 
-      final enemies = parent?.children
+      // Trova tutti i nemici nel range
+      final enemiesInRange = parent?.children
           .whereType<BaseEnemy>()
           .where((enemy) => position.distanceTo(enemy.position) < range)
           .toList();
 
-      if (enemies == null || enemies.isEmpty) return;
-
-      target = enemies.first;
-      print(target?.antName);
-
-      if (target?.isRemoved ?? true) {
+      // Se non ci sono nemici nel range, azzera il target e esci
+      if (enemiesInRange == null || enemiesInRange.isEmpty) {
         target = null;
-      } 
+        return;
+      }
+
+      // Se il target attuale è fuori dal range, resetta
+      if (target != null && position.distanceTo(target!.position) > range) {
+        target = null;
+      }
+
+      // Se non abbiamo un target valido, prendine uno nuovo
+      target ??= enemiesInRange.first;
 
       final direction = (target!.position - position).normalized();
       sprite.angle = direction.screenAngle();
-    
+
       if (timeSinceLastShot >= fireRate) {
         attackTarget(target!);
-
         timeSinceLastShot = 0;
       }
     }
   }
+
 
   set setPos(Vector2 position)
   {
@@ -123,7 +128,7 @@ abstract class BaseTower extends PositionComponent with HoverCallbacks
 
   void attackTarget(BaseEnemy target);
 
-  void implementUpgrade(int side);
+  void implementUpgrade(int side, BaseTower tower);
 
   int sellTower(BaseTower towerToSell);
 

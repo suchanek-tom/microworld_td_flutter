@@ -70,7 +70,7 @@ class TowerPanelUpgradeComponentState extends State<TowerPanelUpgradeComponent>
             {
             int cost =  selectedTower!.upgradeCost[selectedTower!.towerLevel-1];
             if(selectedTower!.towerLevel != 5){
-              if(GameState.coins < cost){
+              if(GameState.coins >= cost){
                 GameState.coins -= cost;
                 TowerUpgradeSystem.levelUp(selectedTower!);
               }else{

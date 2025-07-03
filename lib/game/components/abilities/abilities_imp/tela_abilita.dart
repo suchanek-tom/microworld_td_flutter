@@ -4,21 +4,26 @@ import 'package:microworld_td/game/components/abilities/abilities_action_service
 import 'package:microworld_td/game/components/bullet/types/web_bullet.dart';
 import 'package:microworld_td/game/components/towers/baseTower.dart';
 
+
 class TelaAbilita extends Component implements AbilitiesActionService {
   final rng = Random();
   final BaseTower tower;
 
-  double moltiplicatore_danni = 0.8;
-  int rallentamento = 1;
-  double durata_effetto = 3;
-  double cooldown = 2;
-  double probabilita = 0.15;
+  double frequenza = 0.5;
+  double cooldown = 5; // tempo di blocco dopo attivazione
+  double probabilita = 0.05;
 
-  late Timer _timer;
-  bool _timerRunning = false;
+  late Timer _frequenzaTimer;
+  late Timer _cooldownTimer;
+  bool _frequenzaRunning = false;
+  bool _onCooldown = false;
 
   TelaAbilita({required this.tower}) {
-    _timer = Timer(cooldown, repeat: true, onTick: probabilita_tela);
+    _frequenzaTimer = Timer(frequenza, repeat: true, onTick: probabilita_tela);
+
+    _cooldownTimer = Timer(cooldown, onTick: () {
+      _onCooldown = false;
+    });
   }
 
   @override
@@ -27,24 +32,25 @@ class TelaAbilita extends Component implements AbilitiesActionService {
 
     final hasTarget = tower.target != null && !tower.target!.isRemoved;
 
-    // Avvia il timer se c'è un target e il timer non sta già girando
-    if (hasTarget && !_timerRunning) {
-      _timer.start();
-      _timerRunning = true;
+    // Avvia il timer solo se c'è un target e non siamo in cooldown
+    if (hasTarget && !_frequenzaRunning && !_onCooldown) {
+      _frequenzaTimer.start();
+      _frequenzaRunning = true;
     }
 
-    // Ferma il timer se il target non c'è più e il timer è attivo
-    if (!hasTarget && _timerRunning) {
-      _timer.stop();
-      _timerRunning = false;
+    // Ferma il timer se non c’è più un target
+    if (!hasTarget && _frequenzaRunning) {
+      _frequenzaTimer.stop();
+      _frequenzaRunning = false;
     }
 
-    // Esegui il timer solo se attivo
-    if (_timerRunning) {
-      _timer.update(dt);
+    if (_frequenzaRunning && !_onCooldown) {
+      _frequenzaTimer.update(dt);
     }
 
-    print(_timer);
+    if (_onCooldown) {
+      _cooldownTimer.update(dt);
+    }
   }
 
   void probabilita_tela() {
@@ -54,17 +60,23 @@ class TelaAbilita extends Component implements AbilitiesActionService {
     final p = rng.nextDouble();
     if (p < probabilita) {
       ability();
+      // Entra in cooldown dopo attivazione
+      _onCooldown = true;
+      _frequenzaTimer.stop();  // ferma temporaneamente il check
+      _frequenzaRunning = false;
+      _cooldownTimer.start();  // parte il cooldown
     }
   }
 
   @override
   void ability() {
-    parent?.add(WebBullet(tower: tower, target: tower.target!, damage: 0));
-    print("🕸️ Abilità attivata!");
+    tower.parent?.add(WebBullet(tower: tower, target: tower.target!, damage: 0));
   }
 
   void stop() {
-    _timer.stop();
-    _timerRunning = false;
+    _frequenzaTimer.stop();
+    _cooldownTimer.stop();
+    _frequenzaRunning = false;
+    _onCooldown = false;
   }
 }
