@@ -1,10 +1,30 @@
 import 'package:flutter/material.dart';
+import 'package:microworld_td/menu/select_menu/level_progress.dart';
 import 'package:microworld_td/systems/level_manager.dart';
 import 'package:microworld_td/systems/routes.dart';
 
-class SelectLevelPage extends StatelessWidget 
-{
+class SelectLevelPage extends StatefulWidget {
   const SelectLevelPage({super.key});
+
+  @override
+  State<SelectLevelPage> createState() => _SelectLevelPageState();
+}
+
+class _SelectLevelPageState extends State<SelectLevelPage> {
+  int unlockedLevels = 1;
+
+  @override
+  void initState() {
+    super.initState();
+    _loadProgress();
+  }
+
+  Future<void> _loadProgress() async {
+    final level = await LevelProgress.getUnlockedLevel();
+    setState(() {
+      unlockedLevels = level;
+    });
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -37,15 +57,29 @@ class SelectLevelPage extends StatelessWidget
                   child: Wrap(
                     spacing: 20,
                     runSpacing: 20,
-                    children: const [
-                      HoverLevelBox(level: 1, enabled: true),
-                      HoverLevelBox(level: 2, enabled: true),
-                      HoverLevelBox(level: 3, enabled: true),
-                    ],
+                    children: List.generate(3, (index) {
+                      final level = index + 1;
+                      return HoverLevelBox(
+                        level: level,
+                        enabled: level <= unlockedLevels,
+                      );
+                    }),
                   ),
                 ),
               ),
             ),
+            Center(
+              child: TextButton(
+                onPressed: () async {
+                  await LevelProgress.reset();
+                  await _loadProgress();
+                },
+                child: const Text(
+                  'Reset Progress',
+                  style: TextStyle(color: Colors.red),
+                ),
+              ),
+            )
           ],
         ),
       ),
@@ -69,7 +103,7 @@ class HoverLevelBox extends StatefulWidget {
 
 class _HoverLevelBoxState extends State<HoverLevelBox> {
   bool _hovering = false;
- 
+
   @override
   Widget build(BuildContext context) {
     final Color baseColor = widget.enabled ? Colors.orange : Colors.grey;
@@ -85,10 +119,9 @@ class _HoverLevelBoxState extends State<HoverLevelBox> {
       },
       child: GestureDetector(
         onTap: () {
-          if (widget.enabled) 
-          {
+          if (widget.enabled) {
             LevelManager.current_level = widget.level;
-            Navigator.of(context).pushNamed(RoutesManager.game);  
+            Navigator.of(context).pushNamed(RoutesManager.game);
           }
         },
         child: AnimatedContainer(
