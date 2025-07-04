@@ -59,9 +59,31 @@ class _SelectLevelPageState extends State<SelectLevelPage> {
                     runSpacing: 20,
                     children: List.generate(3, (index) {
                       final level = index + 1;
-                      return HoverLevelBox(
-                        level: level,
-                        enabled: level <= unlockedLevels,
+
+                      final (String difficulty, Color color) = switch (level) {
+                        1 => ('Easy', Colors.green),
+                        2 => ('Medium', Colors.orangeAccent),
+                        3 => ('Hard', Colors.red),
+                        _ => ('', Colors.black),
+                      };
+
+                      return Column(
+                        mainAxisSize: MainAxisSize.min,
+                        children: [
+                          Text(
+                            difficulty,
+                            style: TextStyle(
+                              fontSize: 16,
+                              fontWeight: FontWeight.w600,
+                              color: color,
+                            ),
+                          ),
+                          const SizedBox(height: 6),
+                          HoverLevelBox(
+                            level: level,
+                            enabled: level <= unlockedLevels,
+                          ),
+                        ],
                       );
                     }),
                   ),
