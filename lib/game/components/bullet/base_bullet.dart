@@ -25,7 +25,7 @@ abstract class BaseBullet extends PositionComponent {
   required this.sprite_size,
   required this.bullet_size,
   }) {
-  position = tower.position.clone(); // Imposta la posizione del proiettile
+  position = tower.absoluteCenter.clone();// Imposta la posizione del proiettile
   size = bullet_size;
   }
 

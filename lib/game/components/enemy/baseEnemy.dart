@@ -23,6 +23,8 @@ abstract class BaseEnemy extends PositionComponent
   double hitTimer = 0;
   int poisonDamage = 0;
   double poisonTimer = 0;
+  double tickAccumulator = 0;
+  final double tickInterval = 1.5; 
 
   double originalOpacity = 1.0;
 
@@ -81,7 +83,7 @@ abstract class BaseEnemy extends PositionComponent
       removeFromParent();
     }
 
-    if (isHit) handleHitEffect(dt);
+    if (isHit) resetHitEffect(dt);
     if (poisonDamage > 0) handlePoisonEffect(dt);
   }
 
@@ -114,7 +116,7 @@ abstract class BaseEnemy extends PositionComponent
     return a + diff * t;
   }
 
-  void handleHitEffect(double dt) {
+  void resetHitEffect(double dt) {
     hitTimer += dt;
     if (hitTimer > 0.1) {
       sprite.paint = Paint();
@@ -123,30 +125,44 @@ abstract class BaseEnemy extends PositionComponent
     }
   }
 
-  void handlePoisonEffect(double dt) {
-    poisonTimer += dt;
-    if (poisonTimer >= 1) {
-      health -= poisonDamage;
-      poisonTimer = 0;
+  void hitEffect()
+  {
+    sprite.paint = Paint()
+      ..colorFilter = const ColorFilter.mode(
+      Color(0x66FF0000), // Rosso semi-trasparente
+      BlendMode.srcATop,
+      );
+  }
 
-      if (health <= 0) die(taking_hit_from!);
+  void handlePoisonEffect(double dt) {
+  if (poisonTimer > 0) {
+    poisonTimer -= dt;
+    tickAccumulator += dt;
+
+    if (tickAccumulator >= tickInterval) {
+      tickAccumulator = 0;
+
+      health -= poisonDamage;
+      hitEffect(); // effetto visivo
+      isHit = true;
+      if (health <= 0) {
+        poisonTimer = 0;
+        die(taking_hit_from!);
+      }
     }
+  }
   }
 
   void takeDamage(int damage, BaseTower tower) 
   {
+    taking_hit_from = tower;
     damage = damage * (1 + moltiplicatore_danni) as int;
     health -= damage;
     if (health <= 0) 
     {
       die(taking_hit_from!);
     } else {
-      taking_hit_from = tower;
-      sprite.paint = Paint()
-      ..colorFilter = const ColorFilter.mode(
-      Color(0x66FF0000), // Rosso semi-trasparente
-      BlendMode.srcATop,
-      );
+      hitEffect();
       isHit = true;
     }
   }

@@ -15,23 +15,16 @@ class EnemySpawner extends Component
   double timer = 0.0;
   static int enemiesToSpawn = 0;
   final GamePlay game;
+  static bool startWithNoWaveTimer = false;
+  Map<int, List<Map<String, dynamic>>> waveConfig;
  
-  EnemySpawner({required this.waypoints, required this.spawnInterval,required this.game});
-
-  static Map<int, List<Map<String, dynamic>>> waveConfig = 
-  {
-  1: [{'type': WorkerAnt, 'count': 5},{'type': QueenAnt, 'count': 1}],
-  2: [{'type': WorkerAnt, 'count': 8}],
-  3: [{'type': WorkerAnt, 'count': 6}, {'type': TurboAnt, 'count': 2}],
-  4: [{'type': TurboAnt, 'count': 5}],
-  5: [{'type': WorkerAnt, 'count': 5}, {'type': ArmoredAnt, 'count': 2}],
-  6: [{'type': TurboAnt, 'count': 6}, {'type': ArmoredAnt, 'count': 2}],
-  7: [{'type': WorkerAnt, 'count': 4}, {'type': TurboAnt, 'count': 4}, {'type': ArmoredAnt, 'count': 3}],
-  8: [{'type': ArmoredAnt, 'count': 5}],
-  9: [{'type': WorkerAnt, 'count': 6}, {'type': TurboAnt, 'count': 6}],
-  10: [{'type': QueenGuard, 'count': 1}, {'type': ArmoredAnt, 'count': 3}],
-  };
-
+  EnemySpawner(
+    {
+      required this.waypoints, 
+      required this.spawnInterval,
+      required this.game,
+      required this.waveConfig,
+    });
 
   @override
   void update(double dt) 
@@ -40,9 +33,23 @@ class EnemySpawner extends Component
 
     if (enemiesToSpawn == 0 && GameState.enemiesRemaining == 0) 
     {
+      
       if(game.waveOnGoing == true) {
+        
         GameState.new_wave_timer = 15.0;
         game.waveOnGoing = false;
+      }
+
+       if(GameState.new_wave_timer == 0) {
+        GameState.waveNumber++;
+        game.waveOnGoing = true;
+        startNewWave();
+      }
+
+      if(startWithNoWaveTimer == true){
+        startNewWave();
+        startWithNoWaveTimer = false;
+        game.waveOnGoing = true;
       }
 
       GameState.new_wave_timer > 0 ? GameState.new_wave_timer -= dt: GameState.new_wave_timer = 0;
@@ -51,24 +58,16 @@ class EnemySpawner extends Component
         GameState.winGame(); 
         return;
       }
-
-      if(GameState.new_wave_timer == 0) {
-        GameState.waveNumber++;
-        game.waveOnGoing = true;
-        startNewWave();
-      }
     }
 
     timer += dt;
     if (timer >= spawnInterval && enemiesToSpawn > 0) {
       timer = 0;
-      print(enemiesToSpawn);
-      print(GameState.enemiesRemaining);
       spawnNextEnemy();
     }
   }
 
-  static void startNewWave() 
+  void startNewWave() 
   {
     enemiesToSpawn = 0;
     GameState.new_wave_timer = 0;

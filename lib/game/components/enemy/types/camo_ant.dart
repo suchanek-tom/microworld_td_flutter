@@ -1,13 +1,13 @@
 import 'package:microworld_td/game/components/enemy/baseEnemy.dart';
 import 'package:flame/components.dart';
 
-class QueenGuard extends BaseEnemy { //This class can be managed by a larger class, called queen ant
-  QueenGuard({required super.waypoints})
+class CamoAnt extends BaseEnemy { 
+  CamoAnt({required super.waypoints})
       : super(
-          antName: "Queen Guard",
-          reward: 10,
-          speed: 50,
-          health: 90,
+          antName: "Camo Ant",
+          reward: 20,
+          speed: 45,
+          health: 120,
           spritePath: "sprites/guardia_regina.webp",
           spriteSize: Vector2(70, 70)
         )

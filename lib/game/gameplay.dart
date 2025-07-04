@@ -25,15 +25,12 @@ class GamePlay extends PositionComponent with HasGameReference<MicroworldGame>
   bool isPlacingTower = false;
   bool isSelectingTower = false;
   bool waveOnGoing = false;
-
-  late List<Vector2> waypoints;
-
+  
   @override
   FutureOr<void> onLoad() async
   {
     Level currentlevel = LevelManager.getLevel(LevelManager.current_level);
     tiles = await TiledComponent.load(currentlevel.level_tile_name, Vector2.all(32)); //farlo diventare dinamico
-    waypoints = currentlevel.path;
 
     final world = World();
     
@@ -48,8 +45,8 @@ class GamePlay extends PositionComponent with HasGameReference<MicroworldGame>
     cam.viewfinder.anchor = Anchor.topLeft;
   
     game.initializeUpgradeSystem();
-    add(PathComponent(waypoints: waypoints));
-    add(EnemySpawner(waypoints: waypoints,spawnInterval: 3.25,game: this,));
+    add(PathComponent(waypoints: currentlevel.path));
+    add(EnemySpawner(waypoints: currentlevel.path,spawnInterval: 2.25,game: this,waveConfig: currentlevel.waveConfiglevel));
 
     return super.onLoad();
   }

@@ -1,7 +1,9 @@
 import 'package:flame/components.dart';
 import 'package:microworld_td/game/components/abilities/abilities_imp/canto_abilita.dart';
 import 'package:microworld_td/game/components/abilities/abilities_imp/danno_ad_aria_abilita.dart';
+import 'package:microworld_td/game/components/bullet/types/sonar_bullet.dart';
 import 'package:microworld_td/game/components/bullet/types/standard_bullet.dart';
+import 'package:microworld_td/game/components/bullet/types/web_bullet.dart';
 import 'package:microworld_td/game/components/enemy/baseEnemy.dart';
 import 'package:microworld_td/game/components/towers/baseTower.dart';
 
@@ -12,7 +14,7 @@ class CricketTower extends BaseTower
         towerName: "Cricket",
         cost: 120,
         sellCost: 50,
-        fireRate: 0.5,
+        fireRate: 1,
         upgradeCost: [30,50,80,90,110],
         towerLevel: 1,
         antKilled: 0,
@@ -27,7 +29,7 @@ class CricketTower extends BaseTower
 
   @override
   void attackTarget(BaseEnemy target) {
-    parent?.add(StandardBullet(tower: this, target: target, damage: damage));
+    parent?.add(SonarBullet(tower: this, target: target, damage: damage));
   }
   
   @override

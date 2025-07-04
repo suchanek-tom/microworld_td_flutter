@@ -9,14 +9,14 @@ class BeeTower extends BaseTower {
   BeeTower()
       : super(
           towerName: "Bee",
-          fireRate: 0.3,
+          fireRate: 0.8,
           cost: 100,
           antKilled: 0,
           sellCost: 40,
           upgradeCost: [30,50,60,70,110],
           towerLevel: 1,
           range: 200,
-          damage: 5,
+          damage: 10,
           sprite_path: 'sprites/bee.webp',
           sprit_icon_path: 'images/UI/tower_icons/bee_i.webp',
           sprite_size: Vector2(90, 90),

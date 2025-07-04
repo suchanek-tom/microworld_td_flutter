@@ -3,7 +3,7 @@ import 'package:microworld_td/game/components/bullet/base_bullet.dart';
 
 class PungiglioneBullet extends BaseBullet 
 {
-  double poison_time = 3; //3 sec
+  double poison_time = 5; //5 sec
   int poison_damage = 15;
 
   PungiglioneBullet({required super.tower, required super.target, required super.damage})

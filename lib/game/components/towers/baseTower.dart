@@ -72,29 +72,50 @@ abstract class BaseTower extends PositionComponent with HoverCallbacks
   void update(double dt) {
     super.update(dt);
 
+    /*
+    if(inplacement == false)
+    {
+      timeSinceLastShot += dt;
+
+      final enemies = parent?.children
+          .whereType<BaseEnemy>()
+          .where((enemy) => position.distanceTo(enemy.position) < range)
+          .toList();
+
+      if (enemies == null || enemies.isEmpty) return;
+
+      final target = enemies.first;
+
+      final direction = (target.position - position).normalized();
+      sprite.angle = direction.screenAngle();
+    
+      if (timeSinceLastShot >= fireRate) {
+        attackTarget(target);
+        timeSinceLastShot = 0;
+      }
+    }
+    */
+
     if (inplacement == false) 
     {
       timeSinceLastShot += dt;
 
       // Trova tutti i nemici nel range
       final enemiesInRange = parent?.children
-          .whereType<BaseEnemy>()
-          .where((enemy) => position.distanceTo(enemy.position) < range)
-          .toList();
+        .whereType<BaseEnemy>()
+        .where((enemy) => !enemy.isRemoved) // Protezione in più
+        .where((enemy) => position.distanceTo(enemy.position) < range)
+        .toList();
 
       // Se non ci sono nemici nel range, azzera il target e esci
-      if (enemiesInRange == null || enemiesInRange.isEmpty) {
+      if (enemiesInRange == null || enemiesInRange.isEmpty) 
+      {
         target = null;
         return;
       }
 
-      // Se il target attuale è fuori dal range, resetta
-      if (target != null && position.distanceTo(target!.position) > range) {
-        target = null;
-      }
-
       // Se non abbiamo un target valido, prendine uno nuovo
-      target ??= enemiesInRange.first;
+      target = enemiesInRange.first;
 
       final direction = (target!.position - position).normalized();
       sprite.angle = direction.screenAngle();
@@ -105,7 +126,6 @@ abstract class BaseTower extends PositionComponent with HoverCallbacks
       }
     }
   }
-
 
   set setPos(Vector2 position)
   {

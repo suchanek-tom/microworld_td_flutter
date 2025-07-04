@@ -44,9 +44,8 @@ class MicroworldGame extends FlameGame with flame.TapCallbacks, flame.PointerMov
   {
     if(gamePlay.waveOnGoing != true)
     {
-      gamePlay.waveOnGoing = true;
       GameState.nextWave();
-      EnemySpawner.startNewWave(); 
+      EnemySpawner.startWithNoWaveTimer = true;
     }
   }
 
