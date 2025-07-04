@@ -1,3 +1,5 @@
+import 'dart:ui';
+
 import 'package:flame/components.dart';
 import 'package:flame/events.dart';
 import 'package:microworld_td/game/components/abilities/abilities_action_service.dart';
@@ -14,6 +16,7 @@ abstract class BaseTower extends PositionComponent with HoverCallbacks
   final String sprit_icon_path;
   final Vector2 sprite_size; 
   late SpriteComponent sprite;
+  late CircleComponent rangeCircle;
 
   late List<AbilitiesActionService> left_abilities = [];
   late List<AbilitiesActionService> right_abilities = [];
@@ -61,6 +64,18 @@ abstract class BaseTower extends PositionComponent with HoverCallbacks
       );
 
       sprite.position = Vector2(width / 2, height / 2);
+
+      rangeCircle = CircleComponent(
+        radius: range,
+        paint: Paint()
+          ..color = const Color.fromARGB(222, 255, 25, 4) 
+          ..style = PaintingStyle.stroke
+          ..strokeWidth = 2,
+        anchor: Anchor.center,
+      );
+      rangeCircle.position = Vector2(width / 2, height / 2);
+      add(rangeCircle);
+
 
       add(sprite);
     } catch (e) {
