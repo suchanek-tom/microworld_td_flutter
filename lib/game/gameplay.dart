@@ -1,6 +1,4 @@
 import 'dart:async';
-import 'package:flame/camera.dart';
-import 'package:flame/game.dart';
 import 'package:flutter/material.dart';
 import 'package:microworld_td/game/components/enemy/enemy_spawner.dart';
 import 'package:microworld_td/game/components/pathComponent.dart';

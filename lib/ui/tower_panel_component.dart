@@ -24,6 +24,7 @@ class TowerPanelComponentState extends State<TowerPanelComponent> {
   int coins = GameState.coins;
   int lives = GameState.lives;
   int wave = GameState.waveNumber;
+  final int maxWaves = 10;
   int next_wave_timer = GameState.new_wave_timer.toInt();
 
   late Player player = Player();
@@ -166,13 +167,19 @@ class TowerPanelComponentState extends State<TowerPanelComponent> {
               ),
               child: Column(
                 children: [
-                  Text(
-                    'BATTLE: $wave',
-                    style: const TextStyle(color: Colors.white, fontWeight: FontWeight.bold),
+                Text(
+                    'BATTLE:',
+                    style: const TextStyle(
+                      color: Colors.white,
+                      fontWeight: FontWeight.bold,
+                    ),
                   ),
-                  const Text(
-                    'WAVES: 25',
-                    style: TextStyle(color: Colors.white),
+                  Text(
+                    '$wave/$maxWaves',
+                    style: const TextStyle(
+                      color: Colors.white,
+                      fontSize: 13,
+                    ),
                   ),
                 ],
               ),
