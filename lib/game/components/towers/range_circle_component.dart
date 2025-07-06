@@ -5,6 +5,9 @@ class RangeCircleComponent extends PositionComponent {
   double radius;
   final Paint paintStyle;
 
+  /// Custom visibility flag
+  bool visible = false;
+
   RangeCircleComponent({
     required this.radius,
     required this.paintStyle,
@@ -13,11 +16,12 @@ class RangeCircleComponent extends PositionComponent {
           anchor: Anchor.center,
         );
 
-  set visible(bool visible) {}
-
   @override
   void render(Canvas canvas) {
     super.render(canvas);
+
+    if (!visible) return; // custom visibility check
+
     canvas.drawCircle(
       Offset(radius, radius),
       radius,
