@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:microworld_td/menu/select_menu/level_progress.dart';
 import 'package:microworld_td/systems/level_manager.dart';
 import 'package:microworld_td/systems/routes.dart';
@@ -52,13 +53,11 @@ class _SelectLevelPageState extends State<SelectLevelPage> {
                       ),
                     ),
                   ),
-                  _LoginUI(),
+                  const _LoginUI(),
                 ],
               ),
             ),
-
             const SizedBox(height: 20),
-
             // Centered levels
             Expanded(
               child: Center(
@@ -101,7 +100,6 @@ class _SelectLevelPageState extends State<SelectLevelPage> {
                 ),
               ),
             ),
-
             // Reset progress
             Center(
               child: TextButton(
@@ -123,47 +121,64 @@ class _SelectLevelPageState extends State<SelectLevelPage> {
 }
 
 class _LoginUI extends StatelessWidget {
-  final bool isLoggedIn = true; // Simulazione
+  const _LoginUI();
 
   @override
   Widget build(BuildContext context) {
-    return isLoggedIn
-        ? Container(
-            padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 6),
-            decoration: BoxDecoration(
-              color: Colors.white,
-              borderRadius: BorderRadius.circular(20),
-              boxShadow: const [
-                BoxShadow(
-                  color: Colors.black26,
-                  blurRadius: 4,
-                  offset: Offset(2, 2),
-                ),
-              ],
+    final user = FirebaseAuth.instance.currentUser;
+
+    if (user != null) {
+      final displayName = user.displayName ?? user.email ?? "User";
+
+      return Container(
+        padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 6),
+        decoration: BoxDecoration(
+          color: Colors.white,
+          borderRadius: BorderRadius.circular(20),
+          boxShadow: const [
+            BoxShadow(
+              color: Colors.black26,
+              blurRadius: 4,
+              offset: Offset(2, 2),
             ),
-            child: Row(
-              mainAxisSize: MainAxisSize.min,
-              children: const [
-                CircleAvatar(
-                  radius: 14,
-                  backgroundColor: Colors.grey,
-                  child: Icon(Icons.person, size: 16, color: Colors.white),
-                ),
-                SizedBox(width: 8),
-                Text(
-                  "Daniele",
-                  style: TextStyle(fontSize: 14, fontWeight: FontWeight.w500),
-                ),
-                SizedBox(width: 8),
-                Icon(Icons.logout, size: 18),
-              ],
+          ],
+        ),
+        child: Row(
+          mainAxisSize: MainAxisSize.min,
+          children: [
+            const CircleAvatar(
+              radius: 14,
+              backgroundColor: Colors.grey,
+              child: Icon(Icons.person, size: 16, color: Colors.white),
             ),
-          )
-        : TextButton.icon(
-            onPressed: () {},
-            icon: const Icon(Icons.login),
-            label: const Text("Login"),
-          );
+            const SizedBox(width: 8),
+            Text(
+              displayName,
+              style: const TextStyle(fontSize: 14, fontWeight: FontWeight.w500),
+            ),
+            const SizedBox(width: 8),
+            GestureDetector(
+              onTap: () async {
+                await FirebaseAuth.instance.signOut();
+                Navigator.of(context).pushReplacementNamed(RoutesManager.home);
+              },
+              child: const Icon(Icons.logout, size: 18),
+            ),
+          ],
+        ),
+      );
+    } else {
+      return TextButton.icon(
+        onPressed: () {
+          Navigator.pushNamed(context, RoutesManager.login);
+        },
+        icon: const Icon(Icons.login, color: Colors.black),
+        label: const Text(
+          "Guest",
+          style: TextStyle(color: Colors.black),
+        ),
+      );
+    }
   }
 }
 
