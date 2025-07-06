@@ -22,12 +22,44 @@ class PauseMenu extends StatelessWidget {
                 fontWeight: FontWeight.bold,
               ),
             ),
-            const SizedBox(height: 20),
+            const SizedBox(height: 40),
+
             ElevatedButton(
+              style: ElevatedButton.styleFrom(
+                padding: const EdgeInsets.symmetric(horizontal: 40, vertical: 16),
+              ),
               onPressed: () {
                 game.resumeGame();
               },
-              child: const Text('Resume'),
+              child: const Text('Resume', style: TextStyle(fontSize: 18)),
+            ),
+
+            const SizedBox(height: 20),
+
+            ElevatedButton(
+              style: ElevatedButton.styleFrom(
+                backgroundColor: Colors.orange,
+                padding: const EdgeInsets.symmetric(horizontal: 40, vertical: 16),
+              ),
+              onPressed: () {
+                game.overlays.remove('PauseMenuPanel');
+                game.reset(); 
+              },
+              child: const Text('Restart Level', style: TextStyle(fontSize: 18)),
+            ),
+
+            const SizedBox(height: 20),
+
+            ElevatedButton(
+              style: ElevatedButton.styleFrom(
+                backgroundColor: Colors.redAccent,
+                padding: const EdgeInsets.symmetric(horizontal: 40, vertical: 16),
+              ),
+              onPressed: () {
+                game.pauseEngine(); // jistota
+                Navigator.pushReplacementNamed(context, '/menu'); // nastav v main.dart /menu route
+              },
+              child: const Text('Quit to Menu', style: TextStyle(fontSize: 18)),
             ),
           ],
         ),

@@ -11,8 +11,8 @@ import 'package:microworld_td/systems/tower_upgrade.dart';
 import 'package:microworld_td/ui/tower_panel_component.dart';
 import 'package:microworld_td/ui/tower_panel_upgrade_component.dart';
 
-class MicroworldGame extends FlameGame with flame.TapCallbacks, flame.PointerMoveCallbacks 
-{
+class MicroworldGame extends FlameGame
+    with flame.TapCallbacks, flame.PointerMoveCallbacks {
   late TextComponent livesText;
   late TextComponent coinText;
   late TextComponent waveText;
@@ -20,14 +20,13 @@ class MicroworldGame extends FlameGame with flame.TapCallbacks, flame.PointerMov
   TextComponent? gameOverText;
   TextComponent? winText;
 
-  final GamePlay gamePlay = GamePlay();
-  late final TowerUpgradeSystem upgradeSystem; 
+  GamePlay gamePlay = GamePlay();
+  late final TowerUpgradeSystem upgradeSystem;
   final Map<String, Widget> overlayInstances = {};
-  
+
   late GlobalKey<TowerPanelUpgradeComponentState> upgradepanelKeystate;
   late GlobalKey<TowerPanelComponentState> towerpanelKeystate;
-  
-  //todo: add pause_menu screen
+
   void pauseGame() {
     pauseEngine();
     overlays.add('PauseMenuPanel');
@@ -38,14 +37,35 @@ class MicroworldGame extends FlameGame with flame.TapCallbacks, flame.PointerMov
     resumeEngine();
   }
 
+  void reset() async {
+  overlays.remove('TowerPanel');
+  overlays.remove('TowerPanelUpgrade');
+  overlays.remove('PauseMenuPanel');
+
+  GameState.reset();
+
+  gamePlay.removeFromParent();
+
+  final newGamePlay = GamePlay();
+  add(newGamePlay);
+
+  gamePlay = newGamePlay;
+
+  overlays.add("TowerPanel");
+  overlays.add("TowerPanelUpgrade");
+
+  resumeEngine();
+}
+
+
+
   @override
-  Future<void> onLoad() async 
-  {
+  Future<void> onLoad() async {
     await Flame.device.setLandscape();
     await Flame.device.fullScreen();
 
     add(gamePlay);
-     
+
     overlays.add("TowerPanel");
     overlays.add("TowerPanelUpgrade");
   }
@@ -58,8 +78,7 @@ class MicroworldGame extends FlameGame with flame.TapCallbacks, flame.PointerMov
   void update(double dt) {
     super.update(dt);
 
-    if (GameState.isGameOver && gameOverText == null)
-    {
+    if (GameState.isGameOver && gameOverText == null) {
       gameOverText = TextComponent(
         text: "GAME OVER!",
         position: Vector2(size.x / 2, 50),
@@ -76,7 +95,7 @@ class MicroworldGame extends FlameGame with flame.TapCallbacks, flame.PointerMov
       add(gameOverText!);
       Future.delayed(const Duration(seconds: 1), pauseGame);
     } else if (GameState.isGameWon && winText == null) {
-      GameState.completeLevel();  
+      GameState.completeLevel();
       winText = TextComponent(
         text: "YOU WIN!",
         position: Vector2(size.x / 2, 50),
@@ -96,8 +115,7 @@ class MicroworldGame extends FlameGame with flame.TapCallbacks, flame.PointerMov
   }
 
   @override
-  void onPointerMove(flame.PointerMoveEvent event) 
-  {
+  void onPointerMove(flame.PointerMoveEvent event) {
     if (gamePlay.isPlacingTower && gamePlay.towerBeingPlaced != null) {
       final mousePosition = event.localPosition;
       gamePlay.towerBeingPlaced!.position = mousePosition;
@@ -106,35 +124,40 @@ class MicroworldGame extends FlameGame with flame.TapCallbacks, flame.PointerMov
   }
 
   @override
-  void onTapDown(flame.TapDownEvent event) 
-  {
-    final localPos = gamePlay.cam.globalToLocal(event.canvasPosition);
+void onTapDown(flame.TapDownEvent event) {
+  final localPos = gamePlay.cam.globalToLocal(event.canvasPosition);
 
-    if (gamePlay.isPlacingTower) 
-    {
-      gamePlay.isPlacingTower = false;
-      gamePlay.towerBeingPlaced?.setPos = event.localPosition;
-      gamePlay.towerBeingPlaced!.inplacement = false;
-      gamePlay.towerBeingPlaced = null;
-    }
-    else
-    {
-      //Verifica se hai cliccato su una torre esistente
-      final tappedTower = gamePlay.children
+  if (gamePlay.isPlacingTower) {
+    gamePlay.isPlacingTower = false;
+    gamePlay.towerBeingPlaced?.setPos = localPos;
+    gamePlay.towerBeingPlaced!.inplacement = false;
+    gamePlay.towerBeingPlaced = null;
+  } else {
+    // Najdi věž, na kterou bylo kliknuto
+    final tappedTower = gamePlay.children
         .whereType<BaseTower>()
-        .firstWhereOrNull((tower) => tower.toRect().contains(localPos.toOffset()));
+        .firstWhereOrNull(
+            (tower) => tower.toRect().contains(localPos.toOffset()));
 
-      if (tappedTower != null)
-      {
-        gamePlay.isSelectingTower = true;
-        upgradeSystem.openUpgradePanel(tappedTower);
+    if (tappedTower != null) {
+      gamePlay.isSelectingTower = true;
+      upgradeSystem.openUpgradePanel(tappedTower);
+
+      for (final tower in gamePlay.children.whereType<BaseTower>()) {
+        tower.showRange(tower == tappedTower); // zobraz range jen u kliknuté věže
       }
-      else
-      {
-        gamePlay.isSelectingTower = false;
-        upgradeSystem.closeUpgradePanel();
+    } else {
+      // Klik mimo věž
+      gamePlay.isSelectingTower = false;
+      upgradeSystem.closeUpgradePanel();
+
+      for (final tower in gamePlay.children.whereType<BaseTower>()) {
+        tower.showRange(false); // skryj všechny range kruhy
       }
-    }   
-    super.onTapDown(event);
+    }
   }
+
+  super.onTapDown(event);
+}
+
 }
