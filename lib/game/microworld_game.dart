@@ -11,8 +11,7 @@ import 'package:microworld_td/systems/tower_upgrade.dart';
 import 'package:microworld_td/ui/tower_panel_component.dart';
 import 'package:microworld_td/ui/tower_panel_upgrade_component.dart';
 
-class MicroworldGame extends FlameGame
-    with flame.TapCallbacks, flame.PointerMoveCallbacks {
+class MicroworldGame extends FlameGame with flame.TapCallbacks, flame.PointerMoveCallbacks {
   late TextComponent livesText;
   late TextComponent coinText;
   late TextComponent waveText;
@@ -22,6 +21,7 @@ class MicroworldGame extends FlameGame
 
   GamePlay gamePlay = GamePlay();
   late final TowerUpgradeSystem upgradeSystem;
+
   final Map<String, Widget> overlayInstances = {};
 
   late GlobalKey<TowerPanelUpgradeComponentState> upgradepanelKeystate;
@@ -36,8 +36,6 @@ class MicroworldGame extends FlameGame
     overlays.remove('PauseMenuPanel');
     resumeEngine();
   }
-
-
 
   @override
   Future<void> onLoad() async {
@@ -113,26 +111,23 @@ void onTapDown(flame.TapDownEvent event) {
     gamePlay.towerBeingPlaced!.inplacement = false;
     gamePlay.towerBeingPlaced = null;
   } else {
-    // Najdi věž, na kterou bylo kliknuto
     final tappedTower = gamePlay.children
         .whereType<BaseTower>()
-        .firstWhereOrNull(
-            (tower) => tower.toRect().contains(localPos.toOffset()));
+        .firstWhereOrNull((tower) => tower.toRect().contains(localPos.toOffset()));
 
     if (tappedTower != null) {
       gamePlay.isSelectingTower = true;
       upgradeSystem.openUpgradePanel(tappedTower);
 
       for (final tower in gamePlay.children.whereType<BaseTower>()) {
-        tower.showRange(tower == tappedTower); // zobraz range jen u kliknuté věže
+        tower.showRange(tower == tappedTower);
       }
     } else {
-      // Klik mimo věž
       gamePlay.isSelectingTower = false;
       upgradeSystem.closeUpgradePanel();
 
       for (final tower in gamePlay.children.whereType<BaseTower>()) {
-        tower.showRange(false); // skryj všechny range kruhy
+        tower.showRange(false);
       }
     }
   }
