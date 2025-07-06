@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:microworld_td/game/microworld_game.dart';
+import 'package:microworld_td/systems/routes.dart';
 
 class PauseMenu extends StatelessWidget {
   final MicroworldGame game;
@@ -38,26 +39,12 @@ class PauseMenu extends StatelessWidget {
 
             ElevatedButton(
               style: ElevatedButton.styleFrom(
-                backgroundColor: Colors.orange,
-                padding: const EdgeInsets.symmetric(horizontal: 40, vertical: 16),
-              ),
-              onPressed: () {
-                game.overlays.remove('PauseMenuPanel');
-                game.reset(); 
-              },
-              child: const Text('Restart Level', style: TextStyle(fontSize: 18)),
-            ),
-
-            const SizedBox(height: 20),
-
-            ElevatedButton(
-              style: ElevatedButton.styleFrom(
                 backgroundColor: Colors.redAccent,
                 padding: const EdgeInsets.symmetric(horizontal: 40, vertical: 16),
               ),
               onPressed: () {
-                game.pauseEngine(); // jistota
-                Navigator.pushReplacementNamed(context, '/menu'); // nastav v main.dart /menu route
+                game.pauseEngine(); // just to be safe
+                Navigator.of(context, rootNavigator: true).pushReplacementNamed(RoutesManager.home);
               },
               child: const Text('Quit to Menu', style: TextStyle(fontSize: 18)),
             ),

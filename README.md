@@ -21,6 +21,3 @@
 - Google Fonts
 - Firebase (auth only)
 - Custom pixel art assets
-
-## 📂 Project Structure
-

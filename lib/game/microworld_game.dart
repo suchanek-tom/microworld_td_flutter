@@ -37,26 +37,6 @@ class MicroworldGame extends FlameGame
     resumeEngine();
   }
 
-  void reset() async {
-  overlays.remove('TowerPanel');
-  overlays.remove('TowerPanelUpgrade');
-  overlays.remove('PauseMenuPanel');
-
-  GameState.reset();
-
-  gamePlay.removeFromParent();
-
-  final newGamePlay = GamePlay();
-  add(newGamePlay);
-
-  gamePlay = newGamePlay;
-
-  overlays.add("TowerPanel");
-  overlays.add("TowerPanelUpgrade");
-
-  resumeEngine();
-}
-
 
 
   @override
