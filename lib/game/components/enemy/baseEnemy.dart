@@ -44,6 +44,7 @@ abstract class BaseEnemy extends PositionComponent
     size = spriteSize;
     anchor = Anchor.center;
     position = waypoints.first;
+    priority = 10;
   }
 
   @override
@@ -179,7 +180,7 @@ abstract class BaseEnemy extends PositionComponent
   void die(BaseTower killer) 
   {
     GameState.addCoins(reward);
-    GameState.enemiesRemaining>= 0 ? GameState.enemiesRemaining--: GameState.enemiesRemaining;
+    GameState.enemiesRemaining > 0 ? GameState.enemiesRemaining--: GameState.enemiesRemaining;
     killer.antKilled++;
 
     if (killer.target == this) {

@@ -7,7 +7,7 @@ class PungiglioneBullet extends BaseBullet
   int poison_damage = 15;
 
   PungiglioneBullet({required super.tower, required super.target, required super.damage})
-    : super(speed: 300, bullet_size: Vector2.all(24), sprite_path: "bullets/poison_bullet.webp",sprite_size: Vector2.all(32));
+    : super(speed: 300, bullet_size: Vector2.all(24), sprite_path: "bullets/poison_bullet.webp",);
 
   @override
   void hitTarget() 

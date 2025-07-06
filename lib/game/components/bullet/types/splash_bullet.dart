@@ -5,8 +5,8 @@ class SplashBullet extends BaseBullet {
   int splash_range = 20;
   String sprite_path_esplosione = "bullets/esplosione.webp";
 
-  SplashBullet({required super.tower, required super.target, required super.damage,}) 
-    : super(speed: 300, bullet_size: Vector2.all(32), sprite_path: "bullets/bomba.webp",sprite_size: Vector2.all(32));
+  SplashBullet({required super.tower, required super.target, required super.damage}) 
+    : super(speed: 300, bullet_size: Vector2.all(32), sprite_path: "bullets/bomba.webp",);
 
   @override
   void hitTarget () async
