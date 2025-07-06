@@ -34,27 +34,38 @@ class _SelectLevelPageState extends State<SelectLevelPage> {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
+            // Top row: Back button + Login UI
             Padding(
-              padding: const EdgeInsets.only(left: 16.0, top: 12.0),
-              child: TextButton.icon(
-                onPressed: () => Navigator.pop(context),
-                icon: const Icon(Icons.arrow_back, color: Colors.black),
-                label: const Text(
-                  'back',
-                  style: TextStyle(
-                    fontSize: 18,
-                    color: Colors.black,
-                    fontWeight: FontWeight.w500,
+              padding: const EdgeInsets.symmetric(horizontal: 16.0, vertical: 12.0),
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  TextButton.icon(
+                    onPressed: () => Navigator.pop(context),
+                    icon: const Icon(Icons.arrow_back, color: Colors.black),
+                    label: const Text(
+                      'back',
+                      style: TextStyle(
+                        fontSize: 18,
+                        color: Colors.black,
+                        fontWeight: FontWeight.w500,
+                      ),
+                    ),
                   ),
-                ),
+                  _LoginUI(),
+                ],
               ),
             ),
+
             const SizedBox(height: 20),
+
+            // Centered levels
             Expanded(
               child: Center(
                 child: Padding(
                   padding: const EdgeInsets.all(24.0),
                   child: Wrap(
+                    alignment: WrapAlignment.center,
                     spacing: 20,
                     runSpacing: 20,
                     children: List.generate(3, (index) {
@@ -90,6 +101,8 @@ class _SelectLevelPageState extends State<SelectLevelPage> {
                 ),
               ),
             ),
+
+            // Reset progress
             Center(
               child: TextButton(
                 onPressed: () async {
@@ -106,6 +119,51 @@ class _SelectLevelPageState extends State<SelectLevelPage> {
         ),
       ),
     );
+  }
+}
+
+class _LoginUI extends StatelessWidget {
+  final bool isLoggedIn = true; // Simulazione
+
+  @override
+  Widget build(BuildContext context) {
+    return isLoggedIn
+        ? Container(
+            padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 6),
+            decoration: BoxDecoration(
+              color: Colors.white,
+              borderRadius: BorderRadius.circular(20),
+              boxShadow: const [
+                BoxShadow(
+                  color: Colors.black26,
+                  blurRadius: 4,
+                  offset: Offset(2, 2),
+                ),
+              ],
+            ),
+            child: Row(
+              mainAxisSize: MainAxisSize.min,
+              children: const [
+                CircleAvatar(
+                  radius: 14,
+                  backgroundColor: Colors.grey,
+                  child: Icon(Icons.person, size: 16, color: Colors.white),
+                ),
+                SizedBox(width: 8),
+                Text(
+                  "Daniele",
+                  style: TextStyle(fontSize: 14, fontWeight: FontWeight.w500),
+                ),
+                SizedBox(width: 8),
+                Icon(Icons.logout, size: 18),
+              ],
+            ),
+          )
+        : TextButton.icon(
+            onPressed: () {},
+            icon: const Icon(Icons.login),
+            label: const Text("Login"),
+          );
   }
 }
 

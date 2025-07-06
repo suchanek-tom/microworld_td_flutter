@@ -3,7 +3,6 @@ import 'package:flame/flame.dart';
 import 'package:flame/game.dart';
 import 'package:flame/events.dart' as flame;
 import 'package:flutter/material.dart';
-import 'package:microworld_td/game/components/enemy/enemy_spawner.dart';
 import 'package:microworld_td/game/components/game_state.dart';
 import 'package:microworld_td/game/components/towers/baseTower.dart';
 import 'package:microworld_td/game/gameplay.dart';
@@ -39,19 +38,12 @@ class MicroworldGame extends FlameGame with flame.TapCallbacks, flame.PointerMov
     resumeEngine();
   }
 
-  void startGame() 
-  {
-    if(gamePlay.waveOnGoing != true)
-    {
-      GameState.nextWave();
-      EnemySpawner.startWithNoWaveTimer = true;
-    }
-  }
-
   @override
   Future<void> onLoad() async 
   {
+    await Flame.device.setLandscape();
     await Flame.device.fullScreen();
+
     add(gamePlay);
      
     overlays.add("TowerPanel");
@@ -66,7 +58,8 @@ class MicroworldGame extends FlameGame with flame.TapCallbacks, flame.PointerMov
   void update(double dt) {
     super.update(dt);
 
-    if (GameState.isGameOver && gameOverText == null) {
+    if (GameState.isGameOver && gameOverText == null)
+    {
       gameOverText = TextComponent(
         text: "GAME OVER!",
         position: Vector2(size.x / 2, 50),
@@ -81,7 +74,7 @@ class MicroworldGame extends FlameGame with flame.TapCallbacks, flame.PointerMov
         priority: 100,
       );
       add(gameOverText!);
-      Future.delayed(const Duration(seconds: 1), pauseEngine);
+      Future.delayed(const Duration(seconds: 1), pauseGame);
     } else if (GameState.isGameWon && winText == null) {
       GameState.completeLevel();  
       winText = TextComponent(
@@ -98,7 +91,7 @@ class MicroworldGame extends FlameGame with flame.TapCallbacks, flame.PointerMov
         priority: 100,
       );
       add(winText!);
-      Future.delayed(const Duration(seconds: 1), pauseEngine);
+      Future.delayed(const Duration(seconds: 1), pauseGame);
     }
   }
 
@@ -119,7 +112,6 @@ class MicroworldGame extends FlameGame with flame.TapCallbacks, flame.PointerMov
 
     if (gamePlay.isPlacingTower) 
     {
-      GameState.coins -= gamePlay.towerBeingPlaced!.cost;
       gamePlay.isPlacingTower = false;
       gamePlay.towerBeingPlaced?.setPos = event.localPosition;
       gamePlay.towerBeingPlaced!.inplacement = false;

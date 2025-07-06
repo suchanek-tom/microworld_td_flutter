@@ -3,37 +3,46 @@ import 'dart:ui';
 import 'package:flame/components.dart';
 import 'package:flame/events.dart';
 import 'package:microworld_td/game/components/abilities/abilities_action_service.dart';
+import 'package:microworld_td/game/components/abilities/abilities_imp/tela_abilita.dart';
 import 'package:microworld_td/game/components/enemy/baseEnemy.dart';
+import 'package:microworld_td/game/components/game_state.dart';
 
 enum Target{ first, close, strong}
 
 abstract class BaseTower extends PositionComponent with HoverCallbacks
 {
   bool inplacement = false;
+  bool canto_buffed = false;
+  bool canSeeCamo = false;
 
   final String towerName;
-  final String sprit_icon_path;
+  final String sprite_icon_path;
+  final String sprite_abl_sx_path;
+  final String sprite_abl_dx_path;
   final String sprite_path;
   final Vector2 sprite_size; 
   late SpriteComponent sprite;
   late CircleComponent rangeCircle;
 
-  late List<AbilitiesActionService> left_abilities = [];
-  late List<AbilitiesActionService> right_abilities = [];
+  bool hasLeft_ability = false;
+  bool hasRight_ability = false;
   
   int cost;
+  int cost_abl_sx;
+  int cost_abl_dx;
   int sellCost;
   double fireRate;
   double range;
   int damage;
   List<int> upgradeCost = [];
   int towerLevel;
+  String nome_abl_sx;
+  String nome_abl_dx;
   BaseEnemy? target;
    
   Target typeTarget = Target.first;
   double timeSinceLastShot = 0;
   int antKilled = 0;
-  int exp_torre = 0;
 
   BaseTower({
     required this.towerName,
@@ -44,10 +53,16 @@ abstract class BaseTower extends PositionComponent with HoverCallbacks
     required this.sprite_size,
     required this.cost,
     required this.sellCost,  
-    required this.sprit_icon_path, 
+    required this.sprite_icon_path, 
     required this.antKilled, 
     required this.upgradeCost, 
     required this.towerLevel, 
+    required this.cost_abl_dx,
+    required this.cost_abl_sx,
+    required this.nome_abl_sx,
+    required this.nome_abl_dx,
+    required this.sprite_abl_dx_path,
+    required this.sprite_abl_sx_path
   }) 
   {
     size = sprite_size;
@@ -65,19 +80,30 @@ abstract class BaseTower extends PositionComponent with HoverCallbacks
 
       sprite.position = Vector2(width / 2, height / 2);
 
-      rangeCircle = CircleComponent(
+      final borderCircle = CircleComponent(
         radius: range,
         paint: Paint()
-          ..color = const Color.fromARGB(222, 255, 25, 4) 
+          ..color = const Color.fromARGB(255, 41, 41, 41)
           ..style = PaintingStyle.stroke
           ..strokeWidth = 2,
         anchor: Anchor.center,
       );
+      borderCircle.position = Vector2(width / 2, height / 2);
+
+      rangeCircle = CircleComponent(
+        radius: range,
+        paint: Paint()
+          ..color = const Color.fromARGB(80, 69, 69, 69) 
+          ..style = PaintingStyle.fill
+          ..strokeWidth = 2,
+        anchor: Anchor.center,
+      );
       rangeCircle.position = Vector2(width / 2, height / 2);
+
+      add(borderCircle);
       add(rangeCircle);
-
-
       add(sprite);
+
     } catch (e) {
       print('❌ Failed to load sprite at "$sprite_path". Error: $e');
     }
@@ -86,30 +112,6 @@ abstract class BaseTower extends PositionComponent with HoverCallbacks
   @override
   void update(double dt) {
     super.update(dt);
-
-    /*
-    if(inplacement == false)
-    {
-      timeSinceLastShot += dt;
-
-      final enemies = parent?.children
-          .whereType<BaseEnemy>()
-          .where((enemy) => position.distanceTo(enemy.position) < range)
-          .toList();
-
-      if (enemies == null || enemies.isEmpty) return;
-
-      final target = enemies.first;
-
-      final direction = (target.position - position).normalized();
-      sprite.angle = direction.screenAngle();
-    
-      if (timeSinceLastShot >= fireRate) {
-        attackTarget(target);
-        timeSinceLastShot = 0;
-      }
-    }
-    */
 
     if (inplacement == false) 
     {
@@ -165,7 +167,11 @@ abstract class BaseTower extends PositionComponent with HoverCallbacks
 
   void implementUpgrade(int side, BaseTower tower);
 
-  int sellTower(BaseTower towerToSell);
+  static void sellTower(BaseTower towerToSell)
+  {
+    GameState.coins += towerToSell.sellCost;
+    towerToSell.removeFromParent();
+  }
 
   static Target changeTarget()
   {

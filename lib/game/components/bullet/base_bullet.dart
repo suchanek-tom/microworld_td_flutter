@@ -63,5 +63,11 @@ abstract class BaseBullet extends PositionComponent {
     }
   }
 
+  void bulletDirection()
+  {
+    final direction = (target.position - position).normalized();
+    sprite.angle = direction.screenAngle();
+  }
+
   void hitTarget();
 }

@@ -8,10 +8,11 @@ class WebBullet extends BaseBullet {
   double durataEffetto = 3.0;      // In secondi
 
   WebBullet({required super.tower, required super.target, required super.damage,}) 
-    : super(speed: 200, bullet_size: Vector2.all(16), sprite_path: "bullets/web.webp",sprite_size: Vector2.all(64));
+    : super(speed: 200, bullet_size: Vector2.all(32), sprite_path: "bullets/web.webp",sprite_size: Vector2.all(64));
 
   @override
-  void hitTarget() {
+  void hitTarget()
+  {
     final originalSpeed = target.speed;
     // Applica rallentamento
     target.speed *= (1 - slowFactor / 100);

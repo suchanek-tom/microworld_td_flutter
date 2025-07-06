@@ -156,7 +156,7 @@ abstract class BaseEnemy extends PositionComponent
   void takeDamage(int damage, BaseTower tower) 
   {
     taking_hit_from = tower;
-    damage = damage * (1 + moltiplicatore_danni) as int;
+    damage = (damage * (1 + moltiplicatore_danni)).toInt();
     health -= damage;
     if (health <= 0) 
     {
@@ -179,7 +179,7 @@ abstract class BaseEnemy extends PositionComponent
   void die(BaseTower killer) 
   {
     GameState.addCoins(reward);
-    GameState.enemiesRemaining --;
+    GameState.enemiesRemaining>= 0 ? GameState.enemiesRemaining--: GameState.enemiesRemaining;
     killer.antKilled++;
 
     if (killer.target == this) {

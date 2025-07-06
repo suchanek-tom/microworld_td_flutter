@@ -35,32 +35,136 @@ class TowerPanelUpgradeComponentState extends State<TowerPanelUpgradeComponent>
     });
   }
   @override
-  Widget build(BuildContext context) 
-  {
-    return Visibility
-    (
+  Widget build(BuildContext context) {
+    final screenSize = MediaQuery.of(context).size;
+    return Visibility(
       visible: isvisible,
-      child: Transform.translate
-      (
-          offset: const Offset(0, 328),
-          child: selectedTower == null ? const SizedBox(): buildUpgradePanel()
+      child: Transform.translate(
+        offset: Offset(0, screenSize.height * 0.76), // in base all'altezza
+        child: selectedTower == null ? const SizedBox() : buildUpgradePanel(),
+      ),
+    );
+  }  
+
+  Widget buildUpgradePanel()
+ {
+      return Container(
+      width:  widget.game.game.size.x * 0.89, // 95% dello schermo
+      height: widget.game.game.size.y * 0.24, // 15% dello schermo
+      padding: const EdgeInsets.all(8),
+      decoration: BoxDecoration(
+        color: Colors.brown[800],
+        border: Border.all(color: Colors.brown.shade900, width: 4),
+      ),
+      child: Row(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          // Immagine torre
+          Padding(
+            padding: const EdgeInsets.only(right: 16.0),
+            child: Image.asset(
+              "assets/${selectedTower!.sprite_icon_path}",
+              width: 64,  
+              height: 64,
+              fit: BoxFit.fill,
+            ),
+          ),
+          // Info torre
+          Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Text(
+                "${selectedTower?.towerName ?? ''} (Lv. ${selectedTower?.towerLevel ?? '?'})",
+                style: const TextStyle(fontWeight: FontWeight.bold),
+              ),
+              Text("Ant Count: ${selectedTower?.antKilled ?? 0}"),
+              const SizedBox(height: 3),
+              SizedBox(
+                height: 23,
+                child: ToggleButtons(
+                  isSelected: Target.values.map((target) => selectedTower?.typeTarget == target).toList(),
+                  onPressed: (int index) {
+                    setState(() {
+                      selectedTower?.typeTarget = Target.values.elementAt(index);
+                    });
+                  },
+                  color: Colors.white,
+                  selectedColor: Colors.black,
+                  fillColor: Colors.brown[300],
+                  borderRadius: BorderRadius.circular(8),
+                  constraints: const BoxConstraints(minWidth: 0, minHeight: 0),
+                  children: Target.values.map((target) {
+                    return Padding(
+                      padding: const EdgeInsets.symmetric(horizontal: 4, vertical: 2),
+                      child: Text(target.name.toLowerCase(), style: const TextStyle(fontSize: 12)),
+                    );
+                  }).toList(),
+                ),
+              ),
+            ],
+          ),
+          // Upgrade + Sell
+          Expanded(
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: [
+                levelUp("${selectedTower?.upgradeCost[selectedTower!.towerLevel - 1] ?? 0}"),
+                upgradePath(selectedTower!.nome_abl_sx, selectedTower!.cost_abl_sx, selectedTower!.sprite_abl_sx_path, 0),
+                upgradePath(selectedTower!.nome_abl_dx, selectedTower!.cost_abl_dx, selectedTower!.sprite_abl_dx_path, 1),
+              ],
+            ),
+          ),
+          Column(
+            children: [
+              const SizedBox(width: 90, height: 15),
+              ElevatedButton(
+                style: ElevatedButton.styleFrom(
+                  backgroundColor: Colors.red,
+                  padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 8),
+                ),
+                onPressed: () 
+                {
+                  BaseTower.sellTower(selectedTower!);
+                  setState(() {
+                    isvisible = false;
+                  });
+                },
+                child: Text(
+                  "SELL FOR \n    \$ ${selectedTower!.sellCost}",
+                  style: const TextStyle(fontSize: 10),
+                ),
+              ),
+            ],
+          ),
+        ],
       ),
     );
   }
 
   Widget levelUp(String requirement) 
   {
-   return Padding(
-     padding: const EdgeInsets.only(left: 16),
-     child: Column(
+    return Padding(
+       padding: const EdgeInsets.only(left: 16),
+       child: Column(
        crossAxisAlignment: CrossAxisAlignment.center,
        children: [
-         Text(
-           "Level up $requirement",
-            style: TextStyle(
-             fontWeight: FontWeight.bold,
-             fontSize: 12,
-           ),
+        Text.rich(
+         TextSpan(
+          text: 'Level up ',
+          style: const TextStyle(
+          fontWeight: FontWeight.bold,
+          fontSize: 12,
+          color: Colors.black, 
+          ),
+          children: [
+            TextSpan(
+              text: "\$$requirement",
+              style: const TextStyle(
+              color: Colors.green, 
+                  ),
+                ),
+              ],
+            ),
           ),
           const SizedBox(height: 2),
           TextButton(
@@ -68,6 +172,7 @@ class TowerPanelUpgradeComponentState extends State<TowerPanelUpgradeComponent>
            {
             setState(() 
             {
+            //call for levelup
             int cost =  selectedTower!.upgradeCost[selectedTower!.towerLevel-1];
             if(selectedTower!.towerLevel != 5){
               if(GameState.coins >= cost){
@@ -80,7 +185,6 @@ class TowerPanelUpgradeComponentState extends State<TowerPanelUpgradeComponent>
             else{
               print("max level reached");
             }});
-            //call for levelup
            },
            style: ElevatedButton.styleFrom(
              backgroundColor: Colors.green,
@@ -88,7 +192,7 @@ class TowerPanelUpgradeComponentState extends State<TowerPanelUpgradeComponent>
              shape: RoundedRectangleBorder(
                borderRadius: BorderRadius.circular(12), // Bordi smussati
              ),
-             minimumSize: const Size(54, 54), // Quadrato
+             minimumSize: const Size(50, 50), // Quadrato
              padding: EdgeInsets.zero, // Per evitare padding interno
            ),
            child: Container(
@@ -111,123 +215,59 @@ class TowerPanelUpgradeComponentState extends State<TowerPanelUpgradeComponent>
    );
   }
 
-  Widget upgradePath(upgrade_name, String requirement, String icon_path, int side) 
+  Widget upgradePath(String upgrade_name, int requirement, String icon_path, int side) 
   {
     //quando side è 0 ci si riferisce al bottone a sinistra, quando è 1 al bottone destro
     return GestureDetector(
-    onTap: () 
-    {
-      //call for ability upgrade
-      TowerUpgradeSystem.abilityUpgrade(selectedTower!, 100,side);
+    onTap: (){
+      if(GameState.coins > requirement)
+      { 
+        TowerUpgradeSystem.abilityUpgrade(selectedTower!,side,requirement);  
+      }
+      else{
+         print("you have:${GameState.coins} but you need: $requirement");
+      }      
     },
     child: Row(
+    crossAxisAlignment: CrossAxisAlignment.center,
     children: [
-          Text(
-            upgrade_name,
-            style: const TextStyle(fontSize: 12),
+    // Riga con nome abilità + costo
+    Row(
+      mainAxisSize: MainAxisSize.min,
+      children: [
+        Text(
+          upgrade_name,
+          style: const TextStyle(
+            fontSize: 12,
+            fontWeight: FontWeight.bold,
+            color: Colors.black,
           ),
-          const SizedBox(width: 8), // Spazio tra testo e immagine
-          Image.asset(
-            'assets/images/UI/$icon_path.webp',
-            width: 64,
-            height: 64,
-            fit: BoxFit.cover,
+        ),
+        const SizedBox(width: 6), // Spazio tra nome e costo
+        Text(
+          "\$${requirement.toString()}",
+          style: const TextStyle(
+            fontSize: 12,
+            fontWeight: FontWeight.bold,
+            color: Colors.green,
           ),
+        ),
+      ],
+    ),
+
+    const SizedBox(width: 4), // Spazio tra testo e immagine
+
+    // Immagine sotto
+    Image.asset(
+      'assets/$icon_path',
+      width: 64,
+      height: 64,
+      fit: BoxFit.cover,
+         ),
         ],
       ),
     );
   }
-
-
- Widget buildUpgradePanel()
- {
-    return Container(
-          width: 765,
-          height: 90,
-          padding: const EdgeInsets.all(8),
-          decoration: BoxDecoration(
-            color: Colors.brown[800],
-            border: Border.all(color: Colors.brown.shade900, width: 4),
-          ),
-          child: Row(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            // Left section: Tower image + targeting buttons
-            Padding(
-              padding: const EdgeInsets.only(right: 16.0),
-              child: Image.asset(
-                selectedTower!.sprit_icon_path,
-                width: 64,
-                height: 64,
-                fit: BoxFit.fill,
-              ),
-            ),
-            // CENTRO: Tutto il resto
-            Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                Text(
-                  "${selectedTower?.towerName ?? ''} (Lv. ${selectedTower?.towerLevel ?? '?'})",
-                  style: const TextStyle(fontWeight: FontWeight.bold),
-                ),
-                Text("Ant Count: ${selectedTower?.antKilled ?? 0}"),
-                const SizedBox(height: 3),
-                SizedBox(
-                height: 23,  // altezza sufficiente per non fare overflow
-                child: ToggleButtons(
-                  isSelected: Target.values.map((target) => selectedTower?.typeTarget == target).toList(),
-                  onPressed: (int index) {
-                    setState(() {
-                      selectedTower?.typeTarget = Target.values.elementAt(index);
-                    });
-                  },
-                  color: Colors.white,
-                  selectedColor: Colors.black,
-                  fillColor: Colors.brown[300],
-                  borderRadius: BorderRadius.circular(8),
-                  constraints: const BoxConstraints(minWidth: 0, minHeight: 0), // disabilitiamo i vincoli interni
-                  children: Target.values.map((target) {
-                    return Padding(
-                      padding: const EdgeInsets.symmetric(horizontal: 4, vertical: 2), // padding manuale ridotto
-                      child: Text(
-                        target.name.toLowerCase(),
-                        style: const TextStyle(fontSize: 12),
-                      ),
-                    );
-                  }).toList(),
-                ),
-              ),
-              ],
-            ),
-            // Right section: Upgrade paths
-            Expanded(
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: [
-                  levelUp("${selectedTower?.upgradeCost.elementAt(selectedTower!.towerLevel-1)  ?? 0}"),
-                  upgradePath("Path 2", "XP TO UNLOCK","contorno_erba",0),
-                  upgradePath("Path 3", "XP TO UNLOCK","contorno_erba",1),
-                ],
-              ),
-            ),
-             // Middle section: Sell button
-            Column(
-              children: [
-                const SizedBox(width: 90,height: 15,),
-                ElevatedButton(
-                  style: ElevatedButton.styleFrom(
-                    backgroundColor: Colors.red,
-                    padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 8),
-                  ),
-                  onPressed: () {},
-                  child: Text( "SELL FOR \n    \$ ${selectedTower!.sellCost}",style: 
-                    TextStyle(fontSize: 10  ) ,
-                    ),
-                ),
-              ],
-            ),
-          ],
-        ),
-      );
-    }
 }
+
+

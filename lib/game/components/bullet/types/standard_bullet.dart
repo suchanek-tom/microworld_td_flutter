@@ -8,6 +8,7 @@ class StandardBullet extends BaseBullet {
   @override
   void hitTarget() 
   {
+    super.bulletDirection();
     target.takeDamage(damage,tower);
     removeFromParent();
   }

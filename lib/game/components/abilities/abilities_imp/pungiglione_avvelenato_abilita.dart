@@ -8,6 +8,9 @@ import 'package:microworld_td/game/components/towers/baseTower.dart';
 class PungiglioneAvvelenatoAbilita extends Component implements AbilitiesActionService {
   final rng = Random();
   final BaseTower tower;
+  
+  @override
+  String ability_name;
 
   double frequenza = 0.8;
   double probabilita = 0.2;
@@ -15,7 +18,7 @@ class PungiglioneAvvelenatoAbilita extends Component implements AbilitiesActionS
   late Timer _frequenzaTimer;
   bool _frequenzaRunning = false;
 
-  PungiglioneAvvelenatoAbilita({required this.tower})
+  PungiglioneAvvelenatoAbilita({required this.tower, required this.ability_name})
   {
     _frequenzaTimer = Timer(frequenza, repeat: true, onTick: probabilita_tela);
   }

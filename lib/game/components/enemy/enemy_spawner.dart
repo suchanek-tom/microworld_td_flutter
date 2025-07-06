@@ -17,7 +17,7 @@ class EnemySpawner extends Component
   final GamePlay game;
   static bool startWithNoWaveTimer = false;
   Map<int, List<Map<String, dynamic>>> waveConfig;
- 
+  
   EnemySpawner(
     {
       required this.waypoints, 
@@ -33,28 +33,27 @@ class EnemySpawner extends Component
 
     if (enemiesToSpawn == 0 && GameState.enemiesRemaining == 0) 
     {
-      
-      if(game.waveOnGoing == true) {
-        
+      //reset del timer
+      if(GameState.waveOnGoing == true) {
         GameState.new_wave_timer = 15.0;
-        game.waveOnGoing = false;
+        GameState.waveOnGoing = false;
       }
 
        if(GameState.new_wave_timer == 0) {
         GameState.waveNumber++;
-        game.waveOnGoing = true;
+        GameState.waveOnGoing = true;
         startNewWave();
       }
 
       if(startWithNoWaveTimer == true){
-        startNewWave();
         startWithNoWaveTimer = false;
-        game.waveOnGoing = true;
+        GameState.waveOnGoing = true;
+        startNewWave();
       }
 
       GameState.new_wave_timer > 0 ? GameState.new_wave_timer -= dt: GameState.new_wave_timer = 0;
 
-      if (GameState.waveNumber >= 10) {
+      if (GameState.waveNumber > GameState.maxWaves) {
         GameState.winGame(); 
         return;
       }

@@ -13,6 +13,7 @@ class PungiglioneBullet extends BaseBullet
   void hitTarget() 
   {
     target.poisonTimer = poison_time; 
+    super.bulletDirection();
     target.takeDamage(damage, tower);
     target.applyPoison(poison_damage);
     removeFromParent();

@@ -8,8 +8,7 @@ class SonarBullet extends BaseBullet {
   @override
   void hitTarget() 
   {
-    print(this.position); 
-    print(tower.position);
+    super.bulletDirection();
     target.takeDamage(damage,tower);
     removeFromParent();
   }

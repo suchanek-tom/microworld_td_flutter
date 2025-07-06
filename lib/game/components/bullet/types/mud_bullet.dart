@@ -8,7 +8,7 @@ class MudBullet extends BaseBullet {
   @override
   void hitTarget() 
   {
-    print(tower);
+    super.bulletDirection();
     target.takeDamage(damage,tower);
     removeFromParent();
   }
