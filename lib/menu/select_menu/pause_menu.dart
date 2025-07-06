@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:microworld_td/game/microworld_game.dart';
-import 'package:microworld_td/systems/routes.dart';
+import 'package:microworld_td/menu/select_menu/select_levels_page.dart';
 
 class PauseMenu extends StatelessWidget {
   final MicroworldGame game;
@@ -43,8 +43,12 @@ class PauseMenu extends StatelessWidget {
                 padding: const EdgeInsets.symmetric(horizontal: 40, vertical: 16),
               ),
               onPressed: () {
-                game.pauseEngine(); // just to be safe
-                Navigator.of(context, rootNavigator: true).pushReplacementNamed(RoutesManager.home);
+                game.pauseEngine(); 
+
+                Navigator.of(context, rootNavigator: true).pushAndRemoveUntil(
+                  MaterialPageRoute(builder: (_) => const SelectLevelPage()),
+                  (route) => false,
+                );
               },
               child: const Text('Quit to Menu', style: TextStyle(fontSize: 18)),
             ),

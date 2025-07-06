@@ -58,7 +58,6 @@ class _SelectLevelPageState extends State<SelectLevelPage> {
               ),
             ),
             const SizedBox(height: 20),
-            // Centered levels
             Expanded(
               child: Center(
                 child: Padding(
@@ -100,19 +99,21 @@ class _SelectLevelPageState extends State<SelectLevelPage> {
                 ),
               ),
             ),
-            // Reset progress
-            Center(
-              child: TextButton(
-                onPressed: () async {
-                  await LevelProgress.reset();
-                  await _loadProgress();
-                },
-                child: const Text(
-                  'Reset Progress',
-                  style: TextStyle(color: Colors.red),
+            if (FirebaseAuth.instance.currentUser != null)
+              Center(
+                child: TextButton(
+                  onPressed: () async {
+                    await LevelProgress.reset();
+                    await _loadProgress();
+                  },
+                  child: const Text(
+                    'Reset Progress',
+                    style: TextStyle(color: Colors.red),
+                  ),
                 ),
-              ),
-            )
+              )
+            else
+              const SizedBox.shrink(),
           ],
         ),
       ),
