@@ -1,6 +1,5 @@
 import 'package:flame/components.dart';
 import 'package:microworld_td/game/components/abilities/abilities_imp/palla_di_fango_abilita.dart';
-import 'package:microworld_td/game/components/abilities/abilities_imp/spostamento_rapido_abilita.dart';
 import 'package:microworld_td/game/components/bullet/types/mud_bullet.dart';
 import 'package:microworld_td/game/components/enemy/baseEnemy.dart';
 import 'package:microworld_td/game/components/towers/baseTower.dart';

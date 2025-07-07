@@ -36,7 +36,6 @@ class _SelectLevelPageState extends State<SelectLevelPage> {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            // Top row: Back button + Login UI
             Padding(
               padding: const EdgeInsets.symmetric(horizontal: 16.0, vertical: 12.0),
               child: Row(

@@ -1,5 +1,4 @@
 import 'package:flame/components.dart';
-import 'package:microworld_td/game/components/abilities/abilities_imp/spostamento_rapido_abilita.dart';
 import 'package:microworld_td/game/components/abilities/abilities_imp/tela_abilita.dart';
 import 'package:microworld_td/game/components/bullet/types/standard_bullet.dart';
 import 'package:microworld_td/game/components/enemy/baseEnemy.dart';

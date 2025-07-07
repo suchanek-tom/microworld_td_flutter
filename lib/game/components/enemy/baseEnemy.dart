@@ -117,6 +117,14 @@ abstract class BaseEnemy extends PositionComponent
     return a + diff * t;
   }
 
+  double get progress {
+  final next = currentWaypointIndex < waypoints.length - 1
+      ? waypoints[currentWaypointIndex + 1]
+      : waypoints.last;
+  return currentWaypointIndex + position.distanceTo(next);
+  }
+
+
   void resetHitEffect(double dt) {
     hitTimer += dt;
     if (hitTimer > 0.1) {
@@ -130,7 +138,7 @@ abstract class BaseEnemy extends PositionComponent
   {
     sprite.paint = Paint()
       ..colorFilter = const ColorFilter.mode(
-      Color(0x66FF0000), // Rosso semi-trasparente
+      Color(0x66FF0000),
       BlendMode.srcATop,
       );
   }
@@ -144,7 +152,7 @@ abstract class BaseEnemy extends PositionComponent
       tickAccumulator = 0;
 
       health -= poisonDamage;
-      hitEffect(); // effetto visivo
+      hitEffect(); 
       isHit = true;
       if (health <= 0) {
         poisonTimer = 0;
@@ -172,7 +180,7 @@ abstract class BaseEnemy extends PositionComponent
     this.poisonDamage = poisonDamage;
     sprite.paint = Paint()
       ..colorFilter = const ColorFilter.mode(
-      Color.fromARGB(102, 166, 0, 255), // viola semi-trasparente
+      Color.fromARGB(102, 166, 0, 255), 
       BlendMode.srcATop,
       );
   }
