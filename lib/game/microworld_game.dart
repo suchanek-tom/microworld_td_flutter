@@ -16,13 +16,12 @@ class MicroworldGame extends FlameGame with flame.TapCallbacks, flame.PointerMov
   late TextComponent coinText;
   late TextComponent waveText;
 
-  TextComponent? gameOverText;
-  TextComponent? winText;
-
   GamePlay gamePlay = GamePlay();
   late final TowerUpgradeSystem upgradeSystem;
 
   final Map<String, Widget> overlayInstances = {};
+  final int currentLevel;
+  MicroworldGame({required this.currentLevel});
 
   late GlobalKey<TowerPanelUpgradeComponentState> upgradepanelKeystate;
   late GlobalKey<TowerPanelComponentState> towerpanelKeystate;
@@ -36,6 +35,19 @@ class MicroworldGame extends FlameGame with flame.TapCallbacks, flame.PointerMov
     overlays.remove('PauseMenuPanel');
     resumeEngine();
   }
+
+  void resetGame() {
+  GameState.reset();
+
+  gamePlay.removeFromParent();
+  gamePlay = GamePlay();
+  add(gamePlay);
+  overlays.clear();
+  overlays.add("TowerPanel");
+  overlays.add("TowerPanelUpgrade");
+  resumeEngine();
+}
+
 
   @override
   Future<void> onLoad() async {
@@ -56,39 +68,16 @@ class MicroworldGame extends FlameGame with flame.TapCallbacks, flame.PointerMov
   void update(double dt) {
     super.update(dt);
 
-    if (GameState.isGameOver && gameOverText == null) {
-      gameOverText = TextComponent(
-        text: "GAME OVER!",
-        position: Vector2(size.x / 2, 50),
-        anchor: Anchor.topCenter,
-        textRenderer: TextPaint(
-          style: const TextStyle(
-            fontSize: 40,
-            fontWeight: FontWeight.w900,
-            color: Colors.red,
-          ),
-        ),
-        priority: 100,
-      );
-      add(gameOverText!);
-      Future.delayed(const Duration(seconds: 1), pauseGame);
-    } else if (GameState.isGameWon && winText == null) {
+    if (GameState.isGameOver && !overlays.isActive('GameOverMenu')) {
+      pauseEngine();
+      overlays.add('GameOverMenu');
+    }
+
+    if (GameState.isGameWon && !overlays.isActive('GameWinMenu')) {
+      pauseEngine();
+      overlays.add('GameWinMenu');
+
       GameState.completeLevel();
-      winText = TextComponent(
-        text: "YOU WIN!",
-        position: Vector2(size.x / 2, 50),
-        anchor: Anchor.topCenter,
-        textRenderer: TextPaint(
-          style: const TextStyle(
-            fontSize: 40,
-            fontWeight: FontWeight.w900,
-            color: Colors.black,
-          ),
-        ),
-        priority: 100,
-      );
-      add(winText!);
-      Future.delayed(const Duration(seconds: 1), pauseGame);
     }
   }
 
@@ -104,36 +93,35 @@ class MicroworldGame extends FlameGame with flame.TapCallbacks, flame.PointerMov
 
   @override
   void onTapDown(flame.TapDownEvent event) {
-  final localPos = gamePlay.cam.globalToLocal(event.canvasPosition);
+    final localPos = gamePlay.cam.globalToLocal(event.canvasPosition);
 
-  if (gamePlay.isPlacingTower) {
-    gamePlay.isPlacingTower = false;
-    gamePlay.towerBeingPlaced!.showRange(false);
-    gamePlay.towerBeingPlaced?.setPos = localPos;
-    gamePlay.towerBeingPlaced!.inplacement = false;
-    gamePlay.towerBeingPlaced = null;
-  } else {
-    final tappedTower = gamePlay.children
-        .whereType<BaseTower>()
-        .firstWhereOrNull((tower) => tower.toRect().contains(localPos.toOffset()));
-
-    if (tappedTower != null) {
-      gamePlay.isSelectingTower = true;
-      upgradeSystem.openUpgradePanel(tappedTower);
-
-      for (final tower in gamePlay.children.whereType<BaseTower>()) {
-        tower.showRange(tower == tappedTower);
-      }
+    if (gamePlay.isPlacingTower) {
+      gamePlay.isPlacingTower = false;
+      gamePlay.towerBeingPlaced!.showRange(false);
+      gamePlay.towerBeingPlaced?.setPos = localPos;
+      gamePlay.towerBeingPlaced!.inplacement = false;
+      gamePlay.towerBeingPlaced = null;
     } else {
-      gamePlay.isSelectingTower = false;
-      upgradeSystem.closeUpgradePanel();
+      final tappedTower = gamePlay.children
+          .whereType<BaseTower>()
+          .firstWhereOrNull((tower) => tower.toRect().contains(localPos.toOffset()));
 
-      for (final tower in gamePlay.children.whereType<BaseTower>()) {
-        tower.showRange(false);
+      if (tappedTower != null) {
+        gamePlay.isSelectingTower = true;
+        upgradeSystem.openUpgradePanel(tappedTower);
+
+        for (final tower in gamePlay.children.whereType<BaseTower>()) {
+          tower.showRange(tower == tappedTower);
+        }
+      } else {
+        gamePlay.isSelectingTower = false;
+        upgradeSystem.closeUpgradePanel();
+
+        for (final tower in gamePlay.children.whereType<BaseTower>()) {
+          tower.showRange(false);
+        }
       }
     }
+    super.onTapDown(event);
   }
-  super.onTapDown(event);
-}
-
 }

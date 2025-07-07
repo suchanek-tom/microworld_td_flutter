@@ -1,3 +1,4 @@
+// game_state.dart
 import 'package:microworld_td/game/components/enemy/enemy_spawner.dart';
 import 'package:microworld_td/menu/select_menu/level_progress.dart';
 import 'package:microworld_td/systems/level_manager.dart';
@@ -11,28 +12,27 @@ class GameState {
   static int maxWaves = 0;
   static double new_wave_timer = 15.0;
   static int enemiesRemaining = 0;
-  static  bool waveOnGoing = false;
+  static bool waveOnGoing = false;
+
+  static int level = 1; // Přidej úroveň
 
   static void addCoins(int amount) {
     coins += amount;
   }
 
-  static void initializeGame()
-  {
+  static void initializeGame() {
     maxWaves = LevelManager.currentLevelInstance.waveConfiglevel.length;
   }
 
-  static void startGame() 
-  {
-    if(waveOnGoing != true)
-    {
-      GameState.nextWave();
+  static void startGame() {
+    if (!waveOnGoing) {
+      nextWave();
       EnemySpawner.startWithNoWaveTimer = true;
     }
   }
 
   static void loseLife() {
-    enemiesRemaining > 0 ? enemiesRemaining--: enemiesRemaining;
+    if (enemiesRemaining > 0) enemiesRemaining--;
     lives--;
     if (lives <= 0) {
       gameOver();
@@ -47,9 +47,8 @@ class GameState {
     isGameWon = true;
   }
 
-  static void nextWave() 
-  {
-    waveNumber < maxWaves ? waveNumber++ : waveNumber;
+  static void nextWave() {
+    if (waveNumber < maxWaves) waveNumber++;
   }
 
   static void completeLevel() {
@@ -68,5 +67,6 @@ class GameState {
     waveNumber = 0;
     new_wave_timer = 15.0;
     enemiesRemaining = 0;
+    waveOnGoing = false;
   }
 }
