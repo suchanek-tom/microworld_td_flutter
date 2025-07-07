@@ -106,36 +106,6 @@ abstract class BaseTower extends PositionComponent with HoverCallbacks {
     }
   }
 
-  @override
-  void update(double dt) {
-    super.update(dt);
-
-    if (!inplacement) {
-      timeSinceLastShot += dt;
-
-      final enemiesInRange = parent?.children
-          .whereType<BaseEnemy>()
-          .where((enemy) => !enemy.isRemoved)
-          .where((enemy) => position.distanceTo(enemy.position) < range)
-          .toList();
-
-      if (enemiesInRange == null || enemiesInRange.isEmpty) {
-        target = null;
-        return;
-      }
-
-      target = enemiesInRange.first;
-
-      final direction = (target!.position - position).normalized();
-      sprite.angle = direction.screenAngle();
-
-      if (timeSinceLastShot >= fireRate) {
-        attackTarget(target!);
-        timeSinceLastShot = 0;
-      }
-    }
-  }
-
   set setPos(Vector2 position) {
     this.position = position;
   }
@@ -164,5 +134,61 @@ abstract class BaseTower extends PositionComponent with HoverCallbacks {
   static void sellTower(BaseTower towerToSell) {
     GameState.coins += towerToSell.sellCost;
     towerToSell.removeFromParent();
+  }
+
+  @override
+  void update(double dt) {
+    super.update(dt);
+
+    if (!inplacement) {
+      timeSinceLastShot += dt;
+
+      final enemiesInRange = parent?.children
+          .whereType<BaseEnemy>()
+          .where((enemy) => !enemy.isRemoved)
+          .where((enemy) => position.distanceTo(enemy.position) < range)
+          .toList();
+
+      if (enemiesInRange == null || enemiesInRange.isEmpty) {
+        target = null;
+        return;
+      }
+
+      target = targetLogic(typeTarget,enemiesInRange);
+
+      final direction = (target!.position - position).normalized();
+      sprite.angle = direction.screenAngle();
+
+      if (timeSinceLastShot >= fireRate) 
+      {
+        attackTarget(target!);
+        timeSinceLastShot = 0;
+      }
+    }
+  }
+
+ static BaseEnemy targetLogic(Target targetType, List<BaseEnemy> enemiesInRange) {
+  switch (targetType) {
+    case Target.first:
+      return _targetFirstLogic(enemiesInRange);
+    case Target.close:
+      return _targetCloseLogic(enemiesInRange);
+    case Target.strong:
+      return _targetStrongLogic(enemiesInRange);
+    }
+  }
+
+  static BaseEnemy _targetFirstLogic(List<BaseEnemy> enemiesInRange) {
+    return enemiesInRange.first;
+  }
+
+  static BaseEnemy _targetCloseLogic()
+  {
+
+  }
+
+  static BaseEnemy _targetStrongLogic()
+  {
+
   }
 }
