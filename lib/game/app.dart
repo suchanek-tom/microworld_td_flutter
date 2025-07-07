@@ -1,8 +1,6 @@
 import 'package:microworld_td/menu/select_menu/game_over_menu.dart';
 import 'package:microworld_td/menu/select_menu/game_win_menu.dart';
 import 'package:microworld_td/ui/game_overlayUI.dart';
-import 'package:microworld_td/ui/tower_panel_component.dart';
-import 'package:microworld_td/ui/tower_panel_upgrade_component.dart';
 import 'package:microworld_td/game/microworld_game.dart';
 import 'package:flutter/material.dart';
 import 'package:flame/game.dart';

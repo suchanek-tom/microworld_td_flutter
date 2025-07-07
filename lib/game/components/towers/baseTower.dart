@@ -77,7 +77,6 @@ abstract class BaseTower extends PositionComponent with HoverCallbacks {
       );
       sprite.position = Vector2(width / 2, height / 2);
 
-      // Vnitřní kruh (výplň)
       rangeCircle = RangeCircleComponent(
         radius: range,
         paintStyle: Paint()
@@ -87,7 +86,6 @@ abstract class BaseTower extends PositionComponent with HoverCallbacks {
         ..position = Vector2(width / 2, height / 2)
         ..visible = false;
 
-      // Obrys
       rangeBorder = RangeCircleComponent(
         radius: range,
         paintStyle: Paint()
@@ -124,7 +122,7 @@ abstract class BaseTower extends PositionComponent with HoverCallbacks {
         return;
       }
 
-      target = enemiesInRange.first;
+      target = selectTarget(enemiesInRange);
 
       final direction = (target!.position - position).normalized();
       sprite.angle = direction.screenAngle();
@@ -133,6 +131,20 @@ abstract class BaseTower extends PositionComponent with HoverCallbacks {
         attackTarget(target!);
         timeSinceLastShot = 0;
       }
+    }
+  }
+
+  BaseEnemy selectTarget(List<BaseEnemy> enemies) {
+    switch (typeTarget) {
+      case Target.first:
+        return enemies.reduce((a, b) => a.progress > b.progress ? a : b);
+      case Target.close:
+        return enemies.reduce((a, b) =>
+            position.distanceTo(a.position) < position.distanceTo(b.position)
+                ? a
+                : b);
+      case Target.strong:
+        return enemies.reduce((a, b) => a.health > b.health ? a : b);
     }
   }
 

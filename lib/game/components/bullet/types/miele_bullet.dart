@@ -26,10 +26,9 @@ class MieleBullet extends BaseBullet with CollisionCallbacks {
 
   @override
   Future<void> onLoad() async {
-    await super.onLoad(); // carica lo sprite da BaseBullet
+    await super.onLoad(); 
     add(CircleHitbox());
 
-    // Per sicurezza, centra il tuo sprite rispetto al centro del proiettile
     sprite.anchor = Anchor.center;
     sprite.position = size / 2;
   }
@@ -45,17 +44,14 @@ class MieleBullet extends BaseBullet with CollisionCallbacks {
       return;
     }
 
-    // Se il target è morto, distruggi il proiettile
     if (target.isRemoved) {
       removeFromParent();
       return;
     }
 
-    // Movimento verso il target
     Vector2 direction = (target.position - position).normalized();
     position += direction * speed * dt;
 
-    // Quando vicino abbastanza, "ferma" il proiettile
     if (position.distanceTo(target.position) < 8) {
       hitTarget();
     }
@@ -65,9 +61,6 @@ class MieleBullet extends BaseBullet with CollisionCallbacks {
   void hitTarget() {
     _reachedTarget = true;
 
-    // Blocca il proiettile al punto attuale (non alla formica)
     position = position.clone();
-
-    // Non toccare più il target
   }
 }

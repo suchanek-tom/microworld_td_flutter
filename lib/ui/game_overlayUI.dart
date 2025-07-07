@@ -37,7 +37,7 @@ import 'tower_panel_component.dart';
         return overlayInstances["PauseMenuPanel"]!;
       }
       default:
-      return const SizedBox.shrink(); // Nessun overlay trovato
+      return const SizedBox.shrink();
     }
   }
 

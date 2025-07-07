@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:microworld_td/game/microworld_game.dart';
 import 'package:microworld_td/menu/select_menu/select_levels_page.dart';
-import 'package:microworld_td/menu/select_menu/level_progress.dart';
 
 class GameWinMenu extends StatelessWidget {
   final MicroworldGame game;

@@ -1,4 +1,3 @@
-// game_state.dart
 import 'package:microworld_td/game/components/enemy/enemy_spawner.dart';
 import 'package:microworld_td/menu/select_menu/level_progress.dart';
 import 'package:microworld_td/systems/level_manager.dart';
@@ -14,7 +13,7 @@ class GameState {
   static int enemiesRemaining = 0;
   static bool waveOnGoing = false;
 
-  static int level = 1; // Přidej úroveň
+  static int level = 1; 
 
   static void addCoins(int amount) {
     coins += amount;

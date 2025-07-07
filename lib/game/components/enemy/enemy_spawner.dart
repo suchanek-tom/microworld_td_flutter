@@ -33,7 +33,6 @@ class EnemySpawner extends Component
 
     if (enemiesToSpawn == 0 && GameState.enemiesRemaining == 0) 
     {
-      //reset del timer
       if(GameState.waveOnGoing == true) {
         GameState.new_wave_timer = 15.0;
         GameState.waveOnGoing = false;

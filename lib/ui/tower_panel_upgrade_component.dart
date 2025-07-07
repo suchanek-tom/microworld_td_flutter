@@ -40,7 +40,7 @@ class TowerPanelUpgradeComponentState extends State<TowerPanelUpgradeComponent>
     return Visibility(
       visible: isvisible,
       child: Transform.translate(
-        offset: Offset(0, screenSize.height * 0.76), // in base all'altezza
+        offset: Offset(0, screenSize.height * 0.76),
         child: selectedTower == null ? const SizedBox() : buildUpgradePanel(),
       ),
     );
@@ -49,8 +49,8 @@ class TowerPanelUpgradeComponentState extends State<TowerPanelUpgradeComponent>
   Widget buildUpgradePanel()
  {
       return Container(
-      width:  widget.game.game.size.x * 0.89, // 95% dello schermo
-      height: widget.game.game.size.y * 0.24, // 15% dello schermo
+      width:  widget.game.game.size.x * 0.89, 
+      height: widget.game.game.size.y * 0.24, 
       padding: const EdgeInsets.all(8),
       decoration: BoxDecoration(
         color: Colors.brown[800],
@@ -59,7 +59,6 @@ class TowerPanelUpgradeComponentState extends State<TowerPanelUpgradeComponent>
       child: Row(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          // Immagine torre
           Padding(
             padding: const EdgeInsets.only(right: 16.0),
             child: Image.asset(
@@ -69,7 +68,6 @@ class TowerPanelUpgradeComponentState extends State<TowerPanelUpgradeComponent>
               fit: BoxFit.fill,
             ),
           ),
-          // Info torre
           Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
@@ -103,7 +101,6 @@ class TowerPanelUpgradeComponentState extends State<TowerPanelUpgradeComponent>
               ),
             ],
           ),
-          // Upgrade + Sell
           Expanded(
             child: Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -172,7 +169,6 @@ class TowerPanelUpgradeComponentState extends State<TowerPanelUpgradeComponent>
            {
             setState(() 
             {
-            //call for levelup
             int cost =  selectedTower!.upgradeCost[selectedTower!.towerLevel-1];
             if(selectedTower!.towerLevel != 5){
               if(GameState.coins >= cost){
@@ -190,10 +186,10 @@ class TowerPanelUpgradeComponentState extends State<TowerPanelUpgradeComponent>
              backgroundColor: Colors.green,
              foregroundColor: Colors.white,
              shape: RoundedRectangleBorder(
-               borderRadius: BorderRadius.circular(12), // Bordi smussati
+               borderRadius: BorderRadius.circular(12), 
              ),
-             minimumSize: const Size(50, 50), // Quadrato
-             padding: EdgeInsets.zero, // Per evitare padding interno
+             minimumSize: const Size(50, 50), 
+             padding: EdgeInsets.zero, 
            ),
            child: Container(
            padding: const EdgeInsets.all(4),
@@ -217,7 +213,6 @@ class TowerPanelUpgradeComponentState extends State<TowerPanelUpgradeComponent>
 
   Widget upgradePath(String upgrade_name, int requirement, String icon_path, int side) 
   {
-    //quando side è 0 ci si riferisce al bottone a sinistra, quando è 1 al bottone destro
     return GestureDetector(
     onTap: (){
       if(GameState.coins > requirement)
@@ -231,7 +226,6 @@ class TowerPanelUpgradeComponentState extends State<TowerPanelUpgradeComponent>
     child: Row(
     crossAxisAlignment: CrossAxisAlignment.center,
     children: [
-    // Riga con nome abilità + costo
     Row(
       mainAxisSize: MainAxisSize.min,
       children: [
@@ -243,7 +237,7 @@ class TowerPanelUpgradeComponentState extends State<TowerPanelUpgradeComponent>
             color: Colors.black,
           ),
         ),
-        const SizedBox(width: 6), // Spazio tra nome e costo
+        const SizedBox(width: 6), 
         Text(
           "\$${requirement.toString()}",
           style: const TextStyle(
@@ -255,9 +249,8 @@ class TowerPanelUpgradeComponentState extends State<TowerPanelUpgradeComponent>
       ],
     ),
 
-    const SizedBox(width: 4), // Spazio tra testo e immagine
+    const SizedBox(width: 4), 
 
-    // Immagine sotto
     Image.asset(
       'assets/$icon_path',
       width: 64,

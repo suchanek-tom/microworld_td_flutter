@@ -22,7 +22,6 @@ final class TowerUpgradeSystem
     panelKey.currentState?.hide();
   }
 
-  // Esempio: upgrade della torre (da completare)
   static BaseTower levelUp(BaseTower towerToUpgrade) 
   {
     towerToUpgrade.towerLevel ++;
