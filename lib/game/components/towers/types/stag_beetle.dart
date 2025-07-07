@@ -25,7 +25,7 @@ class StagBeetleTower extends BaseTower
           nome_abl_dx: "Cambio Rapido",
           sprite_abl_dx_path: "images/UI/ability_icons/spostamento_rapido_i.webp",
           sprite_abl_sx_path: "images/UI/ability_icons/palla_di_fango_i.webp",
-          cost_abl_sx: 120,
+          cost_abl_sx: 1,
           cost_abl_dx: 100,
 
         ){
@@ -44,7 +44,10 @@ class StagBeetleTower extends BaseTower
     {
       case 0: 
       {
-        //left_abilities.add(PallaDiFangoAbilita());
+        print("vai palla");
+        var abilita = PallaDiFangoAbilita(tower: tower, ability_name: nome_abl_sx);
+        hasLeft_ability = true;
+        parent!.add(abilita);
         break;
       }
 

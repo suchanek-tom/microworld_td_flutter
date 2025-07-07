@@ -97,16 +97,18 @@ class MicroworldGame extends FlameGame with flame.TapCallbacks, flame.PointerMov
     if (gamePlay.isPlacingTower && gamePlay.towerBeingPlaced != null) {
       final mousePosition = event.localPosition;
       gamePlay.towerBeingPlaced!.position = mousePosition;
+      gamePlay.towerBeingPlaced!.showRange(true);
     }
     super.onPointerMove(event);
   }
 
   @override
-void onTapDown(flame.TapDownEvent event) {
+  void onTapDown(flame.TapDownEvent event) {
   final localPos = gamePlay.cam.globalToLocal(event.canvasPosition);
 
   if (gamePlay.isPlacingTower) {
     gamePlay.isPlacingTower = false;
+    gamePlay.towerBeingPlaced!.showRange(false);
     gamePlay.towerBeingPlaced?.setPos = localPos;
     gamePlay.towerBeingPlaced!.inplacement = false;
     gamePlay.towerBeingPlaced = null;
@@ -131,7 +133,6 @@ void onTapDown(flame.TapDownEvent event) {
       }
     }
   }
-
   super.onTapDown(event);
 }
 

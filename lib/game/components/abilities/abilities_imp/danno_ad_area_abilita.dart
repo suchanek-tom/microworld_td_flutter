@@ -30,8 +30,7 @@ class DannoAdAreaAbilita extends Component implements AbilitiesActionService {
 
   @override
   void update(double dt) {
-    super.update(dt);
-
+    
     final hasTarget = tower.target != null && !tower.target!.isRemoved;
 
     // Avvia il timer solo se c'è un target e non siamo in cooldown

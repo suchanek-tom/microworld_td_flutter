@@ -24,7 +24,7 @@ class BeeTower extends BaseTower {
           nome_abl_sx: "Miele",
           sprite_abl_dx_path: "images/UI/ability_icons/pungiglione_avvelenato_i.webp",
           sprite_abl_sx_path: "images/UI/ability_icons/miele_i.webp",
-          cost_abl_sx: 130,
+          cost_abl_sx: 1,
           cost_abl_dx: 90,
           
         ){
@@ -43,13 +43,15 @@ class BeeTower extends BaseTower {
     {
       case 0: 
       {
-        
+        print("pronti miele");
+        var abilita = MieleAbilita(tower: tower, ability_name: nome_abl_sx);
+        hasLeft_ability = true;
+        parent!.add(abilita);
         break;
       }
 
       case 1: 
       {
-        print("pronti veleno");
         var abilita = PungiglioneAvvelenatoAbilita(tower: tower, ability_name: nome_abl_dx);
         hasRight_ability = true;
         parent!.add(abilita);

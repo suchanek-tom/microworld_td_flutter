@@ -32,7 +32,7 @@ class GameState {
   }
 
   static void loseLife() {
-    enemiesRemaining>= 0 ? enemiesRemaining--: enemiesRemaining;
+    enemiesRemaining > 0 ? enemiesRemaining--: enemiesRemaining;
     lives--;
     if (lives <= 0) {
       gameOver();
