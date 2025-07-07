@@ -22,10 +22,7 @@ class _RegistrationState extends State<Registration> {
         email: _emailController.text.trim(),
         password: _passwordController.text,
       );
-      Navigator.pushReplacement(
-        context,
-        MaterialPageRoute(builder: (context) => const LoginPage()),
-      );
+      Navigator.pushReplacement(context,MaterialPageRoute(builder: (context) => const LoginPage()),);
     } on FirebaseAuthException catch (e) {
       setState(() {
         switch (e.code) {

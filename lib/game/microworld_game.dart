@@ -3,7 +3,6 @@ import 'package:flame/flame.dart';
 import 'package:flame/game.dart';
 import 'package:flame/events.dart' as flame;
 import 'package:flutter/material.dart';
-import 'package:microworld_td/game/components/enemy/enemy_spawner.dart';
 import 'package:microworld_td/game/components/game_state.dart';
 import 'package:microworld_td/game/components/towers/baseTower.dart';
 import 'package:microworld_td/game/gameplay.dart';
@@ -12,23 +11,17 @@ import 'package:microworld_td/systems/tower_upgrade.dart';
 import 'package:microworld_td/ui/tower_panel_component.dart';
 import 'package:microworld_td/ui/tower_panel_upgrade_component.dart';
 
-class MicroworldGame extends FlameGame with flame.TapCallbacks, flame.PointerMoveCallbacks 
-{
+class MicroworldGame extends FlameGame with flame.TapCallbacks, flame.PointerMoveCallbacks {
   late TextComponent livesText;
   late TextComponent coinText;
   late TextComponent waveText;
 
-  TextComponent? gameOverText;
-  TextComponent? winText;
+  final GlobalKey<TowerPanelUpgradeComponentState> upgradepanelKeystate = GlobalKey<TowerPanelUpgradeComponentState>();
+  final GlobalKey<TowerPanelComponentState> towerpanelKeystate = GlobalKey<TowerPanelComponentState>();
+  late final TowerUpgradeSystem upgradeSystem;
 
-  final GamePlay gamePlay = GamePlay();
-  late final TowerUpgradeSystem upgradeSystem; 
-  final Map<String, Widget> overlayInstances = {};
-  
-  late GlobalKey<TowerPanelUpgradeComponentState> upgradepanelKeystate;
-  late GlobalKey<TowerPanelComponentState> towerpanelKeystate;
-  
-  //todo: add pause_menu screen
+  late GamePlay gamePlay;
+
   void pauseGame() {
     pauseEngine();
     overlays.add('PauseMenuPanel');
@@ -39,110 +32,94 @@ class MicroworldGame extends FlameGame with flame.TapCallbacks, flame.PointerMov
     resumeEngine();
   }
 
-  void startGame() 
-  {
-    if(gamePlay.waveOnGoing != true)
-    {
-      GameState.nextWave();
-      EnemySpawner.startWithNoWaveTimer = true;
+  void resetGame() {
+    print("resetGame() chiamato per reset interno.");
+    if (gamePlay.isLoaded) { // Controlla se è già caricato
+      gamePlay.removeFromParent();
     }
+    gamePlay = GamePlay();
+    add(gamePlay);
+
+    // Gestione degli overlay (chiudi eventuali menu di Game Over/Win)
+    overlays.remove('GameOverMenu');
+    overlays.remove('GameWinMenu');
+
+    resumeEngine(); // Assicurati che il motore riparta
   }
 
   @override
-  Future<void> onLoad() async 
-  {
+  Future<void> onLoad() async {
+    await Flame.device.setLandscape();
     await Flame.device.fullScreen();
+    
+    gamePlay = GamePlay(); 
     add(gamePlay);
-     
+
+    upgradeSystem = TowerUpgradeSystem(panelKey: upgradepanelKeystate);
+
     overlays.add("TowerPanel");
     overlays.add("TowerPanelUpgrade");
-  }
-
-  void initializeUpgradeSystem() {
-    upgradeSystem = TowerUpgradeSystem(panelKey: upgradepanelKeystate);
+    print("Inizializzazione completa del gioco.");
   }
 
   @override
   void update(double dt) {
     super.update(dt);
 
-    if (GameState.isGameOver && gameOverText == null) {
-      gameOverText = TextComponent(
-        text: "GAME OVER!",
-        position: Vector2(size.x / 2, 50),
-        anchor: Anchor.topCenter,
-        textRenderer: TextPaint(
-          style: const TextStyle(
-            fontSize: 40,
-            fontWeight: FontWeight.w900,
-            color: Colors.red,
-          ),
-        ),
-        priority: 100,
-      );
-      add(gameOverText!);
-      Future.delayed(const Duration(seconds: 1), pauseEngine);
-    } else if (GameState.isGameWon && winText == null) {
-      GameState.completeLevel();  
-      winText = TextComponent(
-        text: "YOU WIN!",
-        position: Vector2(size.x / 2, 50),
-        anchor: Anchor.topCenter,
-        textRenderer: TextPaint(
-          style: const TextStyle(
-            fontSize: 40,
-            fontWeight: FontWeight.w900,
-            color: Colors.black,
-          ),
-        ),
-        priority: 100,
-      );
-      add(winText!);
-      Future.delayed(const Duration(seconds: 1), pauseEngine);
+    if (GameState.isGameOver && !overlays.isActive('GameOverMenu')) {
+      pauseEngine();
+      overlays.add('GameOverMenu');
+    }
+
+    if (GameState.isGameWon && !overlays.isActive('GameWinMenu')) {
+      pauseEngine();
+      overlays.add('GameWinMenu');
+
+      GameState.completeLevel();
     }
   }
 
   @override
-  void onPointerMove(flame.PointerMoveEvent event) 
-  {
+  void onPointerMove(flame.PointerMoveEvent event) {
     if (gamePlay.isPlacingTower && gamePlay.towerBeingPlaced != null) {
       final mousePosition = event.localPosition;
       gamePlay.towerBeingPlaced!.position = mousePosition;
+      gamePlay.towerBeingPlaced!.showRange(true);
     }
     super.onPointerMove(event);
   }
 
   @override
-  void onTapDown(flame.TapDownEvent event) 
-  {
+  void onTapDown(flame.TapDownEvent event) {
     final localPos = gamePlay.cam.globalToLocal(event.canvasPosition);
 
-    if (gamePlay.isPlacingTower) 
-    {
-      GameState.coins -= gamePlay.towerBeingPlaced!.cost;
+    if (gamePlay.isPlacingTower) {
       gamePlay.isPlacingTower = false;
-      gamePlay.towerBeingPlaced?.setPos = event.localPosition;
+      gamePlay.towerBeingPlaced!.showRange(false);
+      gamePlay.towerBeingPlaced?.setPos = localPos;
       gamePlay.towerBeingPlaced!.inplacement = false;
       gamePlay.towerBeingPlaced = null;
-    }
-    else
-    {
-      //Verifica se hai cliccato su una torre esistente
+    } else {
       final tappedTower = gamePlay.children
-        .whereType<BaseTower>()
-        .firstWhereOrNull((tower) => tower.toRect().contains(localPos.toOffset()));
+          .whereType<BaseTower>()
+          .firstWhereOrNull((tower) => tower.toRect().contains(localPos.toOffset()));
 
-      if (tappedTower != null)
-      {
+      if (tappedTower != null) {
         gamePlay.isSelectingTower = true;
         upgradeSystem.openUpgradePanel(tappedTower);
-      }
-      else
-      {
+
+        for (final tower in gamePlay.children.whereType<BaseTower>()) {
+          tower.showRange(tower == tappedTower);
+        }
+      } else {
         gamePlay.isSelectingTower = false;
         upgradeSystem.closeUpgradePanel();
+
+        for (final tower in gamePlay.children.whereType<BaseTower>()) {
+          tower.showRange(false);
+        }
       }
-    }   
+    }
     super.onTapDown(event);
   }
 }

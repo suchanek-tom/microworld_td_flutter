@@ -51,85 +51,81 @@ class TowerPanelComponentState extends State<TowerPanelComponent> {
   }
 
   @override
-  Widget build(BuildContext context) {
-    List<BaseTower> towerList = player.getTowers;
+Widget build(BuildContext context) {
+  final screenSize = MediaQuery.of(context).size;
+  final panelWidth = screenSize.width * 0.11;
+  final panelHeight = screenSize.height * 1;
 
-    return Transform.translate(
-      offset: const Offset(765, 0),
-      child: Container(
-        width: 90,
-        height: 417,
-        decoration: const BoxDecoration(
-          image: DecorationImage(
-            image: AssetImage('assets/images/UI/wood_background.webp'),
-            fit: BoxFit.cover,
-          ),
+  List<BaseTower> towerList = player.getTowers;
+
+  return Transform.translate(
+    offset: Offset(screenSize.width - panelWidth, 0),
+    child: Container(
+      width: panelWidth,
+      height: panelHeight,
+      decoration: const BoxDecoration(
+        image: DecorationImage(
+          image: AssetImage('assets/images/UI/wood_background.webp'),
+          fit: BoxFit.cover,
         ),
-        child: Column(
-          children: [
-            const SizedBox(height: 5),
-            Text(
-              'NEXT WAVE: $next_wave_timer',
-              style: TextStyle(color: Colors.white, fontSize: 11),
+      ),
+      child: Column(
+        children: [
+          const SizedBox(height: 5),
+          Text(
+            'NEXT WAVE: $next_wave_timer',
+            style: TextStyle(
+              color: Colors.white,
+              fontSize: screenSize.width * 0.014,
             ),
-            const SizedBox(height: 2),
-            Row(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: [
-                Icon(Icons.health_and_safety, color: Colors.white, size: 16),
-                const SizedBox(width: 4),
-                Text('$lives', style: const TextStyle(color: Colors.white)),
-                const SizedBox(width: 8),
-                Icon(Icons.attach_money, color: Colors.white, size: 16),
-                const SizedBox(width: 4),
-                Text('$coins', style: const TextStyle(color: Colors.white)),
-              ],
-            ),
-            const Icon(Icons.arrow_drop_up, size: 48, color: Colors.red),
-            Expanded(
-              child: GridView.builder
-              (
-                padding: const EdgeInsets.all(6),
-                shrinkWrap: true,
-                gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount
-                (
-                  crossAxisCount: 2,
-                  mainAxisSpacing: 8,
-                  crossAxisSpacing: 8,
-                ),
-                itemCount: 6,
-                itemBuilder: (context, index) 
-                {
-                  bool hasTower = index < towerList.length;
-                  return ElevatedButton
-                  (
-                    style: ElevatedButton.styleFrom
-                    (
-                      backgroundColor: Colors.green.withOpacity(0.3),
-                      padding: EdgeInsets.zero,
-                      shape: RoundedRectangleBorder
-                      (
-                        borderRadius: BorderRadius.circular(8),
-                      ),
+          ),
+          const SizedBox(height: 2),
+          Row(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              Icon(Icons.health_and_safety, color: Colors.white, size: screenSize.width * 0.015),
+              const SizedBox(width: 4),
+              Text('$lives', style: const TextStyle(color: Colors.white)),
+              const SizedBox(width: 8),
+              Icon(Icons.attach_money, color: Colors.white, size: screenSize.width * 0.015),
+              const SizedBox(width: 4),
+              Text('$coins', style: const TextStyle(color: Colors.white)),
+            ],
+          ),
+          const Icon(Icons.arrow_drop_up, size: 48, color: Colors.red),
+          Expanded(
+            child: GridView.builder(
+              padding: const EdgeInsets.all(6),
+              gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
+                crossAxisCount: 2,
+                mainAxisSpacing: 8,
+                crossAxisSpacing: 8,
+              ),
+              itemCount: 6,
+              itemBuilder: (context, index) {
+                bool hasTower = index < towerList.length;
+                return ElevatedButton(
+                  style: ElevatedButton.styleFrom(
+                    backgroundColor: Colors.green.withOpacity(0.3),
+                    padding: EdgeInsets.zero,
+                    shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(8),
                     ),
-                    child: Container(
-                      decoration: BoxDecoration(
-                        color: hasTower ? Colors.green : Colors.brown[700],
-                        border: Border.all(color: Colors.black, width: 2),
-                      ),
-                      child: hasTower
-                          ? Image.asset("assets/${towerList[index].sprit_icon_path}"
-                              , // Assicurati che ogni tower abbia un `spritePath`
-                              fit: BoxFit.cover,
-                            )
-                          : const Icon
-                          (
-                          Icons.bug_report,
-                          color: Colors.black,
-                          ),
-                      ),
-                    onPressed: () 
-                    {
+                  ),
+                  child: Container(
+                    decoration: BoxDecoration(
+                      color: hasTower ? Colors.green : Colors.brown[700],
+                      border: Border.all(color: Colors.black, width: 2),
+                    ),
+                    child: hasTower
+                        ? Image.asset(
+                            "assets/${towerList[index].sprite_icon_path}",
+                            fit: BoxFit.cover,
+                          )
+                        : const Icon(Icons.bug_report, color: Colors.black),
+                  ),
+                  onPressed: () 
+                  {
                       BaseTower tower;
                       if(GameState.coins >= towerList.elementAt(index).cost)
                       {
@@ -150,62 +146,64 @@ class TowerPanelComponentState extends State<TowerPanelComponent> {
                           default:
                           throw Exception("Tower name not recognized: ${towerList.elementAt(index).towerName}");
                         }
+                        GameState.coins -= tower.cost;
                         widget.gamePlay.placingTower(tower);
                         widget.gamePlay.add(tower);
                       }else {(print("you don't have the money to buy that tower!"));}
-                    },
-                  );
-                },
-              ),
-            ),
-            const Icon(Icons.arrow_drop_down, size: 48, color: Colors.red),
-            Container(
-              padding: const EdgeInsets.all(6),
-              decoration: BoxDecoration(
-                color: Colors.brown[900],
-                border: Border.all(color: Colors.black, width: 2),
-              ),
-              child: Column(
-                children: [
-                Text(
-                    'BATTLE:',
-                    style: const TextStyle(
-                      color: Colors.white,
-                      fontWeight: FontWeight.bold,
-                    ),
-                  ),
-                  Text(
-                    '$wave/$maxWaves',
-                    style: const TextStyle(
-                      color: Colors.white,
-                      fontSize: 13,
-                    ),
-                  ),
-                ],
-              ),
-            ),
-            const SizedBox(height: 6),
-            ElevatedButton(
-              style: ElevatedButton.styleFrom(
-                backgroundColor: Colors.red,
-                padding: const EdgeInsets.symmetric(horizontal: 9, vertical: 3),
-              ),
-              onPressed: () 
-              {
-                widget.gamePlay.game.startGame();
+                  },
+                );
               },
-              child: const Text('START', style: TextStyle(color: Colors.white)),
+            ),
+          ),
+          const Icon(Icons.arrow_drop_down, size: 48, color: Colors.red),
+          Container(
+            padding: const EdgeInsets.all(6),
+            decoration: BoxDecoration(
+              color: Colors.brown[900],
+              border: Border.all(color: Colors.black, width: 2),
+            ),
+            child: Column(
+              children: [
+                Text(
+                  'BATTLE:',
+                  style: const TextStyle(
+                    color: Colors.white,
+                    fontWeight: FontWeight.bold,
+                  ),
+                ),
+                Text(
+                  '$wave/$maxWaves',
+                  style: const TextStyle(
+                    color: Colors.white,
+                    fontSize: 13,
+                  ),
+                ),
+              ],
+            ),
+          ),
+          const SizedBox(height: 6),
+          ElevatedButton(
+            style: ElevatedButton.styleFrom(
+              backgroundColor: Colors.red,
+              padding: const EdgeInsets.symmetric(horizontal: 9, vertical: 3),
+            ),
+            onPressed: () {
+            if(GameState.waveOnGoing != true){
+              GameState.startGame();
+            }
+            },
+            child: const Text('START', style: TextStyle(color: Colors.white)),
             ),
             IconButton(
-              icon: const Icon(Icons.pause, color: Colors.red, size: 20),
-              onPressed: () {
-                widget.gamePlay.game.pauseGame();
-              },
-            ),
-            const SizedBox(height: 10),
-          ],
-        ),
+            icon: const Icon(Icons.pause, color: Colors.red, size: 20),
+            onPressed: () {
+              widget.gamePlay.game.pauseGame();
+            },
+          ),
+          const SizedBox(height: 10),
+        ],
       ),
-    );
-  }
+    ),
+  );
+}
 }

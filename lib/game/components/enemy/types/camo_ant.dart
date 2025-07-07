@@ -7,11 +7,11 @@ class CamoAnt extends BaseEnemy {
           antName: "Camo Ant",
           reward: 20,
           speed: 45,
-          health: 120,
+          health: 250,
           spritePath: "sprites/guardia_regina.webp",
           spriteSize: Vector2(70, 70)
         )
         {
-      size = Vector2(25, 25);
+      size = Vector2(40, 40);
   }
 }

@@ -12,9 +12,8 @@ abstract class BaseBullet extends PositionComponent {
   
   final Vector2 bullet_size;
   final String sprite_path;
-  final Vector2 sprite_size; 
-  late SpriteComponent sprite;
 
+  late SpriteComponent sprite;
 
   BaseBullet({
   required this.tower,
@@ -22,10 +21,10 @@ abstract class BaseBullet extends PositionComponent {
   required this.damage,
   required this.speed,
   required this.sprite_path,
-  required this.sprite_size,
   required this.bullet_size,
   }) {
-  position = tower.absoluteCenter.clone();// Imposta la posizione del proiettile
+  anchor = Anchor.center; 
+  position = tower.absoluteCenter.clone();
   size = bullet_size;
   }
 
@@ -39,7 +38,6 @@ abstract class BaseBullet extends PositionComponent {
       );
 
       sprite.position = Vector2(width / 2, height / 2);
-
       add(sprite);
     } catch (e) {
       print('❌ Failed to load sprite at "$sprite_path". Error: $e');
@@ -61,6 +59,12 @@ abstract class BaseBullet extends PositionComponent {
     if (position.distanceTo(target.position) < 8) {
       hitTarget();
     }
+  }
+
+  void bulletDirection()
+  {
+    final direction = (target.position - position).normalized();
+    sprite.angle = direction.screenAngle();
   }
 
   void hitTarget();

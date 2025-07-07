@@ -7,13 +7,16 @@ import 'tower_panel_component.dart';
 
  class GameOverlayUI 
 {
-  GameOverlayUI({required this.game,});
+  final GlobalKey<TowerPanelUpgradeComponentState> upgrade_panel_Key;
+  final GlobalKey<TowerPanelComponentState> tower_panel_Key;
+
+  GameOverlayUI({required this.game,})
+  : upgrade_panel_Key = game.upgradepanelKeystate, // Usa la chiave già esistente nel game
+    tower_panel_Key = game.towerpanelKeystate; 
 
   final MicroworldGame game;
   final Map<String, Widget> overlayInstances = {};
-  final GlobalKey<TowerPanelUpgradeComponentState> upgrade_panel_Key = GlobalKey<TowerPanelUpgradeComponentState>();
-  final GlobalKey<TowerPanelComponentState> tower_panel_Key = GlobalKey<TowerPanelComponentState>();   
-
+  
   Widget buildPanels(String overlayName)
   {
     switch (overlayName) 
@@ -21,38 +24,20 @@ import 'tower_panel_component.dart';
       case 'TowerPanel':
       {
         overlayInstances["TowerPanel"] = TowerPanelComponent(key: tower_panel_Key, gamePlay: game.gamePlay);
-        sendPanelOverlays("TowerPanel",tower_panel_Key);
         return overlayInstances["TowerPanel"]!;
       }
       case 'TowerPanelUpgrade':
       {
         overlayInstances["TowerPanelUpgrade"] = TowerPanelUpgradeComponent(key: upgrade_panel_Key, game: game.gamePlay);
-        sendPanelOverlays("TowerPanelUpgrade",upgrade_panel_Key);
         return overlayInstances["TowerPanelUpgrade"]!;
       }
       case 'PauseMenuPanel':
       {
         overlayInstances["PauseMenuPanel"] = PauseMenu(game: game);
-        game.overlayInstances[overlayName] = overlayInstances[overlayName]!;
         return overlayInstances["PauseMenuPanel"]!;
       }
       default:
-      return const SizedBox.shrink(); // Nessun overlay trovato
+      return const SizedBox.shrink();
     }
   }
-
-  void sendPanelOverlays(String overlayName, GlobalKey key) 
-  {
-  game.overlayInstances[overlayName] = overlayInstances[overlayName]!;
-
-  switch (overlayName) {
-    case "TowerPanelUpgrade":
-      game.upgradepanelKeystate = key as GlobalKey<TowerPanelUpgradeComponentState>;
-      break;
-
-    case "TowerPanel":
-      game.towerpanelKeystate = key as GlobalKey<TowerPanelComponentState>;
-      break;
-  }
-}
 }

@@ -1,11 +1,10 @@
-import 'package:flame/components.dart';
-import 'dart:math';
 import 'package:microworld_td/game/components/abilities/abilities_action_service.dart';
-import 'package:microworld_td/game/components/bullet/types/web_bullet.dart';
+import 'package:flame/components.dart';
+import 'package:microworld_td/game/components/bullet/types/splash_bullet.dart';
+import 'dart:math';
 import 'package:microworld_td/game/components/towers/baseTower.dart';
+class DannoAdAreaAbilita extends Component implements AbilitiesActionService {
 
-
-class TelaAbilita extends Component implements AbilitiesActionService {
   final rng = Random();
   final BaseTower tower;
 
@@ -14,27 +13,24 @@ class TelaAbilita extends Component implements AbilitiesActionService {
 
   double frequenza = 0.5;
   double cooldown = 5; // tempo di blocco dopo attivazione
-  double probabilita = 0.05;
+  double probabilita = 0.15;
 
   late Timer _frequenzaTimer;
   late Timer _cooldownTimer;
   bool _frequenzaRunning = false;
   bool _onCooldown = false;
 
-  TelaAbilita({required this.tower, required this.ability_name}) {
-    
-    _frequenzaTimer = Timer(frequenza, repeat: true, onTick: probabilita_tela);
+  DannoAdAreaAbilita({required this.tower ,required this.ability_name}){
+    _frequenzaTimer = Timer(frequenza, repeat: true, onTick: probabilita_splash_damage);
 
     _cooldownTimer = Timer(cooldown, onTick: () {
       _onCooldown = false;
     });
-
   }
 
   @override
   void update(double dt) {
-    super.update(dt);
-
+    
     final hasTarget = tower.target != null && !tower.target!.isRemoved;
 
     // Avvia il timer solo se c'è un target e non siamo in cooldown
@@ -58,7 +54,13 @@ class TelaAbilita extends Component implements AbilitiesActionService {
     }
   }
 
-  void probabilita_tela() {
+  @override
+  void ability() {
+     tower.parent?.add(SplashBullet(tower: tower, target: tower.target!, damage: 50));
+  }
+
+  void probabilita_splash_damage() 
+  {
     final target = tower.target;
     if (target == null || target.isRemoved) return;
 
@@ -73,12 +75,7 @@ class TelaAbilita extends Component implements AbilitiesActionService {
     }
   }
 
-  @override
-  void ability() {
-    tower.parent?.add(WebBullet(tower: tower, target: tower.target!, damage: 0));
-  }
-
-  void stop() {
+    void stop() {
     _frequenzaTimer.stop();
     _cooldownTimer.stop();
     _frequenzaRunning = false;
