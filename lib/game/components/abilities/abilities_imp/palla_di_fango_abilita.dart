@@ -70,13 +70,15 @@ class PallaDiFangoAbilita extends Component implements AbilitiesActionService {
   @override
   void ability() 
   {
+    print("palla in arrivo");
     var pathPoints = List<Vector2>.from(palla_path!.waypoints.reversed);
-    _PallaDiFango(palla_path: pathPoints,tower: tower);
+    tower.parent!.add(_PallaDiFango(palla_path: pathPoints,tower: tower));
   }
 
   void probabilita_palla() 
   {
     final p = rng.nextDouble();
+    print(p);
     if (p < probabilita)
     {
       ability();
@@ -100,11 +102,13 @@ class _PallaDiFango extends PositionComponent with CollisionCallbacks
   late SpriteComponent sprite_palla;
   String sprite_path = "bullets/dirt_ball.webp";
 
-  _PallaDiFango({required this.palla_path, required this.tower});
+  _PallaDiFango({required this.palla_path, required this.tower}){
+    anchor = Anchor.center;
+    priority = 15;
+  }
 
    @override
   Future<void> onLoad() async {
-   
     position = palla_path.first.clone();
     size = Vector2.all(48);
     anchor = Anchor.center;
@@ -115,6 +119,7 @@ class _PallaDiFango extends PositionComponent with CollisionCallbacks
       size: size,
       anchor: Anchor.center,
     );
+    sprite_palla.position = Vector2(width / 2, height / 2);
 
     add(sprite_palla);
     add(CircleHitbox());
@@ -122,36 +127,35 @@ class _PallaDiFango extends PositionComponent with CollisionCallbacks
       print('❌ Failed to load sprite at "$sprite_path". Error: $e');
     }
   }
-
   
   @override
-  void update(double dt) {
-    super.update(dt);
+void update(double dt) {
+  super.update(dt);
 
-    if (currentTargetIndex >= palla_path.length) {
-      removeFromParent();
-      return;
-    }
+  if (currentTargetIndex >= palla_path.length) {
+    removeFromParent();
+    return;
+  }
 
-    final target = palla_path[currentTargetIndex];
-    final direction = (target - position);
+  final target = palla_path[currentTargetIndex];
+  final direction = target - position;
 
-    if (direction.length < 2) {
-      currentTargetIndex++;
-    } else {
-      final move = direction.normalized() * speed * dt;
-      position += move;
+  if (direction.length < 2) {
+    currentTargetIndex++;
+  } else {
+    final move = direction.normalized() * speed * dt;
+    position += move;
+  }
 
-      // Rotazione verso il prossimo target
-      sprite_palla.angle = direction.screenAngle();
-    }
-
-    @override
-    void onCollision(Set<Vector2> intersectionPoints, PositionComponent other) {
-      super.onCollision(intersectionPoints, other);
-      if (other is BaseEnemy) {
-        other.takeDamage(danno_palla, tower);
-      }
+  // 🔁 Rotazione continua dello sprite per l'effetto rotolamento
+  sprite_palla.angle += 6 * dt; // ruota di ~1 giro al secondo
+}
+  
+@override
+  void onCollision(Set<Vector2> intersectionPoints, PositionComponent other) {
+    super.onCollision(intersectionPoints, other);
+    if (other is BaseEnemy) {
+      other.takeDamage(danno_palla, tower);
     }
   }
 }
