@@ -165,8 +165,4 @@ abstract class BaseTower extends PositionComponent with HoverCallbacks {
     GameState.coins += towerToSell.sellCost;
     towerToSell.removeFromParent();
   }
-
-  static Target changeTarget() {
-    return Target.close;
-  }
 }

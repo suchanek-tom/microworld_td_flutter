@@ -35,12 +35,11 @@ import 'package:microworld_td/systems/level_manager.dart';
                 return flutter.MaterialPageRoute(builder: (context) => Registration(),);
             }
 
-           case game:
-           {
-              final microworldGame = MicroworldGame(currentLevel: LevelManager.current_level);
-              return flutter.MaterialPageRoute(builder: (context) => GameApp(microworldGame));
-           }
-
+            case game:
+            {
+               final microworldGame = MicroworldGame(currentLevel: LevelManager.current_level);
+               return flutter.MaterialPageRoute(builder: (context) => GameApp(microworldGame));
+            }
 
             case levelpage:
             {
