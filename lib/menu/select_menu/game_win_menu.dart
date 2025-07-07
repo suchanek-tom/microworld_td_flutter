@@ -1,13 +1,12 @@
 import 'package:flutter/material.dart';
+import 'package:microworld_td/game/components/game_state.dart';
 import 'package:microworld_td/game/microworld_game.dart';
 import 'package:microworld_td/menu/select_menu/select_levels_page.dart';
-import 'package:microworld_td/menu/select_menu/level_progress.dart';
 
 class GameWinMenu extends StatelessWidget {
   final MicroworldGame game;
-  final int currentLevel;
 
-  const GameWinMenu({super.key, required this.game, required this.currentLevel});
+  const GameWinMenu({super.key, required this.game});
 
   @override
   Widget build(BuildContext context) {
@@ -24,6 +23,8 @@ class GameWinMenu extends StatelessWidget {
             const SizedBox(height: 30),
             ElevatedButton(
               onPressed: () {
+                GameState.isGameWon = false;
+                game.overlays.remove("GameWinMenu");
                 Navigator.of(context, rootNavigator: true).pushAndRemoveUntil(
                   MaterialPageRoute(builder: (_) => const SelectLevelPage()),
                   (route) => false,

@@ -1,5 +1,4 @@
 import 'dart:async';
-import 'package:flutter/material.dart';
 import 'package:microworld_td/game/components/enemy/enemy_spawner.dart';
 import 'package:microworld_td/game/components/game_state.dart';
 import 'package:microworld_td/game/components/pathComponent.dart';
@@ -27,6 +26,7 @@ class GamePlay extends PositionComponent with HasGameReference<MicroworldGame>
   @override
   FutureOr<void> onLoad() async
   {
+    print("bestia");
     Level currentlevel = LevelManager.getLevel(LevelManager.current_level);
     map = await TiledComponent.load(currentlevel.level_tile_name, Vector2.all(32)); 
     GameState.initializeGame();
@@ -36,16 +36,19 @@ class GamePlay extends PositionComponent with HasGameReference<MicroworldGame>
     await add(world);
     await add(map);
 
-    final aspect_ratio = MediaQuery.of(game.buildContext!).size.aspectRatio;
-    const height = 200.0;
-    final width = height * aspect_ratio;
+    final width = game.size.x;
+    final height = game.size.y;
 
-    cam = CameraComponent.withFixedResolution(world: world, width: width, height: height);
+    cam = CameraComponent.withFixedResolution(
+      world: world,
+      width: width,
+      height: height,
+    );
     cam.viewfinder.anchor = Anchor.topLeft;
+    add(cam);
   
-    game.initializeUpgradeSystem();
     add(PathComponent(waypoints: currentlevel.path));
-    add(EnemySpawner(waypoints: currentlevel.path,spawnInterval: 2.25,game: this,waveConfig: currentlevel.waveConfiglevel));
+    add(EnemySpawner(waypoints: currentlevel.path,spawnInterval: 1,game: this,waveConfig: currentlevel.waveConfiglevel));
 
     return super.onLoad();
   }

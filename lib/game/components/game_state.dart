@@ -20,14 +20,14 @@ class GameState {
     coins += amount;
   }
 
-  static void initializeGame() {
+  static void initializeGame(){
+    reset();
     maxWaves = LevelManager.currentLevelInstance.waveConfiglevel.length;
   }
 
   static void startGame() {
     if (!waveOnGoing) {
-      nextWave();
-      EnemySpawner.startWithNoWaveTimer = true;
+      EnemySpawner.forceStartNextWave = true;
     }
   }
 

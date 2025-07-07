@@ -43,7 +43,7 @@ class PauseMenu extends StatelessWidget {
                 padding: const EdgeInsets.symmetric(horizontal: 40, vertical: 16),
               ),
               onPressed: () {
-                game.pauseEngine(); 
+                game.pauseGame();
 
                 Navigator.of(context, rootNavigator: true).pushAndRemoveUntil(
                   MaterialPageRoute(builder: (_) => const SelectLevelPage()),

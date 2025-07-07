@@ -70,7 +70,6 @@ class PallaDiFangoAbilita extends Component implements AbilitiesActionService {
   @override
   void ability() 
   {
-    print("palla in arrivo");
     var pathPoints = List<Vector2>.from(palla_path!.waypoints.reversed);
     tower.parent!.add(_PallaDiFango(palla_path: pathPoints,tower: tower));
   }
@@ -78,7 +77,6 @@ class PallaDiFangoAbilita extends Component implements AbilitiesActionService {
   void probabilita_palla() 
   {
     final p = rng.nextDouble();
-    print(p);
     if (p < probabilita)
     {
       ability();

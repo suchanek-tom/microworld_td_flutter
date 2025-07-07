@@ -1,11 +1,9 @@
   import 'package:flutter/material.dart' as flutter;
   import 'package:microworld_td/game/app.dart';
-  import 'package:microworld_td/game/microworld_game.dart';
   import 'package:microworld_td/menu/login_registration/login.dart';
   import 'package:microworld_td/menu/login_registration/registration.dart';
   import 'package:microworld_td/menu/main_menu/home.dart';
   import 'package:microworld_td/menu/select_menu/select_levels_page.dart';
-import 'package:microworld_td/systems/level_manager.dart';
 
   class RoutesManager 
   {
@@ -19,7 +17,6 @@ import 'package:microworld_td/systems/level_manager.dart';
       {
           switch(settings.name)
           {
-      
             case home:
             {
               return flutter.MaterialPageRoute(builder: (context) => HomePage(),);
@@ -32,15 +29,13 @@ import 'package:microworld_td/systems/level_manager.dart';
 
             case  registration:
             {
-                return flutter.MaterialPageRoute(builder: (context) => Registration(),);
+              return flutter.MaterialPageRoute(builder: (context) => Registration(),);
             }
 
            case game:
            {
-              final microworldGame = MicroworldGame(currentLevel: LevelManager.current_level);
-              return flutter.MaterialPageRoute(builder: (context) => GameApp(microworldGame));
+              return flutter.MaterialPageRoute(builder: (context) => GameApp());
            }
-
 
             case levelpage:
             {

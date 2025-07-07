@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:microworld_td/menu/main_menu/home.dart';
 import 'package:microworld_td/menu/select_menu/level_progress.dart';
 import 'package:microworld_td/systems/level_manager.dart';
 import 'package:microworld_td/systems/routes.dart';
@@ -41,8 +42,14 @@ class _SelectLevelPageState extends State<SelectLevelPage> {
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
-                  TextButton.icon(
-                    onPressed: () => Navigator.pop(context),
+                   TextButton.icon(
+                    onPressed: () {
+                      Navigator.pushAndRemoveUntil(
+                        context,
+                        MaterialPageRoute(builder: (context) => const HomePage()),
+                        (route) => false,
+                      );
+                    },
                     icon: const Icon(Icons.arrow_back, color: Colors.black),
                     label: const Text(
                       'back',

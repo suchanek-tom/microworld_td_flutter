@@ -188,8 +188,7 @@ Widget build(BuildContext context) {
               padding: const EdgeInsets.symmetric(horizontal: 9, vertical: 3),
             ),
             onPressed: () {
-            if(GameState.waveOnGoing != true)
-            {
+            if(GameState.waveOnGoing != true){
               GameState.startGame();
             }
             },

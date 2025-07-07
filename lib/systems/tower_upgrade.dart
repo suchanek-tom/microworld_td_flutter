@@ -22,12 +22,10 @@ final class TowerUpgradeSystem
     panelKey.currentState?.hide();
   }
 
-  // Esempio: upgrade della torre (da completare)
   static BaseTower levelUp(BaseTower towerToUpgrade) 
   {
     towerToUpgrade.towerLevel ++;
-    print(towerToUpgrade.towerLevel);
-
+ 
     switch (towerToUpgrade.towerLevel)
     {
       case 2: 
@@ -43,15 +41,14 @@ final class TowerUpgradeSystem
         }
       case 4:
         {
-          towerToUpgrade.range += 20;
+          towerToUpgrade.range += 50;
           towerToUpgrade.damage += 15;
           break;
         }
       case 5:
         {
-          towerToUpgrade.fireRate -= towerToUpgrade.fireRate * 20 / 100;
+          towerToUpgrade.fireRate -= towerToUpgrade.fireRate * 30 / 100;
           towerToUpgrade.damage += 25;
-          print(towerToUpgrade.fireRate);
           break;
         }
     }

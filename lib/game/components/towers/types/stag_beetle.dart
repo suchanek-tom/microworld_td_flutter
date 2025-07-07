@@ -44,7 +44,6 @@ class StagBeetleTower extends BaseTower
     {
       case 0: 
       {
-        print("vai palla");
         var abilita = PallaDiFangoAbilita(tower: tower, ability_name: nome_abl_sx);
         hasLeft_ability = true;
         parent!.add(abilita);

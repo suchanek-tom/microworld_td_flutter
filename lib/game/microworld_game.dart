@@ -16,15 +16,11 @@ class MicroworldGame extends FlameGame with flame.TapCallbacks, flame.PointerMov
   late TextComponent coinText;
   late TextComponent waveText;
 
-  GamePlay gamePlay = GamePlay();
+  final GlobalKey<TowerPanelUpgradeComponentState> upgradepanelKeystate = GlobalKey<TowerPanelUpgradeComponentState>();
+  final GlobalKey<TowerPanelComponentState> towerpanelKeystate = GlobalKey<TowerPanelComponentState>();
   late final TowerUpgradeSystem upgradeSystem;
 
-  final Map<String, Widget> overlayInstances = {};
-  final int currentLevel;
-  MicroworldGame({required this.currentLevel});
-
-  late GlobalKey<TowerPanelUpgradeComponentState> upgradepanelKeystate;
-  late GlobalKey<TowerPanelComponentState> towerpanelKeystate;
+  late GamePlay gamePlay;
 
   void pauseGame() {
     pauseEngine();
@@ -37,31 +33,33 @@ class MicroworldGame extends FlameGame with flame.TapCallbacks, flame.PointerMov
   }
 
   void resetGame() {
-  GameState.reset();
+    print("resetGame() chiamato per reset interno.");
+    if (gamePlay.isLoaded) { // Controlla se è già caricato
+      gamePlay.removeFromParent();
+    }
+    gamePlay = GamePlay();
+    add(gamePlay);
 
-  gamePlay.removeFromParent();
-  gamePlay = GamePlay();
-  add(gamePlay);
-  overlays.clear();
-  overlays.add("TowerPanel");
-  overlays.add("TowerPanelUpgrade");
-  resumeEngine();
-}
+    // Gestione degli overlay (chiudi eventuali menu di Game Over/Win)
+    overlays.remove('GameOverMenu');
+    overlays.remove('GameWinMenu');
 
+    resumeEngine(); // Assicurati che il motore riparta
+  }
 
   @override
   Future<void> onLoad() async {
     await Flame.device.setLandscape();
     await Flame.device.fullScreen();
-
+    
+    gamePlay = GamePlay(); 
     add(gamePlay);
+
+    upgradeSystem = TowerUpgradeSystem(panelKey: upgradepanelKeystate);
 
     overlays.add("TowerPanel");
     overlays.add("TowerPanelUpgrade");
-  }
-
-  void initializeUpgradeSystem() {
-    upgradeSystem = TowerUpgradeSystem(panelKey: upgradepanelKeystate);
+    print("Inizializzazione completa del gioco.");
   }
 
   @override
