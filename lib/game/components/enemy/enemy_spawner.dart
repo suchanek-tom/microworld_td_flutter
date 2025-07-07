@@ -82,7 +82,7 @@ class EnemySpawner extends Component{
         // Aspetta che tutti i nemici spawnati siano stati eliminati
         if (GameState.enemiesRemaining == 0) {
           // Tutte le ondate sono state completate
-          if (GameState.waveNumber >= GameState.maxWaves) {
+          if (GameState.waveNumber > GameState.maxWaves) {
             GameState.winGame();
           } else {
             // Avvia il timer per la prossima wave
