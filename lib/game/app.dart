@@ -44,7 +44,7 @@ class _GameAppState extends State<GameApp> {
               'TowerPanelUpgrade': (context, game) => gameOverlays.buildPanels("TowerPanelUpgrade"),
               'PauseMenuPanel': (context, game) => gameOverlays.buildPanels('PauseMenuPanel'),
               'GameOverMenu': (context, game) => GameOverMenu(game: game as MicroworldGame),
-              'GameWinMenu': (context, game) => GameWinMenu(game: game as MicroworldGame),
+              'GameWinMenu': (context, game) => GameWinMenu(game: game as MicroworldGame, currentLevel: 1,),
             },
           ),
         ),
