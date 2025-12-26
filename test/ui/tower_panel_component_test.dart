@@ -1,10 +1,7 @@
-import 'package:flame/components.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
-import 'package:microworld_td/game/components/enemy/baseEnemy.dart';
 import 'package:microworld_td/game/components/game_state.dart';
 import 'package:microworld_td/game/components/towers/baseTower.dart';
-import 'package:microworld_td/game/components/towers/types/bee.dart';
 import 'package:microworld_td/ui/tower_panel_component.dart';
 import 'package:mocktail/mocktail.dart';
 import '../game/components/enemy/enemy_spawner_test.dart';
