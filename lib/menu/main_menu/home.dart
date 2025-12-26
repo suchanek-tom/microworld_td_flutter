@@ -1,3 +1,5 @@
+import 'dart:io';
+
 import 'package:flutter/material.dart';
 import 'package:microworld_td/systems/routes.dart';
 
@@ -43,7 +45,7 @@ class HomePage extends StatelessWidget {
                   label: 'Quit game',
                   color: Colors.red,
                   //? add exit(0)
-                  onPressed: () => Navigator.pop(context),
+                  onPressed: () => exit(0),
                 ),
               ],
             ),

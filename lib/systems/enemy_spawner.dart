@@ -39,6 +39,7 @@ class EnemySpawner extends Component{
   void update(double dt) 
   {
     super.update(dt);
+    print(GameState.enemiesRemaining);
 
     if (GameState.isGameOver || GameState.isGameWon) {
       return;
@@ -78,12 +79,13 @@ class EnemySpawner extends Component{
         }
         break;
 
-        case WaveState.waveCompleted:
+      case WaveState.waveCompleted:
         // Aspetta che tutti i nemici spawnati siano stati eliminati
         if (GameState.enemiesRemaining == 0) {
           // Tutte le ondate sono state completate
-          if (GameState.waveNumber > GameState.maxWaves) {
+          if (GameState.waveNumber >= GameState.maxWaves) {
             GameState.winGame();
+            
           } else {
             // Avvia il timer per la prossima wave
             _currentWaveState = WaveState.preWaveTimer;
@@ -98,9 +100,7 @@ class EnemySpawner extends Component{
     void _startNextWaveLogic() {
     if (GameState.waveNumber < GameState.maxWaves) {
       _startNewWave();
-    } else {
-      GameState.winGame();
-    }
+    } 
   }
 
   // Chiamato quando si vuole avviare una nuova ondata (dopo il timer o forzatamente)
@@ -132,8 +132,10 @@ class EnemySpawner extends Component{
 
     if (currentWave != null && _enemiesToSpawnThisWave > 0) {
       // Trova il prossimo tipo di nemico da spawnare
-      for (int i = 0; i < currentWave.length; i++) {
+      for (int i = 0; i < currentWave.length; i++) 
+      {
         var enemyGroup = currentWave[i];
+        print(enemyGroup);
         if ((enemyGroup['count'] as int) > 0) {
           _spawnEnemy(enemyGroup['type']);
           // Decrementa il conteggio per questo gruppo di nemici all'interno della wave config

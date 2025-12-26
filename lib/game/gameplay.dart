@@ -1,5 +1,5 @@
 import 'dart:async';
-import 'package:microworld_td/game/components/enemy/enemy_spawner.dart';
+import 'package:microworld_td/systems/enemy_spawner.dart';
 import 'package:microworld_td/game/components/game_state.dart';
 import 'package:microworld_td/game/components/pathComponent.dart';
 import 'package:flame/components.dart';
@@ -26,7 +26,6 @@ class GamePlay extends PositionComponent with HasGameReference<MicroworldGame>
   @override
   FutureOr<void> onLoad() async
   {
-    print("bestia");
     Level currentlevel = LevelManager.getLevel(LevelManager.current_level);
     map = await TiledComponent.load(currentlevel.level_tile_name, Vector2.all(32)); 
     GameState.initializeGame();

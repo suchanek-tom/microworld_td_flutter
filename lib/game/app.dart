@@ -19,6 +19,7 @@ class _GameAppState extends State<GameApp> {
   void initState() {
     super.initState();
     _game = MicroworldGame();
+    print(identityHashCode(_game)); 
   }
 
   @override
@@ -32,7 +33,8 @@ class _GameAppState extends State<GameApp> {
   @override
   Widget build(BuildContext context) {
     final gameOverlays = GameOverlayUI(game: _game);
-
+    print("bestia ${identityHashCode(_game)}"); 
+    
     return ClipRect(
       child: MaterialApp( 
         debugShowCheckedModeBanner: false,
@@ -43,8 +45,8 @@ class _GameAppState extends State<GameApp> {
               'TowerPanel': (context, game) => gameOverlays.buildPanels("TowerPanel"),
               'TowerPanelUpgrade': (context, game) => gameOverlays.buildPanels("TowerPanelUpgrade"),
               'PauseMenuPanel': (context, game) => gameOverlays.buildPanels('PauseMenuPanel'),
-              'GameOverMenu': (context, game) => GameOverMenu(game: game as MicroworldGame),
-              'GameWinMenu': (context, game) => GameWinMenu(game: game as MicroworldGame),
+              'GameOverMenu': (context, game) => GameOverMenu(game: _game),
+              'GameWinMenu': (context, game) => GameWinMenu(game: _game),
             },
           ),
         ),

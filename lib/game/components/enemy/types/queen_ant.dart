@@ -8,7 +8,7 @@ class QueenAnt extends BaseEnemy
       antName: "Queen Ant",
       health: 10000,
       speed: 30,
-      reward: 150,
+      reward: 200,
       spritePath: "sprites/formica_regina.webp",
       spriteSize: Vector2(140, 140))
       {

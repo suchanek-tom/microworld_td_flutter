@@ -5,9 +5,9 @@ class QueenGuard extends BaseEnemy { //This class can be managed by a larger cla
   QueenGuard({required super.waypoints})
       : super(
           antName: "Queen Guard",
-          reward: 10,
+          reward: 2,
           speed: 50,
-          health: 90,
+          health: 250,
           spritePath: "sprites/guardia_regina.webp",
           spriteSize: Vector2(70, 70)
         )

@@ -43,7 +43,6 @@ class BeeTower extends BaseTower {
     {
       case 0: 
       {
-        print("pronti miele");
         var abilita = MieleAbilita(tower: tower, ability_name: nome_abl_sx);
         hasLeft_ability = true;
         parent!.add(abilita);

@@ -33,7 +33,6 @@ class MicroworldGame extends FlameGame with flame.TapCallbacks, flame.PointerMov
   }
 
   void resetGame() {
-    print("resetGame() chiamato per reset interno.");
     if (gamePlay.isLoaded) { // Controlla se è già caricato
       gamePlay.removeFromParent();
     }
@@ -44,7 +43,7 @@ class MicroworldGame extends FlameGame with flame.TapCallbacks, flame.PointerMov
     overlays.remove('GameOverMenu');
     overlays.remove('GameWinMenu');
 
-    resumeEngine(); // Assicurati che il motore riparta
+    resumeEngine(); 
   }
 
   @override
@@ -59,7 +58,6 @@ class MicroworldGame extends FlameGame with flame.TapCallbacks, flame.PointerMov
 
     overlays.add("TowerPanel");
     overlays.add("TowerPanelUpgrade");
-    print("Inizializzazione completa del gioco.");
   }
 
   @override
@@ -70,12 +68,13 @@ class MicroworldGame extends FlameGame with flame.TapCallbacks, flame.PointerMov
       pauseEngine();
       overlays.add('GameOverMenu');
     }
-
+    
     if (GameState.isGameWon && !overlays.isActive('GameWinMenu')) {
-      pauseEngine();
+      
       overlays.add('GameWinMenu');
 
       GameState.completeLevel();
+      pauseEngine();
     }
   }
 

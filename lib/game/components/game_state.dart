@@ -1,4 +1,4 @@
-import 'package:microworld_td/game/components/enemy/enemy_spawner.dart';
+import 'package:microworld_td/systems/enemy_spawner.dart';
 import 'package:microworld_td/menu/select_menu/level_progress.dart';
 import 'package:microworld_td/systems/level_manager.dart';
 
@@ -13,7 +13,7 @@ class GameState {
   static int enemiesRemaining = 0;
   static bool waveOnGoing = false;
 
-  static int level = 1; 
+  //static int level = 1; 
 
   static void addCoins(int amount) {
     coins += amount;
@@ -22,6 +22,7 @@ class GameState {
   static void initializeGame(){
     reset();
     maxWaves = LevelManager.currentLevelInstance.waveConfiglevel.length;
+    print("maxwaves $maxWaves");
   }
 
   static void startGame() {
@@ -51,9 +52,9 @@ class GameState {
   }
 
   static void completeLevel() {
-    if (!isGameWon) {
+    if (isGameWon) {
       winGame();
-      final nextLevel = LevelManager.current_level + 1;
+      int nextLevel = LevelManager.current_level + 1;
       LevelProgress.setUnlockedLevel(nextLevel);
     }
   }

@@ -38,10 +38,8 @@ class GameOverMenu extends StatelessWidget {
               style: ElevatedButton.styleFrom(backgroundColor: Colors.redAccent),
               onPressed: () {    
                 GameState.isGameOver = false;
-                print(game.overlays.activeOverlays);
                 game.overlays.remove('GameOverMenu');
-                print(game.overlays.activeOverlays);
-            
+                        
                 Navigator.of(context, rootNavigator: true).pushAndRemoveUntil(
                   MaterialPageRoute(builder: (_) => const HomePage()), // O SelectLevelPage, a seconda di dove vuoi che torni
                   (route) => false,

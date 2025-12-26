@@ -5,7 +5,7 @@ import 'package:microworld_td/menu/select_menu/pause_menu.dart';
 import 'package:microworld_td/ui/tower_panel_upgrade_component.dart';
 import 'tower_panel_component.dart';
 
- class GameOverlayUI 
+class GameOverlayUI 
 {
   final GlobalKey<TowerPanelUpgradeComponentState> upgrade_panel_Key;
   final GlobalKey<TowerPanelComponentState> tower_panel_Key;
@@ -19,6 +19,7 @@ import 'tower_panel_component.dart';
   
   Widget buildPanels(String overlayName)
   {
+    print(identityHashCode("overlayUI $game")); 
     switch (overlayName) 
     {
       case 'TowerPanel':

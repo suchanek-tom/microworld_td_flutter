@@ -13,7 +13,7 @@ class SelectLevelPage extends StatefulWidget {
 }
 
 class _SelectLevelPageState extends State<SelectLevelPage> {
-  int unlockedLevels = 1;
+  static int unlockedLevels = 0;
 
   @override
   void initState() {
@@ -22,7 +22,7 @@ class _SelectLevelPageState extends State<SelectLevelPage> {
   }
 
   Future<void> _loadProgress() async {
-    final level = await LevelProgress.getUnlockedLevel();
+    int level = await LevelProgress.getUnlockedLevel();
     setState(() {
       unlockedLevels = level;
     });
@@ -188,6 +188,8 @@ class _LoginUI extends StatelessWidget {
     }
   }
 }
+
+/////////////////////////////////////////////[DESIGN]////////////////////////////////
 
 class HoverLevelBox extends StatefulWidget {
   final int level;

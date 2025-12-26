@@ -11,7 +11,7 @@ class SecondLevel extends Level
 {
 
    static String levelTileName = "level2.tmx";
-  static List<Vector2> levelOne_waypoints = 
+  static List<Vector2> levelTwo_waypoints = 
   [ 
     Vector2(0, 97), 
     Vector2(225, 97),
@@ -28,25 +28,26 @@ class SecondLevel extends Level
     Vector2(610, 416),
   ];
 
-  static Map<int, List<Map<String, dynamic>>> waveConfigLevel2 = {
-  1:  [{'type': WorkerAnt, 'count': 20}],
-  2:  [{'type': WorkerAnt, 'count': 25}, {'type': TurboAnt, 'count': 10}],
-  3:  [{'type': TurboAnt, 'count': 25}],
-  4:  [{'type': WorkerAnt, 'count': 25}, {'type': ArmoredAnt, 'count': 5}],
-  5:  [{'type': CamoAnt, 'count': 5}],
-  6:  [{'type': WorkerAnt, 'count': 20}, {'type': TurboAnt, 'count': 15}, {'type': ArmoredAnt, 'count': 10}],
-  7:  [{'type': TurboAnt, 'count': 8}, {'type': CamoAnt, 'count': 10}],
-  8:  [{'type': ArmoredAnt, 'count': 15}],
-  9:  [{'type': CamoAnt, 'count': 6}, {'type': QueenGuard, 'count': 4}],
-  10: [{'type': QueenGuard, 'count': 6}, {'type': ArmoredAnt, 'count': 15}],
-  11: [{'type': QueenGuard, 'count': 10},{'type': QueenAnt, 'count': 1},{'type': QueenGuard, 'count': 6}],
-  };
+
 
   SecondLevel()
    : super(
-      path: levelOne_waypoints,
+      path: levelTwo_waypoints,
       level_tile_name: levelTileName,
-      waveConfiglevel: waveConfigLevel2,
+      waveConfiglevel:{
+      1: [{'type': WorkerAnt, 'count': 8}, {'type': ArmoredAnt, 'count': 2}],
+      2: [{'type': WorkerAnt, 'count': 6}, {'type': ArmoredAnt, 'count': 4}, {'type': TurboAnt, 'count': 2}, {'type': WorkerAnt, 'count': 4}],
+      3: [{'type': WorkerAnt, 'count': 10}, {'type': ArmoredAnt, 'count': 6}, {'type': TurboAnt, 'count': 10}],
+      4: [{'type': CamoAnt, 'count': 10}],
+      5: [{'type': WorkerAnt, 'count': 15}, {'type': ArmoredAnt, 'count': 15}],
+      6: [{'type': QueenGuard, 'count': 5},{'type': QueenAnt, 'count': 1},{'type': QueenGuard, 'count': 5}],
+      7: [{'type': WorkerAnt, 'count': 5}, {'type': TurboAnt, 'count': 2}, {'type': ArmoredAnt, 'count': 10}, {'type': TurboAnt, 'count': 30}],
+      8: [{'type': ArmoredAnt, 'count': 30},{'type': ArmoredAnt, 'count': 10},{'type': CamoAnt, 'count': 10}],
+      9: [{'type': CamoAnt, 'count': 10},{'type': CamoAnt, 'count': 10},{'type': TurboAnt, 'count': 10},{'type': CamoAnt, 'count': 10}],
+      10: [{'type': ArmoredAnt, 'count': 20},{'type': ArmoredAnt, 'count': 10},{'type': CamoAnt, 'count': 10}],
+      11: [{'type': WorkerAnt, 'count': 30}, {'type': TurboAnt, 'count': 20},{'type': CamoAnt, 'count': 15}],
+      12: [{'type': QueenGuard, 'count': 10}, {'type': ArmoredAnt, 'count': 5}, {'type': QueenAnt, 'count': 1},{'type': QueenGuard, 'count': 10}, {'type': ArmoredAnt, 'count': 10}, {'type': QueenAnt, 'count': 1}],
+    },
   );
 
 }

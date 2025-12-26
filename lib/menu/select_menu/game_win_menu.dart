@@ -24,6 +24,7 @@ class GameWinMenu extends StatelessWidget {
             ElevatedButton(
               onPressed: () {
                 game.overlays.remove("GameWinMenu");
+                GameState.isGameWon = false;
                 Navigator.of(context, rootNavigator: true).pushAndRemoveUntil(
                   MaterialPageRoute(builder: (_) => const SelectLevelPage()),
                   (route) => false,

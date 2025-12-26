@@ -137,7 +137,7 @@ abstract class BaseTower extends PositionComponent with HoverCallbacks {
   BaseEnemy selectTarget(List<BaseEnemy> enemies) {
     switch (typeTarget) {
       case Target.first:
-        return enemies.reduce((a, b) => a.progress > b.progress ? a : b);
+        return enemies.first;
       case Target.close:
         return enemies.reduce((a, b) =>
             position.distanceTo(a.position) < position.distanceTo(b.position)

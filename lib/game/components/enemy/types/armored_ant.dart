@@ -5,7 +5,7 @@ class ArmoredAnt extends BaseEnemy {
   ArmoredAnt({required super.waypoints})
       : super(
           antName: "Armored Ant",
-          reward: 50,
+          reward: 10,
           speed: 35,
           health: 1000,
           spritePath: "sprites/formica_corazzata.webp",

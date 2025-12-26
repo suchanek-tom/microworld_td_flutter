@@ -24,7 +24,7 @@ class TowerPanelComponentState extends State<TowerPanelComponent> {
   int coins = GameState.coins;
   int lives = GameState.lives;
   int wave = GameState.waveNumber;
-  final int maxWaves = 10;
+  int maxWaves = 0;
   int next_wave_timer = GameState.new_wave_timer.toInt();
 
   late Player player = Player();
@@ -32,12 +32,13 @@ class TowerPanelComponentState extends State<TowerPanelComponent> {
   @override
   void initState() {
     super.initState();
-    _timer = Timer.periodic(const Duration(milliseconds: 300), (timer) {
+    _timer = Timer.periodic(const Duration(milliseconds: 500), (timer) {
       if (mounted) {
         setState(() {
           coins = GameState.coins;
           lives = GameState.lives;
           wave = GameState.waveNumber;
+          maxWaves = GameState.maxWaves;
           next_wave_timer = GameState.new_wave_timer.toInt();
         });
       }
