@@ -10,10 +10,8 @@ class GameState {
   static int waveNumber = 0;
   static int maxWaves = 0;
   static double new_wave_timer = 15.0;
-  static int enemiesRemaining = 0;
   static bool waveOnGoing = false;
 
-  //static int level = 1; 
 
   static void addCoins(int amount) {
     coins += amount;
@@ -32,8 +30,7 @@ class GameState {
   }
 
   static void loseLife() {
-    if (enemiesRemaining > 0) enemiesRemaining--;
-    lives--;
+       lives--;
     if (lives <= 0) {
       gameOver();
     }
@@ -48,7 +45,13 @@ class GameState {
   }
 
   static void nextWave() {
-    if (waveNumber < maxWaves) waveNumber++;
+    if (waveNumber < maxWaves) 
+    {
+      waveNumber++;
+      int wave_completed = 10 * waveNumber;
+      coins += wave_completed;
+      print("ngulazza $wave_completed");
+    }
   }
 
   static void completeLevel() {
@@ -66,7 +69,6 @@ class GameState {
     isGameWon = false;
     waveNumber = 0;
     new_wave_timer = 15.0;
-    enemiesRemaining = 0;
     waveOnGoing = false;
   }
 }

@@ -66,6 +66,7 @@ class CantoAbilita extends PositionComponent implements AbilitiesActionService
         element.damage += damage_buff;
         element.canSeeCamo = true;
         element.fireRate *= (1 - firerate_buff);
+        print(element.fireRate);
       }
     }
   }  

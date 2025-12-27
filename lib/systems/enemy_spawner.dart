@@ -1,5 +1,5 @@
 import 'package:flame/components.dart';
-import  'package:microworld_td/game/components/enemy/baseEnemy.dart';
+import 'package:microworld_td/game/components/enemy/baseEnemy.dart';
 import 'package:microworld_td/game/components/enemy/types/armored_ant.dart';
 import 'package:microworld_td/game/components/enemy/types/queen_ant.dart';
 import 'package:microworld_td/game/components/enemy/types/turbo_ant.dart';
@@ -9,23 +9,23 @@ import 'package:microworld_td/game/components/game_state.dart';
 import 'package:microworld_td/game/gameplay.dart';
 
 enum WaveState {
-  forceStartWave, // Prima di avviare la prima wave
-  preWaveTimer, // Timer tra una wave e l'altra
-  waveInProgress, // La wave è in corso e i nemici vengono spawnati
-  waveCompleted, // Tutti i nemici sono stati spawnati per questa wave (ma potrebbero essercene ancora in campo)
+  forceStartWave, 
+  preWaveTimer, 
+  waveInProgress, 
+  waveCompleted, 
 }
 
-class EnemySpawner extends Component{
+class EnemySpawner extends Component {
   final List<Vector2> waypoints;
   final double spawnInterval;
-  late double _spawnTimer; 
-  int _enemiesToSpawnThisWave; 
+  late double _spawnTimer;
+  int _enemiesToSpawnThisWave; // Rimane solo questo: il "serbatoio" di nemici da generare
   final GamePlay game;
   final Map<int, List<Map<String, dynamic>>> waveConfig;
 
-  WaveState _currentWaveState = WaveState.preWaveTimer; 
+  WaveState _currentWaveState = WaveState.preWaveTimer;
 
-  static bool forceStartNextWave = false; 
+  static bool forceStartNextWave = false;
 
   EnemySpawner({
     required this.waypoints,
@@ -33,26 +33,35 @@ class EnemySpawner extends Component{
     required this.game,
     required this.waveConfig,
   })  : _spawnTimer = 0.0,
-        _enemiesToSpawnThisWave = 0; // Inizializza non statici nel costruttore
+        _enemiesToSpawnThisWave = 0;
 
- @override
-  void update(double dt) 
-  {
+  // Questa funzione è la tua nuova "verità assoluta"
+  int get activeEnemiesOnField {
+    print(game.children.whereType<BaseEnemy>().length);
+    return game.children.whereType<BaseEnemy>().length;
+  }
+
+  @override
+  void update(double dt) {
     super.update(dt);
-    print(GameState.enemiesRemaining);
 
     if (GameState.isGameOver || GameState.isGameWon) {
       return;
     }
 
-    switch (_currentWaveState) 
-    {
+    // --- AGGIORNAMENTO UI (Opzionale) ---
+    // Se hai una label a schermo, scommenta questa riga per aggiornarla.
+    // Ma NON usiamo questa variabile per la logica degli if/switch sotto.
+    // GameState.enemiesRemaining = _enemiesToSpawnThisWave + activeEnemiesOnField;
+    // ------------------------------------
+
+    switch (_currentWaveState) {
       case WaveState.forceStartWave:
         if (forceStartNextWave) {
-          forceStartNextWave = false; 
-          _startNextWaveLogic(); 
+          forceStartNextWave = false;
+          _startNextWaveLogic();
         }
-      break;
+        break;
 
       case WaveState.preWaveTimer:
         if (forceStartNextWave) {
@@ -60,97 +69,94 @@ class EnemySpawner extends Component{
           break;
         }
 
-        GameState.new_wave_timer > 0 ? GameState.new_wave_timer -= dt: GameState.new_wave_timer = 0;
-        if(GameState.new_wave_timer == 0){
+        GameState.new_wave_timer > 0
+            ? GameState.new_wave_timer -= dt
+            : GameState.new_wave_timer = 0;
+        
+        if (GameState.new_wave_timer == 0) {
           _startNextWaveLogic();
         }
-       
-      break;
+        break;
 
       case WaveState.waveInProgress:
         _spawnTimer += dt;
+        
+        // Spawna se è passato il tempo E se ci sono ancora nemici nel "serbatoio"
         if (_spawnTimer >= spawnInterval && _enemiesToSpawnThisWave > 0) {
           _spawnTimer = 0;
           _spawnNextEnemy();
         }
 
-        if (_enemiesToSpawnThisWave == 0) {
+        // Se il "serbatoio" è vuoto, passiamo allo stato di attesa completamento
+        if (_enemiesToSpawnThisWave <= 0) {
           _currentWaveState = WaveState.waveCompleted;
         }
         break;
 
       case WaveState.waveCompleted:
-        // Aspetta che tutti i nemici spawnati siano stati eliminati
-        if (GameState.enemiesRemaining == 0) {
-          // Tutte le ondate sono state completate
+        // CONTROLLO REALE: Ci sono ancora formiche vive in giro?
+        if (activeEnemiesOnField == 0) {
+          
+          // Se non ci sono formiche E ho finito le ondate -> VITTORIA
           if (GameState.waveNumber >= GameState.maxWaves) {
             GameState.winGame();
-            
           } else {
-            // Avvia il timer per la prossima wave
+            // Altrimenti -> Prossima Wave
             _currentWaveState = WaveState.preWaveTimer;
             GameState.new_wave_timer = 15;
-            GameState.waveOnGoing = false; 
+            GameState.waveOnGoing = false;
           }
         }
         break;
-      }
     }
-
-    void _startNextWaveLogic() {
-    if (GameState.waveNumber < GameState.maxWaves) {
-      _startNewWave();
-    } 
   }
 
-  // Chiamato quando si vuole avviare una nuova ondata (dopo il timer o forzatamente)
+  void _startNextWaveLogic() {
+    if (GameState.waveNumber < GameState.maxWaves) {
+      _startNewWave();
+    }
+  }
+
   void _startNewWave() {
     _currentWaveState = WaveState.waveInProgress;
-    GameState.waveOnGoing = true; 
-    GameState.new_wave_timer = 0; 
+    GameState.waveOnGoing = true;
+    GameState.new_wave_timer = 0;
     GameState.nextWave();
-    
+
     _enemiesToSpawnThisWave = 0; 
-    GameState.enemiesRemaining = 0; 
+    // Nota: Ho rimosso l'azzeramento di GameState.enemiesRemaining perché non lo usiamo più.
 
     final currentWaveConfig = waveConfig[GameState.waveNumber];
     if (currentWaveConfig != null) {
       for (var enemyGroup in currentWaveConfig) {
         _enemiesToSpawnThisWave += enemyGroup['count'] as int;
       }
-      GameState.enemiesRemaining = _enemiesToSpawnThisWave; 
     } else {
-      print("Avviso: Nessuna configurazione trovata per onda ${GameState.waveNumber}. Usando fallback.");
+      print("Avviso: Nessuna configurazione trovata per onda ${GameState.waveNumber}.");
       _enemiesToSpawnThisWave = 5 + (GameState.waveNumber * 2);
-      GameState.enemiesRemaining = _enemiesToSpawnThisWave;
     }
   }
 
-  // Chiamato quando un nemico deve essere spawnato
   void _spawnNextEnemy() {
     final List<Map<String, dynamic>>? currentWave = waveConfig[GameState.waveNumber];
 
     if (currentWave != null && _enemiesToSpawnThisWave > 0) {
-      // Trova il prossimo tipo di nemico da spawnare
-      for (int i = 0; i < currentWave.length; i++) 
-      {
+      for (int i = 0; i < currentWave.length; i++) {
         var enemyGroup = currentWave[i];
-        print(enemyGroup);
+        
         if ((enemyGroup['count'] as int) > 0) {
           _spawnEnemy(enemyGroup['type']);
-          // Decrementa il conteggio per questo gruppo di nemici all'interno della wave config
           enemyGroup['count'] = (enemyGroup['count'] as int) - 1;
-          _enemiesToSpawnThisWave--; // Decrementa il contatore totale per la wave
-          return; // Spawna un solo nemico per volta
+          _enemiesToSpawnThisWave--; // Decrementa solo il serbatoio locale
+          return; 
         }
       }
-    } else if (_enemiesToSpawnThisWave > 0) { 
-        _spawnEnemy(WorkerAnt); 
-        _enemiesToSpawnThisWave--;
+    } else if (_enemiesToSpawnThisWave > 0) {
+      _spawnEnemy(WorkerAnt);
+      _enemiesToSpawnThisWave--;
     }
   }
 
-  // Metodo helper per creare e aggiungere il nemico
   void _spawnEnemy(Type enemyType) {
     BaseEnemy? enemy;
     switch (enemyType) {
@@ -170,7 +176,6 @@ class EnemySpawner extends Component{
         enemy = QueenAnt(waypoints: waypoints);
         break;
       default:
-        print("Errore: Tipo di nemico sconosciuto: $enemyType");
         return;
     }
     game.add(enemy as Component);

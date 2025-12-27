@@ -5,7 +5,7 @@ class CamoAnt extends BaseEnemy {
   CamoAnt({required super.waypoints})
       : super(
           antName: "Camo Ant",
-          reward: 5,
+          reward: 8,
           speed: 45,
           health: 250,
           spritePath: "sprites/guardia_regina.webp",

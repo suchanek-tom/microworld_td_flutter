@@ -5,7 +5,7 @@ class TurboAnt extends BaseEnemy {
   TurboAnt({required super.waypoints})
       : super(
           antName: "Turbo Ant",
-          reward: 5,
+          reward: 10,
           speed: 120,
           health: 250,
           spritePath: "sprites/formica_turbo.webp",

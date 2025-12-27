@@ -30,7 +30,6 @@ void main() {
       GameState.waveNumber = 1;
       GameState.maxWaves = 5;
       GameState.new_wave_timer = 1;
-      GameState.enemiesRemaining = 0;
       GameState.waveOnGoing = false;
       GameState.isGameOver = false;
       GameState.isGameWon = false;

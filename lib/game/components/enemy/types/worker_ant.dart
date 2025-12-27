@@ -5,7 +5,7 @@ class WorkerAnt extends BaseEnemy {
   WorkerAnt({required super.waypoints})
       : super(
           antName: "Worker Ant",
-          reward: 2,
+          reward: 5,
           speed: 45,
           health: 200,
           spritePath: "sprites/formica.webp",

@@ -188,7 +188,6 @@ abstract class BaseEnemy extends PositionComponent
   void die(BaseTower killer) 
   {
     GameState.addCoins(reward);
-    GameState.enemiesRemaining > 0 ? GameState.enemiesRemaining--: GameState.enemiesRemaining;
     killer.antKilled++;
 
     if (killer.target == this) {
